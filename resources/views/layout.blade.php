@@ -14,6 +14,8 @@
 	<link href="{{asset('public/Frontend/css/animate.css')}}" rel="stylesheet">
 	<link href="{{asset('public/Frontend/css/main.css')}}" rel="stylesheet">
 	<link href="{{asset('public/Frontend/css/responsive.css')}}" rel="stylesheet">
+	<link rel="stylesheet" href="{{asset('public/Frontend/css/style1.css')}}">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css">
 	<!--[if lt IE 9]>
     <script src="js/html5shiv.js"></script>
     <script src="js/respond.min.js"></script>
@@ -36,19 +38,8 @@
 					<div class="col-sm-6">
 						<div class="contactinfo">
 							<ul class="nav nav-pills">
-								<li><a href="#"><i class="fa fa-phone"></i> +2 95 01 88 821</a></li>
-								<li><a href="#"><i class="fa fa-envelope"></i> info@domain.com</a></li>
-							</ul>
-						</div>
-					</div>
-					<div class="col-sm-6">
-						<div class="social-icons pull-right">
-							<ul class="nav navbar-nav">
-								<li><a href="#"><i class="fa fa-facebook"></i></a></li>
-								<li><a href="#"><i class="fa fa-twitter"></i></a></li>
-								<li><a href="#"><i class="fa fa-linkedin"></i></a></li>
-								<li><a href="#"><i class="fa fa-dribbble"></i></a></li>
-								<li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+								<li><a href="#"><i class="fa fa-phone"></i> +84 35 92 80808</a></li>
+								<li><a href="#"><i class="fa fa-envelope"></i> kingofpoppro@gmail.com</a></li>
 							</ul>
 						</div>
 					</div>
@@ -63,40 +54,41 @@
 				<div class="row">
 					<div class="col-sm-4">
 						<div class="logo pull-left">
-							<a href="{{URL::TO('/trang-chu')}}"><img src="{{asset('public/Frontend/images/logo.png')}}" alt="" /></a>
-						</div>
-						<div class="btn-group pull-right">
-							<div class="btn-group">
-								<button type="button" class="btn btn-default dropdown-toggle usa" data-toggle="dropdown">
-									USA
-									<span class="caret"></span>
-								</button>
-								<ul class="dropdown-menu">
-									<li><a href="#">Canada</a></li>
-									<li><a href="#">UK</a></li>
-								</ul>
-							</div>
-
-							<div class="btn-group">
-								<button type="button" class="btn btn-default dropdown-toggle usa" data-toggle="dropdown">
-									DOLLAR
-									<span class="caret"></span>
-								</button>
-								<ul class="dropdown-menu">
-									<li><a href="#">Canadian Dollar</a></li>
-									<li><a href="#">Pound</a></li>
-								</ul>
-							</div>
+							<!-- <a href="{{URL::TO('/trang-chu')}}"><img src="{{asset('public/Frontend/images/logo.png')}}" alt="" /></a> -->
 						</div>
 					</div>
 					<div class="col-sm-8">
 						<div class="shop-menu pull-right">
 							<ul class="nav navbar-nav">
-								<li><a href="#"><i class="fa fa-user"></i> Account</a></li>
-								<li><a href="#"><i class="fa fa-star"></i> Wishlist</a></li>
-								<li><a href="checkout.html"><i class="fa fa-crosshairs"></i> Checkout</a></li>
-								<li><a href="cart.html"><i class="fa fa-shopping-cart"></i> Cart</a></li>
-								<li><a href="login.html"><i class="fa fa-lock"></i> Login</a></li>
+								<li><a href="{{URL::TO('/infor')}}"><i class="fa fa-user"></i> Tài khoản</a></li>
+								<li><a href="{{URL::TO('/show-cart')}}"><i class="fa fa-shopping-cart"></i> Giỏ hàng</a></li>
+								<?php
+								$acc_id = Session::get('acc_id');
+								$deli_id = Session::get('deli_id');
+								if ($acc_id != NULL) {
+								?>
+									<li><a href="{{URL::TO('/wishlist')}}"><i class="fa fa-star"></i> Ưa thích</a></li>
+									<?php
+									if ($deli_id == NULL) {
+									?>
+										<li><a href="{{URL::TO('/checkout/'.$acc_id)}}"><i class="fa fa-crosshairs"></i> Thanh toán</a></li>
+									<?php
+									} else if ($deli_id != NULL) {
+									?>
+										<li><a href="{{URL::TO('/payment')}}"><i class="fa fa-crosshairs"></i> Thanh toán</a></li>
+									<?php
+									}
+									?>
+									<li><a href="{{URL::TO('/adminLogout')}}"><i class="fa fa-lock"></i> Đăng xuất</a></li>
+								<?php
+								} else {
+								?>
+									<li><a href="{{URL::TO('/login-checkout')}}"><i class="fa fa-star"></i> Ưa thích</a></li>
+									<li><a href="{{URL::TO('/login-checkout')}}"><i class="fa fa-crosshairs"></i> Thanh toán</a></li>
+									<li><a href="{{URL::TO('/adminLogin')}}"><i class="fa fa-lock"></i> Đăng nhập</a></li>
+								<?php
+								}
+								?>
 							</ul>
 						</div>
 					</div>
@@ -110,34 +102,30 @@
 			<div class="container">
 				<div class="row">
 					<div class="col-sm-9">
-						<div class="navbar-header">
-							<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-								<span class="sr-only">Toggle navigation</span>
-								<span class="icon-bar"></span>
-								<span class="icon-bar"></span>
-								<span class="icon-bar"></span>
-							</button>
-						</div>
 						<div class="mainmenu pull-left">
 							<ul class="nav navbar-nav collapse navbar-collapse">
 								<li><a href="{{URL::TO('/trang-chu')}}" class="active">Trang chủ</a></li>
 								<li class="dropdown"><a href="#">Danh mục sản phẩm<i class="fa fa-angle-down"></i></a>
 									<ul role="menu" class="sub-menu">
-										<li><a href="shop.html">Products</a></li>
-										<li><a href="product-details.html">Product Details</a></li>
-										<li><a href="checkout.html">Checkout</a></li>
-										<li><a href="cart.html">Cart</a></li>
-										<li><a href="login.html">Login</a></li>
+										@foreach($category as $key => $cate)
+										<li class="dropdown"><a href="{{URL::TO('/danhmucsanpham/'.$cate->cate_id)}}">{{$cate->cate_name}}</a>
+										</li>
+										@endforeach
 									</ul>
 								</li>
-								<li><a href="404.html">Giỏ hàng</a></li>
+								<li><a href="{{URL::TO('/show-cart')}}">Giỏ hàng</a></li>
 								<li><a href="contact-us.html">Liên hệ</a></li>
 							</ul>
 						</div>
 					</div>
 					<div class="col-sm-3">
 						<div class="search_box pull-right">
-							<input type="text" placeholder="Search" />
+							<form action="{{URL::to('/tim-kiem')}}" method="POST">
+								{{csrf_field()}}
+								<input type="text" class="sb-text" name="keywords_submit" placeholder="Search">
+								<button class="sb-sbm" type="submit" name="search_items" id="search">
+									<i class="fas fa-search"></i>
+							</form>
 						</div>
 					</div>
 				</div>
@@ -160,44 +148,24 @@
 						</ol>
 
 						<div class="carousel-inner">
-							<div class="item active">
-								<div class="col-sm-6">
-									<h1><span>E</span>-SHOPPER</h1>
-									<h2>Free E-Commerce Template</h2>
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
-									<button type="button" class="btn btn-default get">Get it now</button>
-								</div>
-								<div class="col-sm-6">
-									<img src="{{asset('public/Frontend/images/girl1.jpg')}}" class="girl img-responsive" alt="" />
-									<img src="{{asset('public/Frontend/images/pricing.png')}}" class="pricing" alt="" />
-								</div>
+							<div id="itemactive" class="item active">
+								<img src="{{asset('public/Upload/banner/banner1.jpg')}}" alt="" />
 							</div>
-							<div class="item">
-								<div class="col-sm-6">
-									<h1><span>E</span>-SHOPPER</h1>
-									<h2>100% Responsive Design</h2>
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
-									<button type="button" class="btn btn-default get">Get it now</button>
-								</div>
-								<div class="col-sm-6">
-									<img src="{{asset('public/Frontend/images/girl2.jpg')}}" class="girl img-responsive" alt="" />
-									<img src="{{asset('public/Frontend/images/pricing.png')}}" class="pricing" alt="" />
-								</div>
-							</div>
+							<div id="item1" class="item">
 
-							<div class="item">
-								<div class="col-sm-6">
-									<h1><span>E</span>-SHOPPER</h1>
-									<h2>Free Ecommerce Template</h2>
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
-									<button type="button" class="btn btn-default get">Get it now</button>
-								</div>
-								<div class="col-sm-6">
-									<img src="{{asset('public/Frontend/images/girl3.jpg')}}" class="girl img-responsive" alt="" />
-									<img src="{{asset('public/Frontend/images/pricing.png')}}" class="pricing" alt="" />
-								</div>
-							</div>
+								<img src="{{asset('public/Upload/banner/banner2.jpg')}}" alt="" />
 
+							</div>
+							<div id="item2" class="item">
+
+								<img src="{{asset('public/Upload/banner/banner3.jpg')}}" alt="" />
+
+							</div>
+							<div id="item3" class="item">
+
+								<img src="{{asset('public/Upload/banner/banner4.jpg')}}" alt="" />
+
+							</div>
 						</div>
 
 						<a href="#slider-carousel" class="left control-carousel hidden-xs" data-slide="prev">
@@ -244,23 +212,6 @@
 							@endforeach
 						</div>
 						<!--/category-products-->
-
-
-						<!--price-range-->
-						<!-- <div class="price-range">
-							<h2>Price Range</h2>
-							<div class="well text-center">
-								 <input type="text" class="span2" value="" data-slider-min="0" data-slider-max="600" data-slider-step="5" data-slider-value="[250,450]" id="sl2" ><br />
-								 <b class="pull-left">$ 0</b> <b class="pull-right">$ 600</b>
-							</div>
-						</div> -->
-						<!--/price-range-->
-						<div class="shipping text-center">
-							<!--shipping-->
-							<img src="{{asset('public/Frontend/images/shipping.jpg')}}" alt="" />
-						</div>
-						<!--/shipping-->
-
 					</div>
 				</div>
 
@@ -273,100 +224,25 @@
 
 	<footer id="footer">
 		<!--Footer-->
-		<div class="footer-top">
-			<div class="container">
-				<div class="row">
-					<div class="col-sm-2">
-						<div class="companyinfo">
-							<h2><span>e</span>-shopper</h2>
-							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit,sed do eiusmod tempor</p>
-						</div>
-					</div>
-					<div class="col-sm-7">
-						<div class="col-sm-3">
-							<div class="video-gallery text-center">
-								<a href="#">
-									<div class="iframe-img">
-										<img src="{{asset('public/Frontend/images/iframe1.png')}}" alt="" />
-									</div>
-									<div class="overlay-icon">
-										<i class="fa fa-play-circle-o"></i>
-									</div>
-								</a>
-								<p>Circle of Hands</p>
-								<h2>24 DEC 2014</h2>
-							</div>
-						</div>
-
-					</div>
-					<div class="col-sm-3">
-						<div class="address">
-							<img src="{{asset('publuc/Frontend/images/map.png')}}" alt="" />
-							<p>505 S Atlantic Ave Virginia Beach, VA(Virginia)</p>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-
 		<div class="footer-widget">
 			<div class="container">
 				<div class="row">
 					<div class="col-sm-2">
 						<div class="single-widget">
-							<h2>Service</h2>
+							<h2>Dịch vụ</h2>
 							<ul class="nav nav-pills nav-stacked">
-								<li><a href="#">Online Help</a></li>
-								<li><a href="#">Contact Us</a></li>
-								<li><a href="#">Order Status</a></li>
-								<li><a href="#">Change Location</a></li>
-								<li><a href="#">FAQ’s</a></li>
-							</ul>
-						</div>
-					</div>
-					<div class="col-sm-2">
-						<div class="single-widget">
-							<h2>Quock Shop</h2>
-							<ul class="nav nav-pills nav-stacked">
-								<li><a href="#">T-Shirt</a></li>
-								<li><a href="#">Mens</a></li>
-								<li><a href="#">Womens</a></li>
-								<li><a href="#">Gift Cards</a></li>
-								<li><a href="#">Shoes</a></li>
-							</ul>
-						</div>
-					</div>
-					<div class="col-sm-2">
-						<div class="single-widget">
-							<h2>Policies</h2>
-							<ul class="nav nav-pills nav-stacked">
-								<li><a href="#">Terms of Use</a></li>
-								<li><a href="#">Privecy Policy</a></li>
-								<li><a href="#">Refund Policy</a></li>
-								<li><a href="#">Billing System</a></li>
-								<li><a href="#">Ticket System</a></li>
-							</ul>
-						</div>
-					</div>
-					<div class="col-sm-2">
-						<div class="single-widget">
-							<h2>About Shopper</h2>
-							<ul class="nav nav-pills nav-stacked">
-								<li><a href="#">Company Information</a></li>
-								<li><a href="#">Careers</a></li>
-								<li><a href="#">Store Location</a></li>
-								<li><a href="#">Affillate Program</a></li>
-								<li><a href="#">Copyright</a></li>
+								<li><a href="#">Hỗ trợ trực tuyến</a></li>
+								<li><a href="#">Liên hệ với chúng tôi</a></li>
 							</ul>
 						</div>
 					</div>
 					<div class="col-sm-3 col-sm-offset-1">
 						<div class="single-widget">
-							<h2>About Shopper</h2>
+							<h2>Nhận thông báo</h2>
 							<form action="#" class="searchform">
-								<input type="text" placeholder="Your email address" />
-								<button type="submit" class="btn btn-default"><i class="fa fa-arrow-circle-o-right"></i></button>
-								<p>Get the most recent updates from <br />our site and be updated your self...</p>
+								<input type="text" placeholder="Địa chỉ email của bạn" />
+								<button type="submit" class="btn btn-default"><i class="fas fa-arrow-alt-circle-right"></i></button>
+								<p>Gửi lại email của bạn để nhận những ưu đãi mới nhất</p>
 							</form>
 						</div>
 					</div>
