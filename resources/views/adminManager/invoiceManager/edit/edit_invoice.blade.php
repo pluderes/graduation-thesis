@@ -34,25 +34,25 @@
 <div class="table-agile-info">
   <div class="panel panel-default">
     <div class="panel-heading" style="text-align: center;">
-     Thông tin đơn hàng
+      Chi tiết đơn hàng
     </div>
     <div class="table-responsive">
       <table class="table table-striped b-t b-light">
         <thead>
           <tr>
-            <th>Mã đơn hàng</th>
-            <th>Ngày đặt hàng</th>
-            <th>Tình trạng đơn hàng</th>
+            <th>Tên sản phẩm</th>
+            <th>Số lượng</th>
+            <th>Giá</th>
             <th>Tổng tiền</th>
           </tr>
         </thead>
         <tbody>
-          @foreach($info_account as $key => $info_invoice)
+          @foreach($invoice_by_id as $key => $invoice_id)
           <tr>
-            <td><span class="text-ellipsis"></span>{{$info_invoice->invoice_id}}</td>
-            <td><span class="text-ellipsis"></span>{{$info_invoice->invoice_date_time}}</td>
-            <td><span class="text-ellipsis"></span>{{$info_invoice->invoice_status}}</td>
-            <td><span class="text-ellipsis"></span>{{$info_invoice->invoice_total}} (Đã tính phí)</td>
+            <td><span class="text-ellipsis"></span>{{$invoice_id->prod_name}}</td>
+            <td><span class="text-ellipsis"></span>{{$invoice_id->sell_quantity}}</td>
+            <td><span class="text-ellipsis"></span>{{$invoice_id->prod_price}}</td>
+            <td><span class="text-ellipsis"></span>{{$invoice_id->invoice_total}} (Đã tính phí)</td>
           </tr>
           @endforeach
         </tbody>
@@ -65,27 +65,41 @@
 <div class="table-agile-info">
   <div class="panel panel-default">
     <div class="panel-heading" style="text-align: center;">
-      Chi tiết đơn hàng
+      Thông tin đơn hàng
     </div>
     <div class="table-responsive">
       <table class="table table-striped b-t b-light">
         <thead>
           <tr>
-            <th>Tên sản phẩm</th>
-            <th>Số lượng</th>
-            <th>Giá</th>
+            <th>Mã đơn hàng</th>
+            <th>Thời gian</th>
+            <th>Tình trạng đơn hàng</th>
           </tr>
         </thead>
         <tbody>
-          @foreach($invoice_by_id as $key => $info_invoice)
+          @foreach($invoice_status as $key => $status)
           <tr>
-            <td><span class="text-ellipsis"></span>{{$info_invoice->prod_name}}</td>
-            <td><span class="text-ellipsis"></span>{{$info_invoice->sell_quantity}}</td>
-            <td><span class="text-ellipsis"></span>{{$info_invoice->prod_price}}</td>
+            <td><span class="text-ellipsis"></span>{{$status->invoice_id}}</td>
+            <td><span class="text-ellipsis"></span>{{$status->status_date}}</td>
+            <td><span class="text-ellipsis"></span>{{$status->status_name}}</td>
           </tr>
           @endforeach
         </tbody>
       </table>
+      @foreach($info_account as $key => $account)
+      <div>
+        <p>Cập nhật tình trạng đơn hàng</p>
+        <form action="{{URL::TO('/admin-update-invoice/'.$account->invoice_id)}}" method="post">
+          {{csrf_field()}}
+          <select name="invoice_status" id="">
+            <option value="1">Người gửi đang chuẩn bị hàng</option>
+            <option value="2">Lấy hàng thành công</option>
+            <option value="3">Đơn hàng đã xuất kho</option>
+          </select>
+          <button type="submit">Cập nhật</button>
+        </form>
+      </div>
+      @endforeach
     </div>
   </div>
 </div>

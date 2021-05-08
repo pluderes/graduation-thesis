@@ -19,32 +19,32 @@
                     {{csrf_field()}}
                     <div class="form-group">
                         <label for="productName">Tên sách</label>
-                        <input type="text" class="form-control" id="productName" name="product_name" value="{{$edit_value->prod_name}}">
+                        <input type="text" class="form-control" id="productName" name="product_name" value="{{$edit_value->prod_name}}" required>
                     </div>
                     <div class="form-group">
                         <label for="productDesc">Mô tả</label>
                         <br>
-                        <textarea name="product_desc" id="productDesc" cols="100" rows="5">{{$edit_value->prod_desc}}</textarea>
+                        <textarea name="product_desc" id="productDesc" cols="100" rows="5" required>{{$edit_value->prod_desc}}</textarea>
                     </div>
                     <div class="form-group">
                         <label for="productNumofpages">Số trang</label>
-                        <input type="text" class="form-control" id="productNumofpages" name="product_numofpages" value="{{$edit_value->prod_numofpages}}">
+                        <input type="text" class="form-control" id="productNumofpages" name="product_numofpages" value="{{$edit_value->prod_numofpages}}" required>
                     </div>
                     <div class="form-group">
                         <label for="productSize">Kích thước</label>
-                        <input type="text" class="form-control" id="productSize" name="product_size" value="{{$edit_value->prod_size}}">
+                        <input type="text" class="form-control" id="productSize" name="product_size" value="{{$edit_value->prod_size}}" required>
                     </div>
                     <div class="form-group">
                         <label for="productDatepublished">Ngày xuất bản</label>
-                        <input type="date" class="form-control" id="productDatepublished" name="product_datepublished" value="{{$edit_value->prod_datepublished}}">
+                        <input type="date" class="form-control" id="productDatepublished" name="product_datepublished" value="{{$edit_value->prod_datepublished}}" required>
                     </div>
                     <div class="form-group">
                         <label for="productPrice">Giá</label>
-                        <input type="text" class="form-control" id="productPrice" name="product_price" value="{{$edit_value->prod_price}}">
+                        <input type="text" class="form-control" id="productPrice" name="product_price" value="{{$edit_value->prod_price}}" required>
                     </div>
                     <div class="form-group">
                         <label for="productQuantity">Số lượng</label>
-                        <input type="text" class="form-control" id="productQuantity" name="product_quantity" value="{{$edit_value->prod_quantity}}">
+                        <input type="text" class="form-control" id="productQuantity" name="product_quantity" value="{{$edit_value->prod_quantity}}" required>
                     </div>
                     <div class="form-group">
                         <label for="statusID">ID trạng thái</label>

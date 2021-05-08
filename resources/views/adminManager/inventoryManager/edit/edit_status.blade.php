@@ -15,16 +15,16 @@
             ?>
             @foreach($edit_status as $key => $edit_value)
             <div class="position-center">
-                <form role="form" action="{{URL::TO('/update-status/'.$edit_value->status_id)}}" method="POST">
+                <form role="form" action="{{URL::TO('/admin-update-status/'.$edit_value->status_id)}}" method="POST">
                     {{csrf_field()}}
                     <div class="form-group">
                         <label for="statusName">Tên danh mục</label>
-                        <input type="text" class="form-control" id="statusName" name="status_name" value="{{$edit_value->status_name}}">
+                        <input type="text" class="form-control" id="statusName" name="status_name" value="{{$edit_value->status_name}}" required>
                     </div>
                     <div class="form-group">
                         <label for="statusDesc">Mô tả</label>
                         <br>
-                        <textarea name="status_desc" id="statusDesc" cols="100" rows="5">{{$edit_value->status_desc}}</textarea>
+                        <textarea name="status_desc" id="statusDesc" cols="100" rows="5" required>{{$edit_value->status_desc}}</textarea>
                     </div>
                     <button type="submit" class="btn btn-info">Xác nhận</button>
                 </form>

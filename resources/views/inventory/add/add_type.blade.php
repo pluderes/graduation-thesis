@@ -18,12 +18,12 @@
                     {{csrf_field()}}
                     <div class="form-group">
                         <label for="categoryName">Tên danh mục</label>
-                        <input type="text" class="form-control" id="categoryName" name="type_name">
+                        <input type="text" class="form-control" id="categoryName" name="type_name" required>
                     </div>
                     <div class="form-group">
                         <label for="categoryDesc">Mô tả</label>
                         <br>
-                        <textarea name="type_desc" id="categoryDesc" cols="100" rows="5"></textarea>
+                        <textarea name="type_desc" id="categoryDesc" cols="100" rows="5" required></textarea>
                     </div>
                     <div>
                         <label for="cateID">Danh mục sách</label>

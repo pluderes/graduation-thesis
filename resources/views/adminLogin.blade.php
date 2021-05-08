@@ -60,6 +60,7 @@
 							<a href="{{URL::TO('/login-checkout')}}" class="txt1">
 								Đăng kí?
 							</a>
+							<a href="{{URL::TO('/trang-chu')}}" class="txt1"> Trở về trang chủ!</a>
 						</div>
 						<div>
 							<a href="#" class="txt1">

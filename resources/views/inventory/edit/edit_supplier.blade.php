@@ -19,15 +19,15 @@
                     {{csrf_field()}}
                     <div class="form-group">
                         <label for="supplierName">Tên nhà xuất bản</label>
-                        <input type="text" class="form-control" id="supplierName" name="supplier_name" value="{{$edit_value->supplier_name}}">
+                        <input type="text" class="form-control" id="supplierName" name="supplier_name" value="{{$edit_value->supplier_name}}" required>
                     </div>
                     <div class="form-group">
                         <label for="supplierContact">Liên hệ</label>
-                        <input type="text" class="form-control" id="supplierContact" name="supplier_contact" value="{{$edit_value->supplier_contact}}">
+                        <input type="text" class="form-control" id="supplierContact" name="supplier_contact" value="{{$edit_value->supplier_contact}}" required>
                     </div>
                     <div class="form-group">
                         <label for="supplierAddress">Địa chỉ</label>
-                        <input type="text" class="form-control" id="supplierAddress" name="supplier_address" value="{{$edit_value->supplier_addr}}">
+                        <input type="text" class="form-control" id="supplierAddress" name="supplier_address" value="{{$edit_value->supplier_addr}}" required>
                     </div>
                     <button type="submit" class="btn btn-info">Xác nhận</button>
                 </form>

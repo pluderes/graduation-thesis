@@ -14,16 +14,20 @@
             }
             ?>
             <div class="position-center">
-                <form role="form" action="{{URL::TO('/save-type')}}" method="POST">
+                <form role="form" action="{{URL::TO('/admin-save-type')}}" method="POST">
                     {{csrf_field()}}
                     <div class="form-group">
                         <label for="categoryName">Tên danh mục</label>
-                        <input type="text" class="form-control" id="categoryName" name="type_name">
+                        <input type="text" data-validation="length" data-validation-length="min2" data-validation-error-msg="Ít nhất 2 kí tự" class="form-control" id="categoryName" name="type_name" required>
                     </div>
+                    <!-- <div class="form-group">
+                        <label for="exampleInputEmail1">Tên danh mục</label>
+                        <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Tên danh mục" data-validation="length" data-validation-length="min10" data-validation-error-msg="Làm ơn điền ít nhất 10 ký tự" name="type_name">
+                    </div> -->
                     <div class="form-group">
-                        <label for="categoryDesc">Mô tả</label>
+                        <label for="typeDesc">Mô tả</label>
                         <br>
-                        <textarea name="type_desc" id="categoryDesc" cols="100" rows="5"></textarea>
+                        <textarea name="type_desc" id="typeDesc" cols="100" rows="5" required></textarea>
                     </div>
                     <div>
                         <label for="cateID">Danh mục sách</label>

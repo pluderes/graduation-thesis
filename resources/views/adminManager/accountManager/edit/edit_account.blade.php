@@ -19,23 +19,23 @@
                     {{csrf_field()}}
                     <div class="form-group">
                         <label for="userName">Tên đăng nhập</label>
-                        <input type="text" class="form-control" id="userName" name="user_name" value="{{$edit_value->username}}">
+                        <input type="text" class="form-control" id="userName" name="user_name" value="{{$edit_value->username}}" required>
                     </div>
                     <div class="form-group">
                         <label for="passWord">Mật khẩu</label>
-                        <input type="text" class="form-control" id="passWord" name="password" value="{{$edit_value->password}}">
+                        <input type="text" class="form-control" id="passWord" name="password" value="{{$edit_value->password}}" required>
                     </div>
                     <div class="form-group">
                         <label for="accName">Tên tài khoản</label>
-                        <input type="text" class="form-control" id="accName" name="acc_name" value="{{$edit_value->acc_name}}">
+                        <input type="text" class="form-control" id="accName" name="acc_name" value="{{$edit_value->acc_name}}" required>
                     </div>
                     <div class="form-group">
                         <label for="accEmail">Email</label>
-                        <input type="email" class="form-control" id="accEmail" name="acc_email" value="{{$edit_value->acc_email}}">
+                        <input type="email" class="form-control" id="accEmail" name="acc_email" value="{{$edit_value->acc_email}}" required>
                     </div>
                     <div class="form-group">
                         <label for="accContact">Liên hệ</label>
-                        <input type="text" class="form-control" id="accContact" name="acc_contact" value="{{$edit_value->acc_contact}}">
+                        <input type="text" class="form-control" id="accContact" name="acc_contact" value="{{$edit_value->acc_contact}}" required>
                     </div>
                     <div class="form-group">
                         <textarea id="thumbnail" name="account_thumbnail" cols="100" rows="5" style="display:none">{{$edit_value->acc_img}}</textarea>

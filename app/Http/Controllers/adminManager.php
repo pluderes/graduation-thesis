@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Session;
 use App\Http\Requests;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Redirect;
 use Cart;
 
@@ -591,6 +592,75 @@ class adminManager extends Controller
     public function edit_invoice($invoice_id)
     {
         $this->checkLogin();
+
+        $info_account =  DB::table('invoice')
+        ->join('delivery', 'invoice.deli_id', '=', 'delivery.deli_id')
+        ->join('account', 'delivery.acc_id', '=', 'account.acc_id')
+        ->where('invoice.invoice_id',$invoice_id)->get();
+
+        $status = DB::table('invoice')
+        ->join('invoice_status','invoice.invoice_id', '=', 'invoice_status.invoice_id')
+        ->select('invoice_status.*')
+        ->where('invoice.invoice_id',$invoice_id)->get();
+
+        $invoice_by_ID = DB::table('invoice')
+        ->join('delivery', 'invoice.deli_id', '=', 'delivery.deli_id')
+        ->join('account', 'delivery.acc_id', '=', 'account.acc_id')
+        ->join('invoice_detail', 'invoice.invoice_id', '=', 'invoice_detail.invoice_id')
+        ->select('delivery.*','invoice.*','invoice_detail.*','account.*')
+        ->orderBy('invoice.invoice_id', 'desc')->where('invoice.invoice_id',$invoice_id)->get();
+        
+        $manager_invoice = view('adminManager.invoiceManager.edit.edit_invoice')->with('invoice_by_id', $invoice_by_ID)->with('info_account',$info_account)->with('invoice_status',$status);
+
+        // echo '<pre>';
+        // print_r($invoice_by_ID);
+        // echo '</pre>';
+        return view('adminLayout')->with('adminManager.invoiceManager.edit.edit_invoice', $manager_invoice);
+    }
+
+    public function update_status_invoice(Request $request, $invoice_id)
+    {
+        $this->checkLogin();
+        $data = array();
+        $data['invoice_id'] = $invoice_id;
+        if($request->invoice_status==1){
+            $data['status_name'] = 'Người gửi đang chuẩn bị hàng';
+        }else if($request->invoice_status==2){
+            $data['status_name'] = 'Lấy hàng thành công';
+        }else if($request->invoice_status==3){
+            $data['status_name'] = 'Đơn hàng đã xuất kho';
+        }
+        $data['status_date'] = Carbon::now();
+
+        DB::table('invoice_status')->insert($data);
+
+        Session::put('message', 'Cập nhật tình trạng đơn hàng thành công!');
+
+        return Redirect::to('/admin-all-invoice');      
+    }
+    // end invoice
+    // -------------------------------------------------------------------------------------------
+    // delivery
+    public function admin_delivery_all_invoice()
+    {
+        $this->checkLogin();
+        $delivery_all_invoice = DB::table('invoice')->join('account', 'invoice.acc_id', '=', 'account.acc_id')
+        ->join('delivery','invoice.deli_id','=','delivery.deli_id')
+        ->join('invoice_status','invoice.invoice_id','=','invoice_status.invoice_id')
+        ->where('invoice_status.status_name','Đơn hàng đã xuất kho')
+        ->select('invoice.*', 'account.acc_name', 'delivery.deli_address')
+        ->orderBy('invoice.invoice_id', 'desc')->get();
+        $manager_delivery = view('adminManager.deliveryManager.show.admin_all_invoice')->with('all_invoice', $delivery_all_invoice);
+
+        // echo '<pre>';
+        // print_r($delivery_all_invoice);
+        // echo '</pre>';
+
+        return view('adminLayout')->with('adminManager.deliveryManager.show.admin_all_invoice', $manager_delivery);
+    }
+    public function admin_detail_invoice($invoice_id)
+    {
+        $this->checkLogin();
         $info_account =  DB::table('invoice')
         ->join('delivery', 'invoice.deli_id', '=', 'delivery.deli_id')
         ->join('account', 'delivery.acc_id', '=', 'account.acc_id')
@@ -601,11 +671,11 @@ class adminManager extends Controller
         ->join('invoice_detail', 'invoice.invoice_id', '=', 'invoice_detail.invoice_id')
         ->select('delivery.*','invoice.*','invoice_detail.*','account.*')
         ->orderBy('invoice.invoice_id', 'desc')->where('invoice.invoice_id',$invoice_id)->get();
-        $manager_invoice = view('adminManager.invoiceManager.edit.edit_invoice')->with('invoice_by_id', $invoice_by_ID)->with('info_account',$info_account);
+        $manager_invoice = view('adminManager.deliveryManager.detail.admin_detail_invoice')->with('invoice_by_id', $invoice_by_ID)->with('info_account',$info_account);
 
         // echo '<pre>';
         // print_r($info_account);
         // echo '</pre>';
-        return view('adminLayout')->with('adminManager.invoiceManager.edit.edit_invoice', $manager_invoice);
+        return view('adminLayout')->with('adminManager.deliveryManager.detail.admin_detail_invoice', $manager_invoice);
     }
 }

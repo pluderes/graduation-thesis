@@ -14,16 +14,16 @@
             }
             ?>
             <div class="position-center">
-                <form role="form" action="{{URL::TO('/save-status')}}" method="POST">
+                <form role="form" action="{{URL::TO('/admin-save-status')}}" method="POST">
                     {{csrf_field()}}
                     <div class="form-group">
                         <label for="statusName">Tên trình trạng</label>
-                        <input type="text" class="form-control" id="statusName" name="status_name">
+                        <input type="text" class="form-control" id="statusName" name="status_name" required>
                     </div>
                     <div class="form-group">
                         <label for="statusDesc">Mô tả</label>
                         <br>
-                        <textarea name="status_desc" id="statusDesc" cols="100" rows="5"></textarea>
+                        <textarea name="status_desc" id="statusDesc" cols="100" rows="5" required></textarea>
                     </div>
                     <button type="submit" class="btn btn-info">Xác nhận</button>
                 </form>

@@ -36,6 +36,12 @@
     <link rel="stylesheet" href="https://www.amcharts.com/lib/3/plugins/export/export.css" type="text/css" media="all" />
     <!-- Style.css -->
     <link rel="stylesheet" type="text/css" href="{{asset('public/Backend/assets/css/style.css')}}">
+   <script src="{{asset('public/Backend/js/jquery.form-validator.min.js')}}"></script>
+    <script>
+        $.validate({
+            lang: "en"
+        });
+    </script>
 </head>
 
 <body>
@@ -160,7 +166,7 @@
                                             <i class="ti-user"></i> Hồ sơ
                                         </a>
                                     </li>
-                                        <li class="waves-effect waves-light">
+                                    <li class="waves-effect waves-light">
                                         <a href="{{URL::TO('/adminLogout')}}">
                                             <i class="ti-layout-sidebar-left"></i> Đăng xuất
                                         </a>
@@ -357,9 +363,16 @@
                                             </a>
                                             <ul class="pcoded-submenu">
                                                 <li class="">
-                                                    <a href="javascript:void(0)" class="waves-effect waves-dark">
+                                                    <a href="{{URL::TO('/admin-delivery-all-invoice')}}" class="waves-effect waves-dark">
                                                         <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-                                                        <span class="pcoded-mtext" data-i18n="nav.menu-levels.menu-level-22.menu-level-31">Menu Level 3.1</span>
+                                                        <span class="pcoded-mtext" data-i18n="nav.menu-levels.menu-level-22.menu-level-31">Tất cả đơn hàng</span>
+                                                        <span class="pcoded-mcaret"></span>
+                                                    </a>
+                                                </li>
+                                                <li class="">
+                                                    <a href="{{URL::TO('/admin-delivery-edit-invoice')}}" class="waves-effect waves-dark">
+                                                        <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+                                                        <span class="pcoded-mtext" data-i18n="nav.menu-levels.menu-level-22.menu-level-31">Đơn hàng đã chọn</span>
                                                         <span class="pcoded-mcaret"></span>
                                                     </a>
                                                 </li>
@@ -410,7 +423,7 @@
                                     <div class="col-md-4">
                                         <ul class="breadcrumb-title">
                                             <li class="breadcrumb-item">
-                                                <a href="{{URL::TO('/dashboard')}}"> <i class="fa fa-home"></i> </a>
+                                                <a href="{{URL::TO('/trang-chu')}}"> <i class="fa fa-home"></i> </a>
                                             </li>
                                             <li class="breadcrumb-item"><a href="#!">Quản trị</a>
                                             </li>
@@ -471,6 +484,7 @@
     <!-- custom js -->
     <script type="text/javascript" src="{{asset('public/Backend/assets/pages/dashboard/custom-dashboard.js')}}"></script>
     <script type="text/javascript" src="{{asset('public/Backend/assets/js/script.js')}} "></script>
+
 </body>
 
 </html>

@@ -14,19 +14,19 @@
             }
             ?>
             <div class="position-center">
-                <form role="form" action="{{URL::TO('/save-supplier')}}" method="POST">
+                <form role="form" action="{{URL::TO('/admin-save-supplier')}}" method="POST">
                     {{csrf_field()}}
                     <div class="form-group">
                         <label for="supplierName">Tên nhà xuất bản</label>
-                        <input type="text" class="form-control" id="supplierName" name="supplier_name">
+                        <input type="text" class="form-control" id="supplierName" name="supplier_name" required>
                     </div>
                     <div class="form-group">
                         <label for="supplierContact">Liên hệ</label>
-                        <input type="text" class="form-control" id="supplierContact" name="supplier_contact">
+                        <input type="text" class="form-control" id="supplierContact" name="supplier_contact" required>
                     </div>
                     <div class="form-group">
                         <label for="supplierAddress">Địa chỉ</label>
-                        <input type="text" class="form-control" id="supplierAddress" name="supplier_address">
+                        <input type="text" class="form-control" id="supplierAddress" name="supplier_address" required>
                     </div>
                     <button type="submit" class="btn btn-info">Xác nhận</button>
                 </form>

@@ -18,12 +18,12 @@
                     {{csrf_field()}}
                     <div class="form-group">
                         <label for="authorName">Tên tác giả</label>
-                        <input type="text" class="form-control" id="authorName" name="author_name">
+                        <input type="text" class="form-control" id="authorName" name="author_name" required>
                     </div>
                     <div class="form-group">
                         <label for="authorDesc">Thông tin</label>
                         <br>
-                        <textarea name="author_desc" id="authorDesc" cols="100" rows="5"></textarea>
+                        <textarea name="author_desc" id="authorDesc" cols="100" rows="5" required></textarea>
                     </div>
                     <button type="submit" class="btn btn-info">Xác nhận</button>
                 </form>

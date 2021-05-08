@@ -18,23 +18,23 @@
                     {{csrf_field()}}
                     <div class="form-group">
                         <label for="userName">Tên đăng nhập</label>
-                        <input type="text" class="form-control" id="userName" name="user_name">
+                        <input type="text" class="form-control" id="userName" name="user_name" required>
                     </div>
                     <div class="form-group">
                         <label for="userPass">Mật khẩu</label>
-                        <input type="password" class="form-control" id="userPass" name="password">
+                        <input type="password" class="form-control" id="userPass" name="password" required>
                     </div>
                     <div class="form-group">
                         <label for="accName">Tên tài khoản</label>
-                        <input type="text" class="form-control" id="accName" name="acc_name">
+                        <input type="text" class="form-control" id="accName" name="acc_name" required>
                     </div>
                     <div class="form-group">
                         <label for="accEmail">Email</label>
-                        <input type="email" class="form-control" id="accEmail" name="acc_email">
+                        <input type="email" class="form-control" id="accEmail" name="acc_email" required>
                     </div>
                     <div class="form-group">
                         <label for="accContact">Liên hệ</label>
-                        <input type="text" class="form-control" id="accContact" name="acc_contact">
+                        <input type="text" class="form-control" id="accContact" name="acc_contact" required>
                     </div>
                     <div class="form-group">
                         <!-- <textarea id="thumbnail" name="acc_thumbnail" cols="100" rows="5" style="display:none"></textarea> -->

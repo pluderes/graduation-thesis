@@ -14,16 +14,16 @@
             }
             ?>
             <div class="position-center">
-                <form role="form" action="{{URL::TO('/save-category')}}" method="POST">
+                <form role="form" action="{{URL::TO('/admin-save-category')}}" method="POST">
                     {{csrf_field()}}
                     <div class="form-group">
                         <label for="categoryName">Tên danh mục</label>
-                        <input type="text" class="form-control" id="categoryName" name="cate_name">
+                        <input type="text" class="form-control" id="categoryName" name="cate_name" required>
                     </div>
                     <div class="form-group">
                         <label for="categoryDesc">Mô tả</label>
                         <br>
-                        <textarea name="cate_desc" id="categoryDesc" cols="100" rows="5"></textarea>
+                        <textarea name="cate_desc" id="categoryDesc" cols="100" rows="5" required></textarea>
                     </div>
                     <button type="submit" class="btn btn-info">Xác nhận</button>
                 </form>

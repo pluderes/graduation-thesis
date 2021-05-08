@@ -148,6 +148,12 @@ Route::get('/admin-delete-product/{product_id}','adminManager@delete_product');
 // order manager
 Route::get('/admin-all-invoice', 'adminManager@all_invoice');
 Route::get('/admin-edit-invoice/{invoice_id}','adminManager@edit_invoice');
+Route::post('/admin-update-invoice/{invoice_id}','adminManager@update_status_invoice');
+
+// delivery manager
+Route::get('/admin-delivery-all-invoice', 'adminManager@admin_delivery_all_invoice');
+Route::get('/admin-detail-invoice/{invoice_id}','adminManager@admin_detail_invoice');
+
 // ------------------------------------------
 
 // accountAdmin

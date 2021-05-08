@@ -6,50 +6,34 @@
       Danh sách nhà xuất bản
     </div>
     <?php
-            $message = Session::get('message');
-            if ($message) {
-                echo '<span style="color:red; font-weight:bold">', $message, '</span>';
-                Session::put('message', null);
-            }
-            ?>
-    <div class="row w3-res-tb">
-      <div class="col-sm-3">
-        <div class="input-group">
-          <input type="text" class="input-sm form-control" placeholder="Search">
-          <span class="input-group-btn" style="margin-left: 5px;">
-            <button class="btn btn-sm btn-default" type="button">Go!</button>
-          </span>
-        </div>
-      </div>
-    </div>
+    $message = Session::get('message');
+    if ($message) {
+      echo '<span style="color:red; font-weight:bold">', $message, '</span>';
+      Session::put('message', null);
+    }
+    ?>
     <div class="table-responsive">
       <table class="table table-striped b-t b-light">
         <thead>
           <tr>
-            <th style="width:20px;">
-              <label class="i-checks m-b-none">
-                <input type="checkbox"><i></i>
-              </label>
-            </th>
+            <th style="width:30px;"></th>
             <th>ID NXB</th>
             <th>Tên nhà cuất bản</th>
             <th>Liên hệ</th>
             <th>Địa chỉ</th>
-            <th style="width:30px;"></th>
           </tr>
         </thead>
         <tbody>
           @foreach($all_supplier as $key => $supplier)
           <tr>
-            <td><label class="i-checks m-b-none"><input type="checkbox" name="post[]"><i></i></label></td>
+            <td>
+              <a href="{{URL::TO('/edit-supplier/'.$supplier->supplier_id)}}" class="active" ui-toggle-class=""><i class="fa fa-check text-success text-active"></i></a>
+              <a onclick="return confirm(`Bạn có chắc muốn xóa danh mục này?`)" href="{{URL::TO('/delete-supplier/'.$supplier->supplier_id)}}" class="active" ui-toggle-class=""><i class="fa fa-times text-danger text"></i></a>
+            </td>
             <td>{{$supplier->supplier_id}}</td>
             <td><span class="text-ellipsis">{{$supplier->supplier_name}}</span></td>
             <td><span class="text-ellipsis">{{$supplier->supplier_contact}}</span></td>
             <td><span class="text-ellipsis">{{$supplier->supplier_addr}}</span></td>
-            <td>
-              <a href="{{URL::TO('/edit-supplier/'.$supplier->supplier_id)}}" class="active" ui-toggle-class=""><i class="fa fa-check text-success text-active"></i></a>
-              <a onclick="return confirm(`Bạn có chắc muốn xóa danh mục này?`)" href="{{URL::TO('/delete-supplier/'.$supplier->supplier_id)}}"class="active" ui-toggle-class=""><i class="fa fa-times text-danger text"></i></a>
-            </td>
           </tr>
           @endforeach
         </tbody>

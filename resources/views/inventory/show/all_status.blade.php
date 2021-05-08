@@ -6,12 +6,12 @@
       Trạng thái sách
     </div>
     <?php
-            $message = Session::get('message');
-            if ($message) {
-                echo '<span style="color:red; font-weight:bold">', $message, '</span>';
-                Session::put('message', null);
-            }
-            ?>
+    $message = Session::get('message');
+    if ($message) {
+      echo '<span style="color:red; font-weight:bold">', $message, '</span>';
+      Session::put('message', null);
+    }
+    ?>
     <div class="row w3-res-tb">
       <div class="col-sm-3">
         <div class="input-group">
@@ -26,28 +26,23 @@
       <table class="table table-striped b-t b-light">
         <thead>
           <tr>
-            <th style="width:20px;">
-              <label class="i-checks m-b-none">
-                <input type="checkbox"><i></i>
-              </label>
-            </th>
+            <th style="width:30px;"></th>
             <th>ID trạng thái</th>
             <th>Tên trạng thái</th>
             <th>Mô tả</th>
-            <th style="width:30px;"></th>
           </tr>
         </thead>
         <tbody>
           @foreach($all_status as $key => $status)
           <tr>
+            <td>
+              <a href="{{URL::TO('/edit-status/'.$status->status_id)}}" class="active" ui-toggle-class=""><i class="fa fa-check text-success text-active"></i></a>
+              <a onclick="return confirm(`Bạn có chắc muốn xóa tình trạng sách này?`)" href="{{URL::TO('/delete-status/'.$status->status_id)}}" class="active" ui-toggle-class=""><i class="fa fa-times text-danger text"></i></a>
+            </td>
             <td><label class="i-checks m-b-none"><input type="checkbox" name="post[]"><i></i></label></td>
             <td>{{$status->status_id}}</td>
             <td><span class="text-ellipsis">{{$status->status_name}}</span></td>
             <td><span class="text-ellipsis">{{$status->status_desc}}</span></td>
-            <td>
-              <a href="{{URL::TO('/edit-status/'.$status->status_id)}}" class="active" ui-toggle-class=""><i class="fa fa-check text-success text-active"></i></a>
-              <a onclick="return confirm(`Bạn có chắc muốn xóa tình trạng sách này?`)" href="{{URL::TO('/delete-status/'.$status->status_id)}}"class="active" ui-toggle-class=""><i class="fa fa-times text-danger text"></i></a>
-            </td>
           </tr>
           @endforeach
         </tbody>

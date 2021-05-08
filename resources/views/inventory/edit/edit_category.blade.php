@@ -19,12 +19,12 @@
                     {{csrf_field()}}
                     <div class="form-group">
                         <label for="categoryName">Tên danh mục</label>
-                        <input type="text" class="form-control" id="categoryName" name="cate_name" value="{{$edit_value->cate_name}}">
+                        <input type="text" class="form-control" id="categoryName" name="cate_name" value="{{$edit_value->cate_name}}" required>
                     </div>
                     <div class="form-group">
                         <label for="categoryDesc">Mô tả</label>
                         <br>
-                        <textarea name="cate_desc" id="categoryDesc" cols="100" rows="5">{{$edit_value->cate_desc}}</textarea>
+                        <textarea name="cate_desc" id="categoryDesc" cols="100" rows="5" required>{{$edit_value->cate_desc}}</textarea>
                     </div>
                     <button type="submit" class="btn btn-info">Xác nhận</button>
                 </form>

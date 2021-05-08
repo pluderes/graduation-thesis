@@ -36,9 +36,6 @@ class CartController extends Controller
     // ---------------------------------------------------
     public function save_cart(Request $request)
     {
-        $cate_product = DB::table('category')->orderBy('cate_id','asc')->get();
-        $status_product = DB::table('product_status')->orderBy('status_id','asc')->get();
-
         $prod_id = $request->prod_id_hidden;
         $prod_quantity = $request->prod_quantity;
         $prod_info = DB::table('product')->where('product.prod_id',$prod_id)->first();

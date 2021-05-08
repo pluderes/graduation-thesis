@@ -27,9 +27,9 @@
         <thead>
           <tr>
             <th style="width:30px;"></th>
+            <th>Mã đơn hàng</th>
             <th>Tên khách hàng</th>
             <th>Tổng tiền</th>
-            <th>Tình trạng đơn hàng</th>
             <th>Ngày đặt hàng</th>
           </tr>
         </thead>
@@ -40,9 +40,9 @@
               <a href="{{URL::TO('/admin-edit-invoice/'.$invoice->invoice_id)}}" class="active" ui-toggle-class=""><i class="fa fa-check text-success text-active"></i></a>
               <a onclick="return confirm(`Bạn có chắc muốn xóa đơn hàng này?`)" href="{{URL::TO('/admin-delete-invoice/'.$invoice->invoice_id)}}" class="active" ui-toggle-class=""><i class="fa fa-times text-danger text"></i></a>
             </td>
+            <td><span class="text-ellipsis">{{$invoice->invoice_id}}</span></td>
             <td>{{$invoice->acc_name}}</td>
             <td><span class="text-ellipsis">{{$invoice->invoice_total}}</span></td>
-            <td><span class="text-ellipsis">{{$invoice->invoice_status}}</span></td>
             <td><span class="text-ellipsis">{{$invoice->invoice_date_time}}</span></td>
           </tr>
           @endforeach

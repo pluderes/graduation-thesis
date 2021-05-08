@@ -19,12 +19,12 @@
                     {{csrf_field()}}
                     <div class="form-group">
                         <label for="typeName">Tên loại sách</label>
-                        <input type="text" class="form-control" id="typeName" name="type_name" value="{{$edit_value->type_name}}">
+                        <input type="text" class="form-control" id="typeName" name="type_name" value="{{$edit_value->type_name}}" required>
                     </div>
                     <div class="form-group">
                         <label for="typeDesc">Mô tả</label>
                         <br>
-                        <textarea name="type_desc" id="typeDesc" cols="100" rows="5">{{$edit_value->type_desc}}</textarea>
+                        <textarea name="type_desc" id="typeDesc" cols="100" rows="5" required>{{$edit_value->type_desc}}</textarea>
                     </div>
                     <div>
                         <select name="cate_id" id="">

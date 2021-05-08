@@ -12,16 +12,6 @@
       Session::put('message', null);
     }
     ?>
-    <div class="row w3-res-tb">
-      <div class="col-sm-3">
-        <div class="input-group">
-          <input type="text" class="input-sm form-control" placeholder="Search">
-          <span class="input-group-btn" style="margin-left: 5px;">
-            <button class="btn btn-sm btn-default" type="button">Go!</button>
-          </span>
-        </div>
-      </div>
-    </div>
     <div class="table-responsive">
       <table class="table table-striped b-t b-light">
         <thead>
@@ -37,8 +27,8 @@
           @foreach($all_type as $key => $type)
           <tr>
             <td>
-              <a href="{{URL::TO('/edit-type/'.$type->type_id)}}" class="active" ui-toggle-class=""><i class="fa fa-check text-success text-active"></i></a>
-              <a onclick="return confirm(`Bạn có chắc muốn xóa loại sách này?`)" href="{{URL::TO('/delete-type/'.$type->type_id)}}" class="active" ui-toggle-class=""><i class="fa fa-times text-danger text"></i></a>
+              <a href="{{URL::TO('/admin-edit-type/'.$type->type_id)}}" class="active" ui-toggle-class=""><i class="fa fa-check text-success text-active"></i></a>
+              <a onclick="return confirm(`Bạn có chắc muốn xóa loại sách này?`)" href="{{URL::TO('/admin-delete-type/'.$type->type_id)}}" class="active" ui-toggle-class=""><i class="fa fa-times text-danger text"></i></a>
             </td>
             <td>{{$type->type_id}}</td>
             <td><span class="text-ellipsis">{{$type->type_name}}</span></td>
