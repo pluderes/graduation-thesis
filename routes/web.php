@@ -152,7 +152,9 @@ Route::post('/admin-update-invoice/{invoice_id}','adminManager@update_status_inv
 
 // delivery manager
 Route::get('/admin-delivery-all-invoice', 'adminManager@admin_delivery_all_invoice');
-Route::get('/admin-detail-invoice/{invoice_id}','adminManager@admin_detail_invoice');
+Route::get('/admin-delivery-detail-invoice/{invoice_id}','adminManager@admin_delivery_detail_invoice');
+Route::post('/admin-delievery-update-invoice/{invoice_id}','adminManager@admin_delivery_update_status_invoice');
+Route::post('/admin-delivery-add-ship/{invoice_id}','adminManager@admin_delivery_add_ship');
 
 // ------------------------------------------
 

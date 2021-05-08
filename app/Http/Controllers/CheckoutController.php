@@ -121,7 +121,7 @@ class CheckoutController extends Controller
         $invoice_data['deli_id'] = Session::get('deli_id');
         $invoice_data['payment_id'] = $payment_id;
         $invoice_data['invoice_total'] = Cart::total();
-        $invoice_data['invoice_status'] = 'Chờ xử lý';
+        $invoice_data['current_status'] = 'Chờ xử lý';
         $invoice_data['invoice_date_time'] = Carbon::now();
         $invoice_id = DB::table('invoice')->insertGetId($invoice_data);
 
@@ -136,9 +136,17 @@ class CheckoutController extends Controller
             $invoide_detail_data['prod_price'] = $v_content->price;
             DB::table('invoice_detail')->insertGetId($invoide_detail_data);
         }
+
+        // insert invoice_status
+        $invoice_status = array();
+        $invoice_status['invoice_id'] = $invoice_id;
+        $invoice_status['status_detail_id'] = '1';
+        $invoice_status['status_date'] = Carbon::now();
+        DB::table('invoice_status')->insert($invoice_status);
+        
         if ($data['payment_method'] === "1") {
             echo 'ATM';
-        } else if($data['payment_method'] === "2"){
+        } else if ($data['payment_method'] === "2") {
             Cart::destroy();
             $cate_product = DB::table('category')->orderBy('cate_id', 'asc')->get();
             $status_product = DB::table('product_status')->orderBy('status_id', 'asc')->get();

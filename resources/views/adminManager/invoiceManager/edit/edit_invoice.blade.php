@@ -5,6 +5,13 @@
     <div class="panel-heading" style="text-align: center;">
       Thông tin khách hàng
     </div>
+    <?php
+    $message = Session::get('message1');
+    if ($message) {
+      echo '<span style="color:red; font-weight:bold">', $message, '</span>';
+      Session::put('message1', null);
+    }
+    ?>
     <div class="table-responsive">
       <table class="table table-striped b-t b-light">
         <thead>
@@ -86,21 +93,21 @@
           @endforeach
         </tbody>
       </table>
-      @foreach($info_account as $key => $account)
-      <div>
-        <p>Cập nhật tình trạng đơn hàng</p>
-        <form action="{{URL::TO('/admin-update-invoice/'.$account->invoice_id)}}" method="post">
-          {{csrf_field()}}
-          <select name="invoice_status" id="">
-            <option value="1">Người gửi đang chuẩn bị hàng</option>
-            <option value="2">Lấy hàng thành công</option>
-            <option value="3">Đơn hàng đã xuất kho</option>
-          </select>
-          <button type="submit">Cập nhật</button>
-        </form>
-      </div>
-      @endforeach
     </div>
   </div>
+</div>
+<br>
+<hr>
+<div>
+  <h4>Cập nhật tình trạng đơn hàng</h4>
+  <form action="{{URL::TO('/admin-update-invoice/'.$account->invoice_id)}}" method="post">
+    {{csrf_field()}}
+    <select name="invoice_status" id="">
+      @foreach($status_detail as $key => $detail)
+      <option value="{{$detail->status_detail_id}}">{{$detail->status_detail_id}} - {{$detail->status_name}}</option>
+      @endforeach
+    </select>
+    <button type="submit">Cập nhật</button>
+  </form>
 </div>
 @endsection

@@ -30,6 +30,7 @@
             <th>Mã đơn hàng</th>
             <th>Tên khách hàng</th>
             <th>Tổng tiền</th>
+            <th>Tình trạng đơn hàng</th>
             <th>Ngày đặt hàng</th>
           </tr>
         </thead>
@@ -43,6 +44,7 @@
             <td><span class="text-ellipsis">{{$invoice->invoice_id}}</span></td>
             <td>{{$invoice->acc_name}}</td>
             <td><span class="text-ellipsis">{{$invoice->invoice_total}}</span></td>
+            <td>{{$invoice->current_status}}</td>
             <td><span class="text-ellipsis">{{$invoice->invoice_date_time}}</span></td>
           </tr>
           @endforeach
