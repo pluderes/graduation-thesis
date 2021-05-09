@@ -36,7 +36,7 @@
     <link rel="stylesheet" href="https://www.amcharts.com/lib/3/plugins/export/export.css" type="text/css" media="all" />
     <!-- Style.css -->
     <link rel="stylesheet" type="text/css" href="{{asset('public/Backend/assets/css/style.css')}}">
-   <script src="{{asset('public/Backend/js/jquery.form-validator.min.js')}}"></script>
+    <script src="{{asset('public/Backend/js/jquery.form-validator.min.js')}}"></script>
     <script>
         $.validate({
             lang: "en"
@@ -370,9 +370,9 @@
                                                     </a>
                                                 </li>
                                                 <li class="">
-                                                    <a href="{{URL::TO('/admin-delivery-edit-invoice')}}" class="waves-effect waves-dark">
+                                                    <a href="{{URL::TO('/admin-delivery-invoice-received')}}" class="waves-effect waves-dark">
                                                         <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-                                                        <span class="pcoded-mtext" data-i18n="nav.menu-levels.menu-level-22.menu-level-31">Đơn hàng đã chọn</span>
+                                                        <span class="pcoded-mtext" data-i18n="nav.menu-levels.menu-level-22.menu-level-31">Đơn hàng đã nhận</span>
                                                         <span class="pcoded-mcaret"></span>
                                                     </a>
                                                 </li>
@@ -445,7 +445,6 @@
                                     </div>
                                     <!-- Page-body end -->
                                 </div>
-                                <div id="styleSelector"> </div>
                             </div>
                         </div>
                     </div>

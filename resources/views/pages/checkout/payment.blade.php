@@ -33,23 +33,16 @@
                         @foreach($content as $value_content)
                         <tr>
                             <td id="cart_product">
-                                <img id="imgdetail" src="{{URL::TO('public/Upload/product/'.$value_content->options->image)}}" alt="">
+                                <a href="{{URL::TO('/chitietsanpham/'.$value_content->id)}}"><img id="imgdetail" src="{{URL::TO('public/Upload/product/'.$value_content->options->image)}}" alt=""></a>
                             </td>
                             <td class="cart_description">
-                                <h4><a href="">{{$value_content->name}}</a></h4>
+                                <h4><a href="{{URL::TO('/chitietsanpham/'.$value_content->id)}}">{{$value_content->name}}</a></h4>
                             </td>
                             <td class="cart_price">
-                                <p>{{number_format($value_content->price)}} VND</p>
+                                <h4>{{number_format($value_content->price)}} VND</h4>
                             </td>
                             <td class="cart_quantity">
-                                <form action="{{URL::TO('/update-quantity')}}" method="POST">
-                                    {{csrf_field()}}
-                                    <div class="cart_quantity_button">
-                                        <input id="inp_qty" class="cart_quantity_input" type="number" name="cart_quantity" value="{{$value_content->qty}}" min="1">
-                                        <input class="cart_quantity_input" type="hidden" name="rowId_cart" value="{{$value_content->rowId}}">
-                                        <button style="background-color: seagreen; color: seashell;" type="submit" name="update_qty" class="btn btn-default btn-sm">Cập nhật</button>
-                                    </div>
-                                </form>
+                                <h4 style="text-align: center;">{{$value_content->qty}}</h4>
                             </td>
                             <td class="cart_total">
                                 <p class="cart_total_price">

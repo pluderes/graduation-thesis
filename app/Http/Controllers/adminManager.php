@@ -636,11 +636,11 @@ class adminManager extends Controller
         $info_account =  DB::table('invoice')->where('invoice.invoice_id', $invoice_id)->get();
 
         $invoice = array();
-        $invoice['acc_id']=$info_account[0]->acc_id;
-        $invoice['deli_id']=$info_account[0]->deli_id;
-        $invoice['payment_id']=$info_account[0]->payment_id;
-        $invoice['invoice_total']=$info_account[0]->invoice_total;
-        $invoice['invoice_date_time']=$info_account[0]->invoice_date_time;
+        $invoice['acc_id'] = $info_account[0]->acc_id;
+        $invoice['deli_id'] = $info_account[0]->deli_id;
+        $invoice['payment_id'] = $info_account[0]->payment_id;
+        $invoice['invoice_total'] = $info_account[0]->invoice_total;
+        $invoice['invoice_date_time'] = $info_account[0]->invoice_date_time;
         if ($request->invoice_status == '2') {
             $invoice['current_status'] = 'Người gửi đang chuẩn bị hàng';
         } else if ($request->invoice_status == '3') {
@@ -654,11 +654,11 @@ class adminManager extends Controller
         } else if ($request->invoice_status == '7') {
             $invoice['current_status'] = 'Giao hàng thất bại';
         }
-        DB::table('invoice')->where('invoice.invoice_id',$invoice_id)->update($invoice);
+        DB::table('invoice')->where('invoice.invoice_id', $invoice_id)->update($invoice);
 
         Session::put('message1', 'Cập nhật tình trạng đơn hàng thành công!');
 
-        return Redirect::to('/admin-edit-invoice/'.$invoice_id);
+        return Redirect::to('/admin-edit-invoice/' . $invoice_id);
     }
     // end invoice
     // -------------------------------------------------------------------------------------------
@@ -666,12 +666,11 @@ class adminManager extends Controller
     public function admin_delivery_all_invoice()
     {
         $this->checkLogin();
-        $delivery_all_invoice = DB::table('invoice')->join('account', 'invoice.acc_id', '=', 'account.acc_id')
+        $delivery_all_invoice = DB::table('invoice')
+            ->join('account', 'invoice.acc_id', '=', 'account.acc_id')
             ->join('delivery', 'invoice.deli_id', '=', 'delivery.deli_id')
-            ->join('invoice_status', 'invoice.invoice_id', '=', 'invoice_status.invoice_id')
-            ->join('invoice_status_detail', 'invoice_status.status_detail_id', '=', 'invoice_status_detail.status_detail_id')
             ->where('invoice.current_status', '=', 'Đơn hàng đã xuất kho')
-            ->select('invoice.*', 'account.acc_name', 'delivery.deli_address', 'invoice_status.*', 'invoice_status_detail.*')
+            ->select('invoice.*', 'account.acc_name', 'delivery.deli_address',)
             ->orderBy('invoice.invoice_id', 'desc')->get();
         $manager_delivery = view('adminManager.deliveryManager.show.admin_all_invoice')->with('all_invoice', $delivery_all_invoice);
 
@@ -710,24 +709,24 @@ class adminManager extends Controller
         // echo '</pre>';
         return view('adminLayout')->with('adminManager.deliveryManager.detail.admin_detail_invoice', $manager_invoice);
     }
-    public function admin_delivery_update_status_invoice(Request $request, $invoice_id)
-    {
-        $this->checkLogin();
-        $data = array();
-        $data['invoice_id'] = $invoice_id;
-        if ($request->invoice_status == 1) {
-            $data['status_name'] = 'Giao hàng thành công';
-        } else if ($request->invoice_status == 2) {
-            $data['status_name'] = 'Giao hàng không thành công';
-        }
-        $data['status_date'] = Carbon::now();
+    // public function admin_delivery_update_status_invoice(Request $request, $invoice_id)
+    // {
+    //     $this->checkLogin();
+    //     $data = array();
+    //     $data['invoice_id'] = $invoice_id;
+    //     if ($request->invoice_status == 1) {
+    //         $data['status_name'] = 'Giao hàng thành công';
+    //     } else if ($request->invoice_status == 2) {
+    //         $data['status_name'] = 'Giao hàng không thành công';
+    //     }
+    //     $data['status_date'] = Carbon::now();
 
-        DB::table('invoice_status')->insert($data);
+    //     DB::table('invoice_status')->insert($data);
 
-        Session::put('message', 'Cập nhật tình trạng đơn hàng thành công!');
+    //     Session::put('message', 'Cập nhật tình trạng đơn hàng thành công!');
 
-        return Redirect::to('/admin-delivery-all-invoice');
-    }
+    //     return Redirect::to('/admin-delivery-all-invoice');
+    // }
     public function admin_delivery_add_ship(Request $request, $invoice_id)
     {
         $this->checkLogin();
@@ -748,18 +747,18 @@ class adminManager extends Controller
         DB::table('invoice_status')->insert($data_invoice_status);
 
         // table invoice
-         // update table invoice
-         $info_account =  DB::table('invoice')->where('invoice.invoice_id', $invoice_id)->get();
+        // update table invoice
+        $info_account =  DB::table('invoice')->where('invoice.invoice_id', $invoice_id)->get();
 
-         $invoice = array();
-         $invoice['acc_id']=$info_account[0]->acc_id;
-         $invoice['deli_id']=$info_account[0]->deli_id;
-         $invoice['payment_id']=$info_account[0]->payment_id;
-         $invoice['invoice_total']=$info_account[0]->invoice_total;
-         $invoice['invoice_date_time']=$info_account[0]->invoice_date_time;
-         $invoice['current_status'] = 'Đang giao hàng';
-       
-         DB::table('invoice')->where('invoice.invoice_id',$invoice_id)->update($invoice);
+        $invoice = array();
+        $invoice['acc_id'] = $info_account[0]->acc_id;
+        $invoice['deli_id'] = $info_account[0]->deli_id;
+        $invoice['payment_id'] = $info_account[0]->payment_id;
+        $invoice['invoice_total'] = $info_account[0]->invoice_total;
+        $invoice['invoice_date_time'] = $info_account[0]->invoice_date_time;
+        $invoice['current_status'] = 'Đang giao hàng';
+
+        DB::table('invoice')->where('invoice.invoice_id', $invoice_id)->update($invoice);
 
         Session::put('message', 'Đã nhận giao đơn hàng!');
 
@@ -771,5 +770,134 @@ class adminManager extends Controller
         // echo '</pre>';
 
         return Redirect::to('/admin-delivery-all-invoice');
+    }
+    public function admin_delivery_invoice_received()
+    {
+        $this->checkLogin();
+        $delivery_all_invoice = DB::table('invoice')
+            ->join('account', 'invoice.acc_id', '=', 'account.acc_id')
+            ->join('delivery', 'invoice.deli_id', '=', 'delivery.deli_id')
+            ->join('shipper', 'invoice.invoice_id', '=', 'shipper.invoice_id')
+            ->select('invoice.*', 'account.acc_name', 'delivery.deli_address',)
+            ->orderBy('invoice.invoice_id', 'desc')->get();
+        $manager_delivery = view('adminManager.deliveryManager.order.shipper')->with('all_invoice', $delivery_all_invoice);
+
+        // echo '<pre>';
+        // print_r($delivery_all_invoice);
+        // echo '</pre>';
+
+        return view('adminLayout')->with('adminManager.deliveryManager.order.shipper', $manager_delivery);
+    }
+    public function admin_delivery_detail_invoice_received($invoice_id)
+    {
+        $this->checkLogin();
+
+        $info_account =  DB::table('invoice')
+            ->join('delivery', 'invoice.deli_id', '=', 'delivery.deli_id')
+            ->join('account', 'delivery.acc_id', '=', 'account.acc_id')
+            ->where('invoice.invoice_id', $invoice_id)->get();
+
+        $status = DB::table('invoice')
+            ->join('invoice_status', 'invoice.invoice_id', '=', 'invoice_status.invoice_id')
+            ->join('invoice_status_detail', 'invoice_status.status_detail_id', '=', 'invoice_status_detail.status_detail_id')
+            ->select('invoice_status.*', 'invoice_status_detail.*')
+            ->where('invoice.invoice_id', $invoice_id)->get();
+
+        $invoice_by_ID = DB::table('invoice')
+            ->join('delivery', 'invoice.deli_id', '=', 'delivery.deli_id')
+            ->join('account', 'delivery.acc_id', '=', 'account.acc_id')
+            ->join('invoice_detail', 'invoice.invoice_id', '=', 'invoice_detail.invoice_id')
+            ->select('delivery.*', 'invoice.*', 'invoice_detail.*', 'account.*')
+            ->orderBy('invoice.invoice_id', 'desc')->where('invoice.invoice_id', $invoice_id)->get();
+
+        $manager_invoice = view('adminManager.deliveryManager.detail.admin_detail_invoice_received')->with('invoice_by_id', $invoice_by_ID)->with('info_account', $info_account)->with('invoice_status', $status)->with('status_detail', $status);
+
+        // echo '<pre>';
+        // print_r($invoice_by_ID);
+        // echo '</pre>';
+        return view('adminLayout')->with('adminManager.deliveryManager.detail.admin_detail_invoice_received', $manager_invoice);
+    }
+    public function admin_delivery_update_status_invoice_received(Request $request, $invoice_id)
+    {
+        $this->checkLogin();
+
+        // update table invoice
+        $info_invocie =  DB::table('invoice')->where('invoice.invoice_id', $invoice_id)->get();
+        // update quantity product
+        $prod_detail = DB::table('product')
+            ->join('invoice_detail', 'product.prod_id', '=', 'invoice_detail.prod_id')
+            ->join('invoice', 'invoice.invoice_id', '=', 'invoice_detail.invoice_id')
+            ->where('invoice.invoice_id', $invoice_id)->get();
+
+        // check quantity
+        if ($prod_detail[0]->prod_quantity - $prod_detail[0]->sell_quantity >= 0) {
+            if ($request->invoice_status == 6) {
+
+                // insert table invoice_status
+                $data = array();
+                $data['status_detail_id'] = '6';
+                $data['status_date'] = Carbon::now();
+
+                DB::table('invoice_status')->insert($data);
+
+                // update table product prod_quantity
+                $product = array();
+                $product['prod_name'] = $prod_detail[0]->prod_name;
+                $product['prod_desc'] = $prod_detail[0]->prod_desc;
+                $product['prod_numofpages'] = $prod_detail[0]->prod_numofpages;
+                $product['prod_size'] = $prod_detail[0]->prod_size;
+                $product['prod_datepublished'] = $prod_detail[0]->prod_datepublished;
+                $product['prod_price'] = $prod_detail[0]->prod_price;
+                $product['status_id'] = $prod_detail[0]->status_id;
+                $product['author_id'] = $prod_detail[0]->author_id;
+                $product['supplier_id'] = $prod_detail[0]->supplier_id;
+                $product['thumbnail'] = $prod_detail[0]->thumbnail;
+                $product['type_id'] = $prod_detail[0]->type_id;
+                $product['prod_quantity'] = $prod_detail[0]->prod_quantity - $prod_detail[0]->sell_quantity;
+
+                DB::table('product')->where('product.prod_id', $prod_detail[0]->prod_id)->update($product);
+
+                // update status table invoice status
+                $invoice = array();
+                $invoice['acc_id'] = $info_invocie[0]->acc_id;
+                $invoice['deli_id'] = $info_invocie[0]->deli_id;
+                $invoice['payment_id'] = $info_invocie[0]->payment_id;
+                $invoice['invoice_total'] = $info_invocie[0]->invoice_total;
+                $invoice['current_status'] = 'Giao hàng thành công';
+                $invoice['invoice_date_time'] = $info_invocie[0]->invoice_date_time;
+
+                DB::table('invoice')->where('invoice.invoice_id', $invoice_id)->update($invoice);
+
+                Session::put('message', 'Cập nhật đơn hàng thành công!');
+            } else if ($request->invoice_status == 7) {
+
+                // update status table invoice_status
+                $invoice['current_status'] = 'Giao hàng thất bại';
+
+                // insert table invoice_status
+                $data = array();
+                $data['status_detail_id'] = '7';
+                $data['status_date'] = Carbon::now();
+
+                DB::table('invoice_status')->insert($data);
+            }
+        } else {
+            // update status table invoice_status
+            $invoice['current_status'] = 'Giao hàng thất bại';
+
+            // insert table invoice_status
+            $data = array();
+            $data['status_detail_id'] = '7';
+            $data['status_date'] = Carbon::now();
+
+            DB::table('invoice_status')->insert($data);
+        }
+
+        // echo '<pre>';
+        // print_r($product);
+        // print_r($test);
+        // echo '</pre>';
+
+        return Redirect::to('/admin-delivery-invoice-received');
     }
 }

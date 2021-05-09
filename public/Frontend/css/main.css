@@ -249,12 +249,12 @@ a#scrollUp i {
     background: none;
     color: seagreen;
 }
-#search{
-  height: 35px;
-  width: 35px;
-  color: white;
-  border: unset;
-  background-color: seagreen;
+#search {
+    height: 35px;
+    width: 35px;
+    color: white;
+    border: unset;
+    background-color: seagreen;
 }
 .search_box input {
     background: #f0f0e9;
@@ -1519,7 +1519,6 @@ h2.title {
 .cart_info table tr td {
     border-top: 0 none;
     vertical-align: inherit;
-    /* width: 200px; */
 }
 
 #cart_items .cart_info .image {
@@ -1527,7 +1526,7 @@ h2.title {
 }
 
 #cart_items .cart_info .cart_description h4 {
-    margin-bottom: 0;
+    margin: 0;
 }
 
 #cart_items .cart_info .cart_description h4 a {
@@ -1551,9 +1550,13 @@ h2.title {
     font-size: 24px;
 }
 
+.cart_total_price {
+    margin: 0;
+}
+
 #cart_product {
     display: block;
-    width: 200px;
+    /* width: 200px; */
 }
 
 .cart_quantity_button a {

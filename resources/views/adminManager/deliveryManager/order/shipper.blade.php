@@ -39,8 +39,8 @@
                     @foreach($all_invoice as $key => $invoice)
                     <tr>
                         <td>
-                            <a href="{{URL::TO('/admin-delivery-detail-invoice/'.$invoice->invoice_id)}}" class="active" ui-toggle-class=""><i class="fa fa-check text-success text-active"></i></a>
-                            <a onclick="return confirm(`Nhận giao đơn hàng này?`)" href="{{URL::TO('/admin-delivery-add-ship/'.$invoice->invoice_id)}}" class="active" ui-toggle-class=""><i class="fa fa-plus"></i></a>
+                            <a href="{{URL::TO('/admin-delivery-detail-invoice-received/'.$invoice->invoice_id)}}" class="active" ui-toggle-class=""><i class="fa fa-check text-success text-active"></i></a>
+                            <!-- <a onclick="return confirm(`Nhận giao đơn hàng này?`)" href="{{URL::TO('/admin-delivery-add-ship/'.$invoice->invoice_id)}}" class="active" ui-toggle-class=""><i class="fa fa-plus"></i></a> -->
                         </td>
                         <td><span class="text-ellipsis">{{$invoice->invoice_id}}</span></td>
                         <td>{{$invoice->acc_name}}</td>

@@ -88,11 +88,9 @@
             @endforeach
           </tbody>
         </table>
-        @foreach($info_account as $key => $account)
         <div>
           <button type="submit" onclick="return confirm(`Nhận giao đơn hàng này?`)">Nhận đơn</button>
         </div>
-        @endforeach
       </div>
     </form>
   </div>
