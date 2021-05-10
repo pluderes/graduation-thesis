@@ -830,67 +830,71 @@ class adminManager extends Controller
             ->where('invoice.invoice_id', $invoice_id)->get();
 
         // check quantity
-        if ($prod_detail[0]->prod_quantity - $prod_detail[0]->sell_quantity >= 0) {
-            if ($request->invoice_status == 6) {
 
-                // insert table invoice_status
-                $data = array();
-                $data['status_detail_id'] = '6';
-                $data['status_date'] = Carbon::now();
+        if ($request->invoice_status == 6) {
 
-                DB::table('invoice_status')->insert($data);
+            // insert table invoice_status
+            $data = array();
+            $data['invoice_id'] = $invoice_id;
+            $data['status_detail_id'] = '6';
+            $data['status_date'] = Carbon::now();
 
-                // update table product prod_quantity
-                $product = array();
-                $product['prod_name'] = $prod_detail[0]->prod_name;
-                $product['prod_desc'] = $prod_detail[0]->prod_desc;
-                $product['prod_numofpages'] = $prod_detail[0]->prod_numofpages;
-                $product['prod_size'] = $prod_detail[0]->prod_size;
-                $product['prod_datepublished'] = $prod_detail[0]->prod_datepublished;
-                $product['prod_price'] = $prod_detail[0]->prod_price;
-                $product['status_id'] = $prod_detail[0]->status_id;
-                $product['author_id'] = $prod_detail[0]->author_id;
-                $product['supplier_id'] = $prod_detail[0]->supplier_id;
-                $product['thumbnail'] = $prod_detail[0]->thumbnail;
-                $product['type_id'] = $prod_detail[0]->type_id;
-                $product['prod_quantity'] = $prod_detail[0]->prod_quantity - $prod_detail[0]->sell_quantity;
+            DB::table('invoice_status')->where('invoice_status.invoice_id', $invoice_id)->insert($data);
 
-                DB::table('product')->where('product.prod_id', $prod_detail[0]->prod_id)->update($product);
+            // update status table invoice: status
+            $invoice = array();
+            $invoice['acc_id'] = $info_invocie[0]->acc_id;
+            $invoice['deli_id'] = $info_invocie[0]->deli_id;
+            $invoice['payment_id'] = $info_invocie[0]->payment_id;
+            $invoice['invoice_total'] = $info_invocie[0]->invoice_total;
+            $invoice['current_status'] = 'Giao hàng thành công';
+            $invoice['invoice_date_time'] = $info_invocie[0]->invoice_date_time;
 
-                // update status table invoice status
-                $invoice = array();
-                $invoice['acc_id'] = $info_invocie[0]->acc_id;
-                $invoice['deli_id'] = $info_invocie[0]->deli_id;
-                $invoice['payment_id'] = $info_invocie[0]->payment_id;
-                $invoice['invoice_total'] = $info_invocie[0]->invoice_total;
-                $invoice['current_status'] = 'Giao hàng thành công';
-                $invoice['invoice_date_time'] = $info_invocie[0]->invoice_date_time;
+            DB::table('invoice')->where('invoice.invoice_id', $invoice_id)->update($invoice);
 
-                DB::table('invoice')->where('invoice.invoice_id', $invoice_id)->update($invoice);
+            Session::put('message', 'Cập nhật đơn hàng thành công!');
+        } else if ($request->invoice_status == 7) {
 
-                Session::put('message', 'Cập nhật đơn hàng thành công!');
-            } else if ($request->invoice_status == 7) {
-
-                // update status table invoice_status
-                $invoice['current_status'] = 'Giao hàng thất bại';
-
-                // insert table invoice_status
-                $data = array();
-                $data['status_detail_id'] = '7';
-                $data['status_date'] = Carbon::now();
-
-                DB::table('invoice_status')->insert($data);
-            }
-        } else {
             // update status table invoice_status
             $invoice['current_status'] = 'Giao hàng thất bại';
 
             // insert table invoice_status
             $data = array();
+            $data['invoice_id'] = $invoice_id;
             $data['status_detail_id'] = '7';
             $data['status_date'] = Carbon::now();
 
             DB::table('invoice_status')->insert($data);
+
+            // update table product prod_quantity
+            $product = array();
+            $product['prod_name'] = $prod_detail[0]->prod_name;
+            $product['prod_desc'] = $prod_detail[0]->prod_desc;
+            $product['prod_numofpages'] = $prod_detail[0]->prod_numofpages;
+            $product['prod_size'] = $prod_detail[0]->prod_size;
+            $product['prod_datepublished'] = $prod_detail[0]->prod_datepublished;
+            $product['prod_price'] = $prod_detail[0]->prod_price;
+            $product['status_id'] = $prod_detail[0]->status_id;
+            $product['author_id'] = $prod_detail[0]->author_id;
+            $product['supplier_id'] = $prod_detail[0]->supplier_id;
+            $product['thumbnail'] = $prod_detail[0]->thumbnail;
+            $product['type_id'] = $prod_detail[0]->type_id;
+            $product['prod_quantity'] = $prod_detail[0]->prod_quantity + $prod_detail[0]->sell_quantity;
+
+            DB::table('product')->where('product.prod_id', $prod_detail[0]->prod_id)->update($product);
+
+            // update status table invoice: status
+            $invoice = array();
+            $invoice['acc_id'] = $info_invocie[0]->acc_id;
+            $invoice['deli_id'] = $info_invocie[0]->deli_id;
+            $invoice['payment_id'] = $info_invocie[0]->payment_id;
+            $invoice['invoice_total'] = $info_invocie[0]->invoice_total;
+            $invoice['current_status'] = 'Giao hàng thất bại';
+            $invoice['invoice_date_time'] = $info_invocie[0]->invoice_date_time;
+
+            DB::table('invoice')->where('invoice.invoice_id', $invoice_id)->update($invoice);
+
+            Session::put('message', 'Cập nhật đơn hàng thành công!');
         }
 
         // echo '<pre>';

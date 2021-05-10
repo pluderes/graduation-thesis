@@ -8,7 +8,6 @@
 	<div class="col-sm-5">
 		<div class="view-product">
 			<img style="height: 500px;" src="{{URL::TO('public/Upload/product/'.$values->thumbnail)}}" alt="" />
-			<h3>ZOOM</h3>
 		</div>
 	</div>
 	<div class="col-sm-7">
@@ -29,8 +28,19 @@
 						<label>Số lượng:</label>
 						<input name="prod_quantity" type="number" min="1" max="{{($values->prod_quantity)}}" value="1" />
 						<input name="prod_id_hidden" type="hidden" value="{{($values->prod_id)}}" />
-						<button type="submit" class="btn btn-fefault cart">
-							<i class="fa fa-shopping-cart"></i>
+						<button type="submit" class="btn btn-fefault cart" 
+						<?php 
+						if($values->prod_quantity=0){
+							echo 'disabled';
+						?>
+						<?php	
+						}else {
+						?>
+						<?php
+							
+						}
+						?>
+						><i class="fa fa-shopping-cart"></i>
 							Thêm vào giỏ hàng
 						</button>
 					</div>

@@ -15,6 +15,20 @@
 			?>
 			<table class="table table-condensed">
 				<thead>
+					<?php
+					$message = Session::get('warning');
+					if ($message) {
+						echo '<span style="color:red; font-weight:bold">', $message, '</span>';
+						Session::put('warning', null);
+					}
+					?>
+					<?php
+					$message = Session::get('error');
+					if ($message) {
+						echo '<span style="color:red; font-weight:bold">', $message, '</span>';
+						Session::put('error', null);
+					}
+					?>
 					<tr class="cart_menu">
 						<td class="image">Sách</td>
 						<td class="description">Tên</td>
@@ -85,7 +99,6 @@
 					if ($acc_id != NULL) {
 					?>
 						<a class="btn btn-default check_out" href="{{URL::TO('/checkout/'.$acc_id)}}">Thanh toán</a>
-
 					<?php
 					} else {
 					?>

@@ -21,11 +21,19 @@ Route::get('/danhmucsanpham/{cate_id}', 'CategoryProduct@show_category');
 Route::get('/tinhtrangsanpham/{status_id}', 'CategoryProduct@show_status');
 Route::get('/chitietsanpham/{prod_id}', 'ProductController@details_product');
 
-// gio hang
+// cart
 Route::post('/save-cart', 'CartController@save_cart');
 Route::get('/show-cart', 'CartController@show_cart');
 Route::get('/delete-to-cart/{rowId}', 'CartController@delete_to_cart');
 Route::post('/update-quantity', 'CartController@update_quantity');
+
+// checkout
+Route::get('/login-checkout', 'CheckoutController@login_checkout');
+Route::post('/add-customer', 'CheckoutController@add_customer');
+Route::get('/checkout/{acc_id}', 'CheckoutController@checkout');
+Route::post('/save-checkout-customer', 'CheckoutController@save_checkout_customer');
+Route::get('/payment', 'CheckoutController@payment');
+Route::post('/order-place', 'CheckoutController@order_place');
 
 // tim kiem
 Route::post('/tim-kiem','HomeController@search');
@@ -174,11 +182,3 @@ Route::get('/admin-delete-account/{acc_id}','adminManager@delete_account');
 
 // user profile
 Route::get('/profile/{acc_id}','HomeController@user_profile');
-
-// checkout
-Route::get('/login-checkout', 'CheckoutController@login_checkout');
-Route::post('/add-customer', 'CheckoutController@add_customer');
-Route::get('/checkout/{acc_id}', 'CheckoutController@checkout');
-Route::post('/save-checkout-customer', 'CheckoutController@save_checkout_customer');
-Route::get('/payment', 'CheckoutController@payment');
-Route::post('/order-place', 'CheckoutController@order_place');
