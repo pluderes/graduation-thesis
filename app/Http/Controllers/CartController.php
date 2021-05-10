@@ -79,9 +79,20 @@ class CartController extends Controller
 
     public function update_quantity(Request $request)
     {
+        $max_quantity = DB::table('product')->where('product.prod_id',$request->prod_id)->get();
+
         $rowId = $request->rowId_cart;
-        $quantity = $request->cart_quantity;
+        if($request->cart_quantity>$max_quantity->prod_quantity){
+            $quantity = $max_quantity->prod_quantity;
+        }else{
+            $quantity = $request->cart_quantity;
+        }
         Cart::update($rowId, $quantity);
+
+        // echo '<pre>';
+        // print_r(Cart::content());
+        // print_r($max_quantity);
+        // echo '</pre>';
         return Redirect::to('/show-cart');
     }
 }

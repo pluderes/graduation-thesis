@@ -14,8 +14,19 @@ session_start();
 
 class CheckoutController extends Controller
 {
-    public function login_checkout()
+    public function login_checkout(Request $request)
     {
+        // check quantity product
+        $max_quantity = DB::table('product')->where('product.prod_id', $request->prod_id)->get();
+
+        $rowId = $request->rowId_cart;
+        if ($request->cart_quantity > $max_quantity[0]->prod_quantity) {
+            $quantity = $max_quantity[0]->prod_quantity;
+        } else {
+            $quantity = $request->cart_quantity;
+        }
+        Cart::update($rowId, $quantity);
+
         return view('pages.checkout.login_checkout');
     }
 
@@ -66,16 +77,31 @@ class CheckoutController extends Controller
     }
 
 
-    public function checkout($acc_id)
+    public function checkout(Request $request, $acc_id)
     {
         $cate_product = DB::table('category')->orderBy('cate_id', 'asc')->get();
         $status_product = DB::table('product_status')->orderBy('status_id', 'asc')->get();
 
+        // check quantity product
+        $max_quantity = DB::table('product')->where('product.prod_id', $request->prod_id)->get();
+
+        $rowId = $request->rowId_cart;
+        if ($request->cart_quantity > $max_quantity[0]->prod_quantity) {
+            $quantity = $max_quantity[0]->prod_quantity;
+        } else {
+            $quantity = $request->cart_quantity;
+        }
+        Cart::update($rowId, $quantity);
+
+        // -------------
         $info = DB::table('delivery')->where('acc_id', $acc_id)->get();
         $deli_info = DB::table('delivery')->where('acc_id', $acc_id)->limit(1)->get();
 
         $count = Cart::count();
 
+        // echo '<pre>';
+        // print_r($max_quantity[0]->prod_quantity);
+        // echo '</pre>';
         if ($count > 0) {
             if (count($info) !== 0) {
                 return view('pages.checkout.checkout')->with('category', $cate_product)->with('status_prod', $status_product)->with('deli_info', $deli_info);
@@ -193,7 +219,7 @@ class CheckoutController extends Controller
                 return view('pages.checkout.handcash')->with('category', $cate_product)->with('status_prod', $status_product);
             }
         } else {
-            Session::put('error','Số lượng đặt hàng vượt quá số lượng trong kho');
+            Session::put('error', 'Số lượng đặt hàng vượt quá số lượng trong kho');
             return view('/show-cart');
         }
     }

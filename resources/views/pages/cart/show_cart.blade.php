@@ -56,6 +56,7 @@
 								<div class="cart_quantity_button">
 									<input id="inp_qty" class="cart_quantity_input" type="number" name="cart_quantity" value="{{$value_content->qty}}" min="1" max="{{($value_content->weight)}}">
 									<input class="cart_quantity_input" type="hidden" name="rowId_cart" value="{{$value_content->rowId}}">
+									<input type="hidden" name="prod_id" value="{{$value_content->id}}">
 									<button style="background-color: seagreen; color: seashell;" type="submit" name="update_qty" class="btn btn-default btn-sm">Cập nhật</button>
 								</div>
 							</form>
@@ -98,11 +99,27 @@
 					$acc_id = Session::get('acc_id');
 					if ($acc_id != NULL) {
 					?>
-						<a class="btn btn-default check_out" href="{{URL::TO('/checkout/'.$acc_id)}}">Thanh toán</a>
+						<form action="{{URL::TO('/checkout/'.$acc_id)}}" method="get">
+							{{csrf_field()}}
+							@foreach($content as $value_content)
+							<input id="inp_qty" class="cart_quantity_input" type="hidden" name="cart_quantity" value="{{$value_content->qty}}" min="1" max="{{($value_content->weight)}}">
+							<input class="cart_quantity_input" type="hidden" name="rowId_cart" value="{{$value_content->rowId}}">
+							<input type="hidden" name="prod_id" value="{{$value_content->id}}">
+							@endforeach
+							<button class="btn btn-default check_out" type="submit">Thanh toán</button>
+						</form>
 					<?php
 					} else {
 					?>
-						<a class="btn btn-default check_out" href="{{URL::TO('/login-checkout')}}">Thanh toán</a>
+						<form action="{{URL::TO('/login-checkout')}}" method="get">
+							{{csrf_field()}}
+							@foreach($content as $value_content)
+							<input id="inp_qty" class="cart_quantity_input" type="hidden" name="cart_quantity" value="{{$value_content->qty}}" min="1" max="{{($value_content->weight)}}">
+							<input class="cart_quantity_input" type="hidden" name="rowId_cart" value="{{$value_content->rowId}}">
+							<input type="hidden" name="prod_id" value="{{$value_content->id}}">
+							@endforeach
+							<button class="btn btn-default check_out" type="submit">Thanh toán</button>
+						</form>
 					<?php
 					}
 					?>
