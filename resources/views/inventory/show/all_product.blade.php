@@ -6,22 +6,12 @@
       Danh sách sách
     </div>
     <?php
-            $message = Session::get('message');
-            if ($message) {
-                echo '<span style="color:red; font-weight:bold">', $message, '</span>';
-                Session::put('message', null);
-            }
-            ?>
-    <div class="row w3-res-tb">
-      <div class="col-sm-3">
-        <div class="input-group">
-          <input type="text" class="input-sm form-control" placeholder="Search">
-          <span class="input-group-btn" style="margin-left: 5px;">
-            <button class="btn btn-sm btn-default" type="button">Go!</button>
-          </span>
-        </div>
-      </div>
-    </div>
+    $message = Session::get('message');
+    if ($message) {
+      echo '<span style="color:red; font-weight:bold">', $message, '</span>';
+      Session::put('message', null);
+    }
+    ?>
     <div class="table-responsive">
       <table class="table table-striped b-t b-light">
         <thead>
@@ -46,9 +36,9 @@
         <tbody>
           @foreach($all_product as $key => $product)
           <tr>
-          <td>
+            <td>
               <a href="{{URL::TO('/edit-product/'.$product->prod_id)}}" class="active" ui-toggle-class=""><i class="fa fa-check text-success text-active"></i></a>
-              <a onclick="return confirm(`Bạn có chắc muốn xóa danh mục này?`)" href="{{URL::TO('/delete-product/'.$product->prod_id)}}"class="active" ui-toggle-class=""><i class="fa fa-times text-danger text"></i></a>
+              <a onclick="return confirm(`Bạn có chắc muốn xóa danh mục này?`)" href="{{URL::TO('/delete-product/'.$product->prod_id)}}" class="active" ui-toggle-class=""><i class="fa fa-times text-danger text"></i></a>
             </td>
             <td>{{$product->prod_id}}</td>
             <td><span class="text-ellipsis">{{$product->prod_name}}</span></td>

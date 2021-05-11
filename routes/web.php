@@ -50,7 +50,9 @@ Route::get('/delivery','Admincontroller@delivery');
 Route::get('/inventory','Admincontroller@inventory');
 Route::get('/order','Admincontroller@order');
 
-// ------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------
 // inventory managerment
 // category
 Route::get('/all-category','CategoryProduct@all_category');
@@ -100,7 +102,10 @@ Route::post('/save-product','CategoryProduct@save_product');
 Route::post('/update-product/{product_id}','CategoryProduct@update_product');
 Route::get('/delete-product/{product_id}','CategoryProduct@delete_product');
 // end inventory
-// -----------------------------------------------------------------------------------
+
+// -------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------
 // Admin managerment
 
 // inventoryAdmin
@@ -152,6 +157,7 @@ Route::post('/admin-save-product','adminManager@save_product');
 Route::post('/admin-update-product/{product_id}','adminManager@update_product');
 Route::get('/admin-delete-product/{product_id}','adminManager@delete_product');
 // end inventoryAdmin
+// ---------------------------------------
 
 // order manager
 Route::get('/admin-all-invoice', 'adminManager@all_invoice');
@@ -161,13 +167,15 @@ Route::post('/admin-update-invoice/{invoice_id}','adminManager@update_status_inv
 // delivery manager
 Route::get('/admin-delivery-all-invoice', 'adminManager@admin_delivery_all_invoice');
 Route::get('/admin-delivery-detail-invoice/{invoice_id}','adminManager@admin_delivery_detail_invoice');
-// Route::post('/admin-delievery-update-invoice/{invoice_id}','adminManager@admin_delivery_update_status_invoice');
 Route::post('/admin-delivery-add-ship/{invoice_id}','adminManager@admin_delivery_add_ship');
+Route::post('/admin-delivery-delete-ship/{invoice_id}','adminManager@admin_delivery_delete_ship');
 // invoice received
 Route::get('/admin-delivery-invoice-received', 'adminManager@admin_delivery_invoice_received');
 Route::get('/admin-delivery-detail-invoice-received/{invoice_id}','adminManager@admin_delivery_detail_invoice_received');
 Route::post('/admin-delievery-update-invoice-received/{invoice_id}','adminManager@admin_delivery_update_status_invoice_received');
-
+// invoice delivered
+Route::get('/admin-delivery-invoice-delivered', 'adminManager@admin_delivery_invoice_delivered');
+Route::get('/admin-delivery-detail-invoice-delivered/{invoice_id}','adminManager@admin_delivery_detail_invoice_delivered');
 // ------------------------------------------
 
 // accountAdmin
@@ -180,5 +188,20 @@ Route::get('/admin-delete-account/{acc_id}','adminManager@delete_account');
 // end accountAdmin
 // -----------------------------------------
 
-// user profile
-Route::get('/profile/{acc_id}','HomeController@user_profile');
+// -------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------
+// delivery managerment
+// delivery manager
+Route::get('/delivery-all-invoice', 'deliveryManager@delivery_all_invoice');
+Route::get('/delivery-detail-invoice/{invoice_id}','deliveryManager@delivery_detail_invoice');
+Route::post('/delivery-add-ship/{invoice_id}','deliveryManager@delivery_add_ship');
+Route::post('/delivery-delete-ship/{invoice_id}','deliveryManager@delivery_delete_ship');
+// invoice received
+Route::get('/delivery-invoice-received', 'deliveryManager@delivery_invoice_received');
+Route::get('/delivery-detail-invoice-received/{invoice_id}','deliveryManager@delivery_detail_invoice_received');
+Route::post('/delievery-update-invoice-received/{invoice_id}','deliveryManager@delivery_update_status_invoice_received');
+// invoice delivered
+Route::get('/delivery-invoice-delivered', 'deliveryManager@delivery_invoice_delivered');
+Route::get('/delivery-detail-invoice-delivered/{invoice_id}','deliveryManager@delivery_detail_invoice_delivered');
+// ------------------------------------------

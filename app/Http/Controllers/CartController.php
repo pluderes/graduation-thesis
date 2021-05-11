@@ -82,8 +82,8 @@ class CartController extends Controller
         $max_quantity = DB::table('product')->where('product.prod_id',$request->prod_id)->get();
 
         $rowId = $request->rowId_cart;
-        if($request->cart_quantity>$max_quantity->prod_quantity){
-            $quantity = $max_quantity->prod_quantity;
+        if($request->cart_quantity>$max_quantity[0]->prod_quantity){
+            $quantity = $max_quantity[0]->prod_quantity;
         }else{
             $quantity = $request->cart_quantity;
         }

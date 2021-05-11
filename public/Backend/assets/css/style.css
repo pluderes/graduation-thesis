@@ -1720,6 +1720,13 @@ ul.list-contacts .list-group-item.active a {
 .card-block .connection-list {
   margin-bottom: 20px; }
 
+.add-invoice{
+  border: unset;
+  cursor: pointer;
+}
+.add-invoice:focus{
+  outline:0 !important;
+}
 .table button {
   margin-bottom: 0; }
 
@@ -5179,6 +5186,12 @@ select.form-control:not([size]):not([multiple]) {
 
 .text-danger {
   color: #ff5252 !important; }
+
+.text-success1{
+  font-size: larger;
+  margin-top: 3px;
+  color: #11c15b !important;
+}
 
 .text-success {
   color: #11c15b !important; }

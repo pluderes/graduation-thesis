@@ -113,7 +113,7 @@
                                 </div>
                             </div>
                         </div>
-                        <a href="index.html">
+                        <a href="{{URL::TO('/delivery')}}">
                             <img class="img-fluid" src="{{asset('public/Backend/assets/images/logo.png')}}" alt="Theme-Logo" />
                         </a>
                         <a class="mobile-options waves-effect waves-light">
@@ -196,7 +196,7 @@
                                     <ul>
                                         <li class="more-details">
                                             <a href="user-profile.html"><i class="ti-user"></i>Xem hồ sơ</a>
-                                            <a href="auth-normal-sign-in.html"><i class="ti-layout-sidebar-left"></i>Đăng xuất</a>
+                                            <a href="{{URL::TO('/adminLogout')}}"><i class="ti-layout-sidebar-left"></i>Đăng xuất</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -218,30 +218,23 @@
                                     </a>
                                     <ul class="pcoded-submenu">
                                         <li class=" ">
-                                            <a href="accordion.html" class="waves-effect waves-dark">
+                                            <a href="{{URL::TO('/delivery-all-invoice')}}" class="waves-effect waves-dark">
                                                 <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-                                                <span class="pcoded-mtext" data-i18n="nav.basic-components.alert">Order managerment</span>
+                                                <span class="pcoded-mtext" data-i18n="nav.basic-components.alert">Đơn hàng có thể nhận</span>
                                                 <span class="pcoded-mcaret"></span>
                                             </a>
                                         </li>
                                         <li class=" ">
-                                            <a href="breadcrumb.html" class="waves-effect waves-dark">
+                                            <a href="{{URL::TO('/delivery-invoice-received')}}" class="waves-effect waves-dark">
                                                 <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-                                                <span class="pcoded-mtext" data-i18n="nav.basic-components.breadcrumbs">Inventory management</span>
+                                                <span class="pcoded-mtext" data-i18n="nav.basic-components.breadcrumbs">Đơn hàng đã nhận</span>
                                                 <span class="pcoded-mcaret"></span>
                                             </a>
                                         </li>
                                         <li class=" ">
-                                            <a href="button.html" class="waves-effect waves-dark">
+                                            <a href="{{URL::TO('/delivery-invoice-delivered')}}" class="waves-effect waves-dark">
                                                 <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-                                                <span class="pcoded-mtext" data-i18n="nav.basic-components.alert">Delivery managerment</span>
-                                                <span class="pcoded-mcaret"></span>
-                                            </a>
-                                        </li>
-                                        <li class=" ">
-                                            <a href="tabs.html" class="waves-effect waves-dark">
-                                                <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-                                                <span class="pcoded-mtext" data-i18n="nav.basic-components.breadcrumbs">Customer managerment</span>
+                                                <span class="pcoded-mtext" data-i18n="nav.basic-components.breadcrumbs">Đơn hàng đã giao</span>
                                                 <span class="pcoded-mcaret"></span>
                                             </a>
                                         </li>
@@ -264,7 +257,7 @@
                                     <div class="col-md-4">
                                         <ul class="breadcrumb-title">
                                             <li class="breadcrumb-item">
-                                                <a href="index.html"> <i class="fa fa-home"></i> </a>
+                                                <a href="{{URL::TO('/delivery')}}"> <i class="fa fa-home"></i> </a>
                                             </li>
                                             <li class="breadcrumb-item"><a href="#!">Quản lý giao hàng</a>
                                             </li>
@@ -280,7 +273,7 @@
                                 <div class="page-wrapper">
                                     <!-- Page-body start -->
                                     <div class="page-body">
-                                        <div class="row">
+                                        <div class="">
                                             @yield('delivery_content')
                                         </div>
                                     </div>

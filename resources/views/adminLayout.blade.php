@@ -365,7 +365,7 @@
                                                 <li class="">
                                                     <a href="{{URL::TO('/admin-delivery-all-invoice')}}" class="waves-effect waves-dark">
                                                         <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-                                                        <span class="pcoded-mtext" data-i18n="nav.menu-levels.menu-level-22.menu-level-31">Tất cả đơn hàng</span>
+                                                        <span class="pcoded-mtext" data-i18n="nav.menu-levels.menu-level-22.menu-level-31">Đơn hàng có thể nhận</span>
                                                         <span class="pcoded-mcaret"></span>
                                                     </a>
                                                 </li>
@@ -373,6 +373,13 @@
                                                     <a href="{{URL::TO('/admin-delivery-invoice-received')}}" class="waves-effect waves-dark">
                                                         <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
                                                         <span class="pcoded-mtext" data-i18n="nav.menu-levels.menu-level-22.menu-level-31">Đơn hàng đã nhận</span>
+                                                        <span class="pcoded-mcaret"></span>
+                                                    </a>
+                                                </li>
+                                                <li class=" ">
+                                                    <a href="{{URL::TO('/admin-delivery-invoice-delivered')}}" class="waves-effect waves-dark">
+                                                        <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+                                                        <span class="pcoded-mtext" data-i18n="nav.basic-components.breadcrumbs">Đơn hàng đã giao</span>
                                                         <span class="pcoded-mcaret"></span>
                                                     </a>
                                                 </li>

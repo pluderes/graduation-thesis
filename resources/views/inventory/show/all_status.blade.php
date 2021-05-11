@@ -12,16 +12,6 @@
       Session::put('message', null);
     }
     ?>
-    <div class="row w3-res-tb">
-      <div class="col-sm-3">
-        <div class="input-group">
-          <input type="text" class="input-sm form-control" placeholder="Search">
-          <span class="input-group-btn" style="margin-left: 5px;">
-            <button class="btn btn-sm btn-default" type="button">Go!</button>
-          </span>
-        </div>
-      </div>
-    </div>
     <div class="table-responsive">
       <table class="table table-striped b-t b-light">
         <thead>

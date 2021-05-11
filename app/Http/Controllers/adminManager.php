@@ -709,24 +709,9 @@ class adminManager extends Controller
         // echo '</pre>';
         return view('adminLayout')->with('adminManager.deliveryManager.detail.admin_detail_invoice', $manager_invoice);
     }
-    // public function admin_delivery_update_status_invoice(Request $request, $invoice_id)
-    // {
-    //     $this->checkLogin();
-    //     $data = array();
-    //     $data['invoice_id'] = $invoice_id;
-    //     if ($request->invoice_status == 1) {
-    //         $data['status_name'] = 'Giao hàng thành công';
-    //     } else if ($request->invoice_status == 2) {
-    //         $data['status_name'] = 'Giao hàng không thành công';
-    //     }
-    //     $data['status_date'] = Carbon::now();
 
-    //     DB::table('invoice_status')->insert($data);
-
-    //     Session::put('message', 'Cập nhật tình trạng đơn hàng thành công!');
-
-    //     return Redirect::to('/admin-delivery-all-invoice');
-    // }
+    // ----------------------------------------------------------------------------
+    // ship
     public function admin_delivery_add_ship(Request $request, $invoice_id)
     {
         $this->checkLogin();
@@ -771,13 +756,60 @@ class adminManager extends Controller
 
         return Redirect::to('/admin-delivery-all-invoice');
     }
+
+    public function admin_delivery_delete_ship(Request $request, $invoice_id)
+    {
+        $this->checkLogin();
+
+        // $acc_id = Session::get('acc_id');
+        // table shipper
+        DB::table('shipper')->where('shipper.invoice_id',$invoice_id)->delete();
+
+        // table invoice_status
+        $data_invoice_status = array();
+        $data_invoice_status['invoice_id'] = $invoice_id;
+        $data_invoice_status['status_detail_id'] = '4';
+        $data_invoice_status['status_date'] = Carbon::now();
+
+        DB::table('invoice_status')->insert($data_invoice_status);
+
+        // table invoice
+        // update table invoice
+        $info_account =  DB::table('invoice')->where('invoice.invoice_id', $invoice_id)->get();
+
+        $invoice = array();
+        $invoice['acc_id'] = $info_account[0]->acc_id;
+        $invoice['deli_id'] = $info_account[0]->deli_id;
+        $invoice['payment_id'] = $info_account[0]->payment_id;
+        $invoice['invoice_total'] = $info_account[0]->invoice_total;
+        $invoice['invoice_date_time'] = $info_account[0]->invoice_date_time;
+        $invoice['current_status'] = 'Đơn hàng đã xuất kho';
+
+        DB::table('invoice')->where('invoice.invoice_id', $invoice_id)->update($invoice);
+
+        Session::put('message', 'Đã hủy giao đơn hàng!');
+
+        // echo '<pre>';
+        // print_r($data_invoice_status);
+        // echo '</pre>';
+        // echo '<pre>';
+        // print_r($data);
+        // echo '</pre>';
+
+        return Redirect::to('/admin-delivery-invoice-received');
+    }
+
+    // --------------------------------------------------------------------------------------------
+    // received
     public function admin_delivery_invoice_received()
     {
         $this->checkLogin();
+        $ship_id = Session::get('acc_id');
         $delivery_all_invoice = DB::table('invoice')
             ->join('account', 'invoice.acc_id', '=', 'account.acc_id')
             ->join('delivery', 'invoice.deli_id', '=', 'delivery.deli_id')
             ->join('shipper', 'invoice.invoice_id', '=', 'shipper.invoice_id')
+            ->where('shipper.acc_id',$ship_id)
             ->select('invoice.*', 'account.acc_name', 'delivery.deli_address',)
             ->orderBy('invoice.invoice_id', 'desc')->get();
         $manager_delivery = view('adminManager.deliveryManager.order.shipper')->with('all_invoice', $delivery_all_invoice);
@@ -817,6 +849,7 @@ class adminManager extends Controller
         // echo '</pre>';
         return view('adminLayout')->with('adminManager.deliveryManager.detail.admin_detail_invoice_received', $manager_invoice);
     }
+
     public function admin_delivery_update_status_invoice_received(Request $request, $invoice_id)
     {
         $this->checkLogin();
@@ -904,4 +937,58 @@ class adminManager extends Controller
 
         return Redirect::to('/admin-delivery-invoice-received');
     }
+
+    // ----------------------------------------------------------------
+    // delivered
+    public function admin_delivery_invoice_delivered()
+    {
+        $this->checkLogin();
+        $delivery_all_invoice = DB::table('invoice')
+            ->join('account', 'invoice.acc_id', '=', 'account.acc_id')
+            ->join('delivery', 'invoice.deli_id', '=', 'delivery.deli_id')
+            ->join('shipper', 'invoice.invoice_id', '=', 'shipper.invoice_id')
+            ->join('invoice_status','invoice.invoice_id','=','invoice_status.invoice_id')
+            ->where('invoice_status.status_detail_id','>','5')
+            ->select('invoice.*', 'account.acc_name', 'delivery.deli_address')
+            ->orderBy('invoice.invoice_id', 'desc')->get();
+        $manager_delivery = view('adminManager.deliveryManager.order.delivered')->with('all_invoice', $delivery_all_invoice);
+
+        // echo '<pre>';
+        // print_r($delivery_all_invoice);
+        // echo '</pre>';
+
+        return view('adminLayout')->with('adminManager.deliveryManager.order.delivered', $manager_delivery);
+    }
+
+    public function admin_delivery_detail_invoice_delivered($invoice_id)
+    {
+        $this->checkLogin();
+
+        $info_account =  DB::table('invoice')
+            ->join('delivery', 'invoice.deli_id', '=', 'delivery.deli_id')
+            ->join('account', 'delivery.acc_id', '=', 'account.acc_id')
+            ->where('invoice.invoice_id', $invoice_id)->get();
+
+        $status = DB::table('invoice')
+            ->join('invoice_status', 'invoice.invoice_id', '=', 'invoice_status.invoice_id')
+            ->join('invoice_status_detail', 'invoice_status.status_detail_id', '=', 'invoice_status_detail.status_detail_id')
+            ->select('invoice_status.*', 'invoice_status_detail.*')
+            ->where('invoice.invoice_id', $invoice_id)->get();
+
+        $invoice_by_ID = DB::table('invoice')
+            ->join('delivery', 'invoice.deli_id', '=', 'delivery.deli_id')
+            ->join('account', 'delivery.acc_id', '=', 'account.acc_id')
+            ->join('invoice_detail', 'invoice.invoice_id', '=', 'invoice_detail.invoice_id')
+            ->select('delivery.*', 'invoice.*', 'invoice_detail.*', 'account.*')
+            ->orderBy('invoice.invoice_id', 'desc')->where('invoice.invoice_id', $invoice_id)->get();
+
+        $manager_invoice = view('adminManager.deliveryManager.detail.admin_detail_invoice_delivered')->with('invoice_by_id', $invoice_by_ID)->with('info_account', $info_account)->with('invoice_status', $status)->with('status_detail', $status);
+
+        // echo '<pre>';
+        // print_r($invoice_by_ID);
+        // echo '</pre>';
+        return view('adminLayout')->with('adminManager.deliveryManager.detail.admin_detail_invoice_deliverved', $manager_invoice);
+    }
+
+    // -----------------------------------------------------------------------
 }

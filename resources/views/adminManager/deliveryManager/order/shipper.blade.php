@@ -12,21 +12,11 @@
             Session::put('message', null);
         }
         ?>
-        <div class="row w3-res-tb">
-            <div class="col-sm-3">
-                <div class="input-group">
-                    <input type="text" class="input-sm form-control" placeholder="Search">
-                    <span class="input-group-btn" style="margin-left: 5px;">
-                        <button class="btn btn-sm btn-default" type="button">Go!</button>
-                    </span>
-                </div>
-            </div>
-        </div>
         <div class="table-responsive">
             <table class="table table-striped b-t b-light">
                 <thead>
                     <tr>
-                        <th style="width:30px;"></th>
+                        <th style="width:100px;"></th>
                         <th>Mã đơn hàng</th>
                         <th>Tên khách hàng</th>
                         <th>Tổng tiền</th>
@@ -39,8 +29,13 @@
                     @foreach($all_invoice as $key => $invoice)
                     <tr>
                         <td>
-                            <a href="{{URL::TO('/admin-delivery-detail-invoice-received/'.$invoice->invoice_id)}}" class="active" ui-toggle-class=""><i class="fa fa-check text-success text-active"></i></a>
-                            <!-- <a onclick="return confirm(`Nhận giao đơn hàng này?`)" href="{{URL::TO('/admin-delivery-add-ship/'.$invoice->invoice_id)}}" class="active" ui-toggle-class=""><i class="fa fa-plus"></i></a> -->
+                            <div class="row" style="margin-left: 10px;">
+                                <a href="{{URL::TO('/admin-delivery-detail-invoice-received/'.$invoice->invoice_id)}}" class="active" ui-toggle-class=""><i class="fa fa-check text-success text-active"></i></a>
+                                <form action="{{URL::TO('/admin-delivery-delete-ship/'.$invoice->invoice_id)}}" method="post">
+                                    {{(csrf_field())}}
+                                    <button onclick="return confirm(`Hủy giao đơn hàng này?`)" type="submit" class="add-invoice"><i class="fa fa-times"></i></button>
+                                </form>
+                            </div>
                         </td>
                         <td><span class="text-ellipsis">{{$invoice->invoice_id}}</span></td>
                         <td>{{$invoice->acc_name}}</td>
