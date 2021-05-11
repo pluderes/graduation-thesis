@@ -148,10 +148,10 @@
                                     <img src="{{asset('public/Backend/assets/images/avatar-4.jpg')}}" class="img-radius" alt="User-Profile-Image">
                                     <span> <?php
                                             $name = Session::get('adminname');
-                                            if($name){
+                                            if ($name) {
                                                 echo $name;
                                             }
-                                        ?></span>
+                                            ?></span>
                                     <i class="ti-angle-down"></i>
                                 </a>
                                 <ul class="show-notification profile-notification">
@@ -182,13 +182,13 @@
                                     <img class="img-80 img-radius" src="{{asset('public/Backend/assets/images/avatar-4.jpg')}}" alt="User-Profile-Image">
                                     <div class="user-details">
                                         <span id="more-details">
-                                        <?php
+                                            <?php
                                             $name = Session::get('adminname');
-                                            if($name){
+                                            if ($name) {
                                                 echo $name;
                                             }
-                                        ?>
-                                        <i class="fa fa-caret-down"></i></span>
+                                            ?>
+                                            <i class="fa fa-caret-down"></i></span>
                                     </div>
                                 </div>
 
@@ -210,38 +210,17 @@
                                         <span class="pcoded-mcaret"></span>
                                     </a>
                                 </li>
-                                <li class="pcoded-hasmenu">
+                                <li class="pcoded-hasmenu ">
                                     <a href="javascript:void(0)" class="waves-effect waves-dark">
-                                        <span class="pcoded-micon"><i class="ti-layout-grid2-alt"></i></span>
-                                        <span class="pcoded-mtext" data-i18n="nav.basic-components.main">Chức năng</span>
+                                        <span class="pcoded-micon"><i class="ti-direction-alt"></i></span>
+                                        <span class="pcoded-mtext" data-i18n="nav.menu-levels.menu-level-22.main">Thao tác</span>
                                         <span class="pcoded-mcaret"></span>
                                     </a>
                                     <ul class="pcoded-submenu">
-                                        <li class=" ">
-                                            <a href="accordion.html" class="waves-effect waves-dark">
+                                        <li class="">
+                                            <a href="{{URL::TO('/order-all-invoice')}}" class="waves-effect waves-dark">
                                                 <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-                                                <span class="pcoded-mtext" data-i18n="nav.basic-components.alert">Order managerment</span>
-                                                <span class="pcoded-mcaret"></span>
-                                            </a>
-                                        </li>
-                                        <li class=" ">
-                                            <a href="breadcrumb.html" class="waves-effect waves-dark">
-                                                <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-                                                <span class="pcoded-mtext" data-i18n="nav.basic-components.breadcrumbs">Inventory management</span>
-                                                <span class="pcoded-mcaret"></span>
-                                            </a>
-                                        </li>
-                                        <li class=" ">
-                                            <a href="button.html" class="waves-effect waves-dark">
-                                                <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-                                                <span class="pcoded-mtext" data-i18n="nav.basic-components.alert">Delivery managerment</span>
-                                                <span class="pcoded-mcaret"></span>
-                                            </a>
-                                        </li>
-                                        <li class=" ">
-                                            <a href="tabs.html" class="waves-effect waves-dark">
-                                                <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-                                                <span class="pcoded-mtext" data-i18n="nav.basic-components.breadcrumbs">Customer managerment</span>
+                                                <span class="pcoded-mtext" data-i18n="nav.menu-levels.menu-level-22.menu-level-31">Hiển thị</span>
                                                 <span class="pcoded-mcaret"></span>
                                             </a>
                                         </li>
@@ -280,7 +259,7 @@
                                 <div class="page-wrapper">
                                     <!-- Page-body start -->
                                     <div class="page-body">
-                                        <div class="row">
+                                        <div class="">
                                             @yield('order_content')
                                         </div>
                                     </div>

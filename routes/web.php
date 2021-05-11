@@ -159,7 +159,7 @@ Route::get('/admin-delete-product/{product_id}','adminManager@delete_product');
 // end inventoryAdmin
 // ---------------------------------------
 
-// order manager
+// invoice manager
 Route::get('/admin-all-invoice', 'adminManager@all_invoice');
 Route::get('/admin-edit-invoice/{invoice_id}','adminManager@edit_invoice');
 Route::post('/admin-update-invoice/{invoice_id}','adminManager@update_status_invoice');
@@ -205,3 +205,12 @@ Route::post('/delievery-update-invoice-received/{invoice_id}','deliveryManager@d
 Route::get('/delivery-invoice-delivered', 'deliveryManager@delivery_invoice_delivered');
 Route::get('/delivery-detail-invoice-delivered/{invoice_id}','deliveryManager@delivery_detail_invoice_delivered');
 // ------------------------------------------
+
+// -------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------
+// invoice managerment
+// invoice manager
+Route::get('/order-all-invoice', 'orderManager@all_invoice');
+Route::get('/order-edit-invoice/{invoice_id}','orderManager@edit_invoice');
+Route::post('/order-update-invoice/{invoice_id}','orderManager@update_status_invoice');
