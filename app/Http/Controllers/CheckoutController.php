@@ -14,65 +14,72 @@ session_start();
 
 class CheckoutController extends Controller
 {
-    public function login_checkout(Request $request)
+    public function login_checkout()
     {
-        // check quantity product
-        $max_quantity = DB::table('product')->where('product.prod_id', $request->prod_id)->get();
+        // // check quantity product
+        // $max_quantity = DB::table('product')->where('product.prod_id', $request->prod_id)->get();
 
-        $rowId = $request->rowId_cart;
-        if ($request->cart_quantity > $max_quantity[0]->prod_quantity) {
-            $quantity = $max_quantity[0]->prod_quantity;
-        } else {
-            $quantity = $request->cart_quantity;
-        }
-        Cart::update($rowId, $quantity);
+        // $rowId = $request->rowId_cart;
+        // if ($request->cart_quantity > $max_quantity[0]->prod_quantity) {
+        //     $quantity = $max_quantity[0]->prod_quantity;
+        // } else {
+        //     $quantity = $request->cart_quantity;
+        // }
+        // Cart::update($rowId, $quantity);
 
         return view('pages.checkout.login_checkout');
     }
 
     public function add_customer(Request $request)
     {
-        $data = array();
-        $data['username'] = $request->username;
-        if ($request->password === $request->re_password) {
-            $data['password'] = md5($request->password);
+        $count_user = DB::table('account')->where('account.username', '=', $request->username)->count();
+
+        if ($count_user < 1) {
+            $data = array();
+            $data['username'] = $request->username;
+            if ($request->password === $request->re_password) {
+                $data['password'] = md5($request->password);
+            } else {
+                Session::put('message', 'Nhập lại mật khẩu không chính xác!');
+                return Redirect::to('/login-checkout');
+            }
+            $data['acc_name'] = $request->acc_name;
+            $data['acc_email'] = $request->email;
+            $data['acc_contact'] = $request->acc_contact;
+            $data['perm_id'] = '5';
+            $get_image = $request->file('inpthumbnail');
+            if ($get_image) {
+                $get_name_image = $get_image->getClientOriginalName();
+                $name_image = current(explode('.', $get_name_image));
+                $new_image = $name_image . '.' . $get_image->getClientOriginalExtension();
+                $get_image->move('public/Backend/images', $new_image);
+                $data['acc_img'] = $new_image;
+
+                // echo '<pre>';
+                // print_r($data);
+                // echo '</pre>';
+
+                $acc_customer_id =  DB::table('account')->insertGetId($data);
+                Session::put('message', 'Thêm tài khoản thành công!');
+                Session::put('acc_customer_id', $acc_customer_id);
+
+                return Redirect::to('/admin-add-account');
+            } else {
+                $data['acc_img'] = 'avt-default.jpg';
+
+                // echo '<pre>';
+                // print_r($data);
+                // echo '</pre>';
+
+                $acc_customer_id =  DB::table('account')->insertGetId($data);
+                Session::put('message', 'Thêm tài khoản thành công!');
+                Session::put('acc_customer_id', $acc_customer_id);
+
+                return Redirect::to('/admin-add-account');
+            }
         } else {
-            Session::put('message', 'Nhập lại mật khẩu không chính xác!');
+            Session::put('message', 'Tên đăng nhập đã tồn tại!');
             return Redirect::to('/login-checkout');
-        }
-        $data['acc_name'] = $request->acc_name;
-        $data['acc_email'] = $request->email;
-        $data['acc_contact'] = $request->acc_contact;
-        $data['perm_id'] = '5';
-        $get_image = $request->file('inpthumbnail');
-        if ($get_image) {
-            $get_name_image = $get_image->getClientOriginalName();
-            $name_image = current(explode('.', $get_name_image));
-            $new_image = $name_image . '.' . $get_image->getClientOriginalExtension();
-            $get_image->move('public/Backend/images', $new_image);
-            $data['acc_img'] = $new_image;
-
-            // echo '<pre>';
-            // print_r($data);
-            // echo '</pre>';
-
-            $acc_customer_id =  DB::table('account')->insertGetId($data);
-            Session::put('message', 'Thêm tài khoản thành công!');
-            Session::put('acc_customer_id', $acc_customer_id);
-
-            return Redirect::to('/admin-add-account');
-        } else {
-            $data['acc_img'] = 'avt-default.jpg';
-
-            // echo '<pre>';
-            // print_r($data);
-            // echo '</pre>';
-
-            $acc_customer_id =  DB::table('account')->insertGetId($data);
-            Session::put('message', 'Thêm tài khoản thành công!');
-            Session::put('acc_customer_id', $acc_customer_id);
-
-            return Redirect::to('/admin-add-account');
         }
     }
 

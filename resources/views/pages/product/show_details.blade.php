@@ -29,19 +29,16 @@
 						<input name="prod_quantity" type="number" min="1" max="{{($values->prod_quantity)}}" value="1" />
 						<input name="prod_id_hidden" type="hidden" value="{{($values->prod_id)}}" />
 						<button type="submit" class="btn btn-fefault cart" 
-						<?php 
-						if($values->prod_quantity=0){
-							echo 'disabled';
-						?>
-						<?php	
-						}else {
-						?>
-						<?php
-							
-						}
-						?>
-						><i class="fa fa-shopping-cart"></i>
-							Thêm vào giỏ hàng
+							<?php if ($values->prod_quantity == '0') { 
+							?> 
+							disabled><i class="fa fa-shopping-cart"></i>
+								Sản phẩm tạm hết hàng
+							<?php } else { 
+							?>
+							><i class="fa fa-shopping-cart"></i>
+								Thêm vào giỏ hàng 
+							<?php } 
+							?>
 						</button>
 					</div>
 				</span>

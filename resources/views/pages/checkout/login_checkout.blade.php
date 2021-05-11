@@ -25,6 +25,13 @@
                     <form action="{{URL::TO('/add-customer')}}" method="POST" id="signup-form" class="signup-form" enctype="multipart/form-data">
                         {{csrf_field()}}
                         <h2 class="form-title">Tạo tài khoản</h2>
+                        <?php
+                        $message = Session::get('message');
+                        if ($message) {
+                            echo '<span style="color:red; font-weight:bold">', $message, '</span>';
+                            Session::put('message', null);
+                        }
+                        ?>
                         <div class="form-group">
                             <input type="text" class="form-input" name="acc_name" id="name" placeholder="Tên tài khoản" />
                         </div>
@@ -42,13 +49,6 @@
                             <span toggle="#password" class="zmdi zmdi-eye field-icon toggle-password"></span>
                         </div>
                         <div class="form-group">
-                            <?php
-                            $message = Session::get('message');
-                            if ($message) {
-                                echo '<span style="color:red; font-weight:bold">', $message, '</span>';
-                                Session::put('message', null);
-                            }
-                            ?>
                             <input type="password" class="form-input" name="re_password" id="re_password" placeholder="Nhập lại mật khẩu" />
                         </div>
                         <div class="form-group">

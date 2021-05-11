@@ -13,7 +13,23 @@
 							<img style="width: 200px; height: 300px;" src="{{URL::TO('public/Upload/product/'.$prod->thumbnail)}}" alt="" />
 							<h2>{{number_format($prod->prod_price)}} VND</h2>
 							<p style="height: 50px;">{{$prod->prod_name}}</p>
-							<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm giỏ hàng</a>
+							<form action="{{URL::TO('/save-cart')}}" method="POST">
+							{{csrf_field()}}
+							<button type="submit" class="btn btn-fefault cart"
+								<?php if ($prod->prod_quantity == '0') { 
+                                ?> 
+                                disabled><i class="fa fa-shopping-cart"></i>
+                                    Sản phẩm tạm hết hàng
+                                <?php } else { 
+                                ?>
+                                ><i class="fa fa-shopping-cart"></i>
+                                    Thêm vào giỏ hàng 
+                                <?php } 
+                                ?>
+							</button>
+							<input name="prod_quantity" type="hidden" value="1" />
+							<input name="prod_id_hidden" type="hidden" value="{{($prod->prod_id)}}" />
+						</form>
 						</div>
 					</div>
 					<div class="choose">
