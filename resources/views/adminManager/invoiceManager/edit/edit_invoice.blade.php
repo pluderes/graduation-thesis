@@ -47,7 +47,7 @@
       <table class="table table-striped b-t b-light">
         <thead>
           <tr>
-            <th>Tên sản phẩm</th>
+            <th>Tên sách</th>
             <th>Số lượng</th>
             <th>Giá</th>
             <th>Tổng tiền</th>

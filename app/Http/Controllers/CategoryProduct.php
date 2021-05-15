@@ -20,8 +20,9 @@ class CategoryProduct extends Controller
         $status_product = DB::table('product_status')->orderBy('status_id', 'asc')->get();
         $cate_by_id = DB::table('product')->join('type', 'product.type_id', '=', 'type.type_id')->join('category', 'type.cate_id', '=', 'category.cate_id')->where('category.cate_id', $cate_id)->get();
         $category_name = DB::table('category')->where('category.cate_id', $cate_id)->limit(1)->get();
+        $type_product = DB::table('type')->orderBy('type_id','asc')->get();
 
-        return view('pages.category.show_category')->with('category', $cate_product)->with('status_prod', $status_product)->with('cate_by_id', $cate_by_id)->with('category_name', $category_name);
+        return view('pages.category.show_category')->with('category', $cate_product)->with('status_prod', $status_product)->with('prod_type',$type_product)->with('cate_by_id', $cate_by_id)->with('category_name', $category_name);
     }
 
     public function show_status($status_id)
@@ -30,8 +31,20 @@ class CategoryProduct extends Controller
         $status_product = DB::table('product_status')->orderBy('status_id', 'asc')->get();
         $status_by_id = DB::table('product')->join('product_status', 'product.status_id', '=', 'product_status.status_id')->where('product_status.status_id', $status_id)->get();
         $status_name = DB::table('product_status')->where('product_status.status_id', $status_id)->limit(1)->get();
+        $type_product = DB::table('type')->orderBy('type_id','asc')->get();
 
-        return view('pages.category.show_status')->with('category', $cate_product)->with('status_prod', $status_product)->with('status_by_id', $status_by_id)->with('status_name', $status_name);
+        return view('pages.category.show_status')->with('category', $cate_product)->with('status_prod', $status_product)->with('prod_type',$type_product)->with('status_by_id', $status_by_id)->with('status_name', $status_name);
+    }
+
+    public function show_type($type_id)
+    {
+        $cate_product = DB::table('category')->orderBy('cate_id', 'asc')->get();
+        $status_product = DB::table('product_status')->orderBy('status_id', 'asc')->get();
+        $type_by_id = DB::table('product')->join('type', 'product.type_id', '=', 'type.type_id')->where('type.type_id', $type_id)->get();
+        $type_name = DB::table('type')->where('type.type_id', $type_id)->limit(1)->get();
+        $type_product = DB::table('type')->orderBy('type_id','asc')->get();
+
+        return view('pages.category.show_type')->with('category', $cate_product)->with('status_prod', $status_product)->with('prod_type',$type_product)->with('type_by_id', $type_by_id)->with('type_name', $type_name);
     }
     // ---------------------------------------------------------------------------------------------------
     // check login

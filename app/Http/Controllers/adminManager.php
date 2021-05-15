@@ -888,8 +888,8 @@ class adminManager extends Controller
             Session::put('message', 'Cập nhật đơn hàng thành công!');
         } else if ($request->invoice_status == 7) {
 
-            // update status table invoice_status
-            $invoice['current_status'] = 'Giao hàng thất bại';
+            // // update status table invoice_status
+            // $invoice['current_status'] = 'Giao hàng thất bại';
 
             // insert table invoice_status
             $data = array();

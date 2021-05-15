@@ -75,6 +75,8 @@ class AdminController extends Controller
             Session::put('adminname', $result->acc_name);
             Session::put('permId', $result->perm_id);
             Session::put('accImg', $result->acc_img);
+            Session::put('accEmail', $result->acc_email);
+            Session::put('accContact', $result->acc_contact);
             Session::put('acc_id',$result->acc_id);
 
             if ($result->perm_id === 1) {

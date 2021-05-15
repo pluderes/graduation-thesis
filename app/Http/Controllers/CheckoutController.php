@@ -88,17 +88,10 @@ class CheckoutController extends Controller
     {
         $cate_product = DB::table('category')->orderBy('cate_id', 'asc')->get();
         $status_product = DB::table('product_status')->orderBy('status_id', 'asc')->get();
+        $type_product = DB::table('type')->orderBy('type_id', 'asc')->get();
 
         // check quantity product
         $max_quantity = DB::table('product')->where('product.prod_id', $request->prod_id)->get();
-
-        $rowId = $request->rowId_cart;
-        if ($request->cart_quantity > $max_quantity[0]->prod_quantity) {
-            $quantity = $max_quantity[0]->prod_quantity;
-        } else {
-            $quantity = $request->cart_quantity;
-        }
-        Cart::update($rowId, $quantity);
 
         // -------------
         $info = DB::table('delivery')->where('acc_id', $acc_id)->get();
@@ -110,13 +103,21 @@ class CheckoutController extends Controller
         // print_r($max_quantity[0]->prod_quantity);
         // echo '</pre>';
         if ($count > 0) {
+            $rowId = $request->rowId_cart;
+            if ($request->cart_quantity > $max_quantity[0]->prod_quantity) {
+                $quantity = $max_quantity[0]->prod_quantity;
+            } else {
+                $quantity = $request->cart_quantity;
+            }
+            Cart::update($rowId, $quantity);
+            
             if (count($info) !== 0) {
-                return view('pages.checkout.checkout')->with('category', $cate_product)->with('status_prod', $status_product)->with('deli_info', $deli_info);
+                return view('pages.checkout.checkout')->with('category', $cate_product)->with('status_prod', $status_product)->with('prod_type', $type_product)->with('deli_info', $deli_info);
             } else if (count($info) === 0) {
-                return view('pages.checkout.new_checkout')->with('category', $cate_product)->with('status_prod', $status_product);
+                return view('pages.checkout.new_checkout')->with('category', $cate_product)->with('status_prod', $status_product)->with('prod_type', $type_product);
             }
         } else {
-            Session::put('warning', 'Bạn chưa có sản phẩm nào trong giỏ hàng');
+            Session::put('warning', 'Bạn chưa có sách nào trong giỏ hàng');
             return Redirect::to('/show-cart');
         }
     }
@@ -143,7 +144,9 @@ class CheckoutController extends Controller
     {
         $cate_product = DB::table('category')->orderBy('cate_id', 'asc')->get();
         $status_product = DB::table('product_status')->orderBy('status_id', 'asc')->get();
-        return view('pages.checkout.payment')->with('category', $cate_product)->with('status_prod', $status_product);
+        $type_product = DB::table('type')->orderBy('type_id', 'asc')->get();
+
+        return view('pages.checkout.payment')->with('category', $cate_product)->with('status_prod', $status_product)->with('prod_type', $type_product);
     }
 
     public function order_place(Request $request)
@@ -223,7 +226,9 @@ class CheckoutController extends Controller
                 Cart::destroy();
                 $cate_product = DB::table('category')->orderBy('cate_id', 'asc')->get();
                 $status_product = DB::table('product_status')->orderBy('status_id', 'asc')->get();
-                return view('pages.checkout.handcash')->with('category', $cate_product)->with('status_prod', $status_product);
+                $type_product = DB::table('type')->orderBy('type_id', 'asc')->get();
+
+                return view('pages.checkout.handcash')->with('category', $cate_product)->with('status_prod', $status_product)->with('prod_type', $type_product);;
             }
         } else {
             Session::put('error', 'Số lượng đặt hàng vượt quá số lượng trong kho');

@@ -60,32 +60,34 @@
 					<div class="col-sm-8">
 						<div class="shop-menu pull-right">
 							<ul class="nav navbar-nav">
-								<li><a href="{{URL::TO('/infor')}}"><i class="fa fa-user"></i> Tài khoản</a></li>
 								<li><a href="{{URL::TO('/show-cart')}}"><i class="fa fa-shopping-cart"></i> Giỏ hàng</a></li>
 								<?php
 								$acc_id = Session::get('acc_id');
-								$deli_id = Session::get('deli_id');
+								$deli_id = Session::get('deli_id'); ?>
+								<?php
 								if ($acc_id != NULL) {
 								?>
-									<li><a href="{{URL::TO('/wishlist')}}"><i class="fa fa-star"></i> Ưa thích</a></li>
+									<li><a href="{{URL::TO('/info/'.$acc_id)}}"><i class="fa fa-user"></i> Tài khoản</a></li>
+									<li><a href="{{URL::TO('/wishlist/'.$acc_id)}}"><i class="fa fa-star"></i> Yêu thích</a></li>
 									<?php
 									if ($deli_id == NULL) {
 									?>
-										<li><a href="{{URL::TO('/checkout/'.$acc_id)}}"><i class="fa fa-crosshairs"></i> Thanh toán</a></li>
+										<li><a href="{{URL::TO('/checkout/'.$acc_id)}}"><i class="far fa-credit-card"></i> Thanh toán</a></li>
 									<?php
 									} else if ($deli_id != NULL) {
 									?>
-										<li><a href="{{URL::TO('/payment')}}"><i class="fa fa-crosshairs"></i> Thanh toán</a></li>
+										<li><a href="{{URL::TO('/payment')}}"><i class="far fa-credit-card"></i> Thanh toán</a></li>
 									<?php
 									}
 									?>
-									<li><a href="{{URL::TO('/adminLogout')}}"><i class="fa fa-lock"></i> Đăng xuất</a></li>
+									<li><a href="{{URL::TO('/adminLogout')}}"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a></li>
 								<?php
 								} else {
 								?>
-									<li><a href="{{URL::TO('/login-checkout')}}"><i class="fa fa-star"></i> Ưa thích</a></li>
-									<li><a href="{{URL::TO('/login-checkout')}}"><i class="fa fa-crosshairs"></i> Thanh toán</a></li>
-									<li><a href="{{URL::TO('/adminLogin')}}"><i class="fa fa-lock"></i> Đăng nhập</a></li>
+									<li><a href="{{URL::TO('/login-checkout')}}"><i class="fa fa-user"></i> Tài khoản</a></li>
+									<li><a href="{{URL::TO('/login-checkout')}}"><i class="fa fa-star"></i> Yêu thích</a></li>
+									<li><a href="{{URL::TO('/login-checkout')}}"><i class="far fa-credit-card"></i> Thanh toán</a></li>
+									<li><a href="{{URL::TO('/adminLogin')}}"><i class="fas fa-sign-in-alt"></i> Đăng nhập</a></li>
 								<?php
 								}
 								?>
@@ -104,7 +106,7 @@
 					<div class="col-sm-9">
 						<div class="mainmenu pull-left">
 							<ul class="nav navbar-nav collapse navbar-collapse">
-								<li><a href="{{URL::TO('/trang-chu')}}" class="active">Trang chủ</a></li>
+								<li><a href="{{URL::TO('/trang-chu')}}" class="active"><i class="fas fa-home"></i> Trang chủ</a></li>
 								<li class="dropdown"><a href="#">Danh mục sản phẩm<i class="fa fa-angle-down"></i></a>
 									<ul role="menu" class="sub-menu">
 										@foreach($category as $key => $cate)
@@ -113,8 +115,8 @@
 										@endforeach
 									</ul>
 								</li>
-								<li><a href="{{URL::TO('/show-cart')}}">Giỏ hàng</a></li>
-								<li><a href="contact-us.html">Liên hệ</a></li>
+								<li><a href="{{URL::TO('/show-cart')}}"><i class="fa fa-shopping-cart"></i> Giỏ hàng</a></li>
+								<li><a href="contact-us.html"><i class="fa fa-phone"></i> Liên hệ</a></li>
 							</ul>
 						</div>
 					</div>
@@ -187,29 +189,46 @@
 			<div class="row">
 				<div class="col-sm-3">
 					<div class="left-sidebar">
-						<!--brands_products-->
+						<!--status_products-->
 						<div class="brands_products">
 							<h2>Tình trạng sách</h2>
 							<div class="brands-name">
 								@foreach($status_prod as $key => $status_prod)
 								<ul class="nav nav-pills nav-stacked">
-									<li><a href="{{URL::TO('/tinhtrangsanpham/'.$status_prod->status_id)}}">{{$status_prod->status_name}}</a></li>
+									<li><a href="{{URL::TO('/status-product/'.$status_prod->status_id)}}">{{$status_prod->status_name}}</a></li>
 								</ul>
 								@endforeach
 							</div>
 						</div>
-						<!--/brands_products-->
+						<!--/status_products-->
 						<br>
-						<h2>Danh mục sản phẩm</h2>
-						<div class="panel-group category-products" id="accordian">
-							<!--category-productsr-->
-							@foreach($category as $key => $cate)
-							<div class="panel panel-default">
-								<div class="panel-heading">
-									<h4 class="panel-title"><a href="{{URL::TO('/danhmucsanpham/'.$cate->cate_id)}}">{{$cate->cate_name}}</a></h4>
+						<div class="category_product">
+							<h2>Danh mục sách</h2>
+							<div class="panel-group category-products" id="accordian">
+								<!--category-productsr-->
+								@foreach($category as $key => $cate)
+								<div class="panel panel-default">
+									<div class="panel-heading">
+										<h4 class="panel-title"><a href="{{URL::TO('/category-product/'.$cate->cate_id)}}">{{$cate->cate_name}}</a></h4>
+									</div>
 								</div>
+								@endforeach
 							</div>
-							@endforeach
+						</div>
+						<!--/category-products-->
+						<br>
+						<div class="category_product">
+							<h2>Loại sách</h2>
+							<div class="panel-group category-products" id="accordian">
+								<!--category-productsr-->
+								@foreach($prod_type as $key => $type)
+								<div class="panel panel-default">
+									<div class="panel-heading">
+										<h4 class="panel-title"><a href="{{URL::TO('/type-product/'.$type->type_id)}}">{{$type->type_name}}</a></h4>
+									</div>
+								</div>
+								@endforeach
+							</div>
 						</div>
 						<!--/category-products-->
 					</div>

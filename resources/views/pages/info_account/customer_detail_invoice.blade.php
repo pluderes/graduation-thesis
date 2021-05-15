@@ -1,10 +1,17 @@
-@extends('adminLayout')
-@section('admin_content')
+@extends('information')
+@section('info_content')
 <div class="table-agile-info">
   <div class="panel panel-default">
     <div class="panel-heading" style="text-align: center;">
       Thông tin khách hàng
     </div>
+    <?php
+    $message = Session::get('message1');
+    if ($message) {
+      echo '<span style="color:red; font-weight:bold">', $message, '</span>';
+      Session::put('message1', null);
+    }
+    ?>
     <div class="table-responsive">
       <table class="table table-striped b-t b-light">
         <thead>
@@ -40,7 +47,7 @@
       <table class="table table-striped b-t b-light">
         <thead>
           <tr>
-            <th>Tên sách</th>
+            <th>Tên sản phẩm</th>
             <th>Số lượng</th>
             <th>Giá</th>
             <th>Tổng tiền</th>
@@ -64,35 +71,44 @@
 <br>
 <div class="table-agile-info">
   <div class="panel panel-default">
-    <form action="{{URL::TO('/admin-delivery-add-ship/'.$account->invoice_id)}}" method="post">
+    <div class="panel-heading" style="text-align: center;">
+      Thông tin đơn hàng
+    </div>
+    <div class="table-responsive">
+      <table class="table table-striped b-t b-light">
+        <thead>
+          <tr>
+            <th>Người giao hàng</th>
+            <th>Số điện thoại</th>
+            <th>Thời gian</th>
+            <th>Tình trạng đơn hàng</th>
+          </tr>
+        </thead>
+        <tbody>
+          @foreach($invoice_status as $key => $status)
+          <tr>
+            <td><span class="text-ellipsis"></span>{{$status->acc_name}}</td>
+            <td><span class="text-ellipsis"></span>{{$status->acc_contact}}</td>
+            <td><span class="text-ellipsis"></span>{{$status->status_date}}</td>
+            <td><span class="text-ellipsis"></span>{{$status->status_name}}</td>
+          </tr>
+          @endforeach
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<hr>
+<div class="action">
+  <div class="">
+    @foreach($info_account as $key => $account)
+    <form action="{{URL::TO('/customer-cancel-invoice/'.$account->invoice_id)}}" method="post">
       {{csrf_field()}}
-      <div class="panel-heading" style="text-align: center;">
-        Thông tin đơn hàng
-      </div>
-      <div class="table-responsive">
-        <table class="table table-striped b-t b-light">
-          <thead>
-            <tr>
-              <th>Mã đơn hàng</th>
-              <th>Thời gian</th>
-              <th>Tình trạng đơn hàng</th>
-            </tr>
-          </thead>
-          <tbody>
-            @foreach($invoice_status as $key => $status)
-            <tr>
-              <td><span class="text-ellipsis"></span>{{$status->invoice_id}}</td>
-              <td><span class="text-ellipsis"></span>{{$status->status_date}}</td>
-              <td><span class="text-ellipsis"></span>{{$status->status_name}}</td>
-            </tr>
-            @endforeach
-          </tbody>
-        </table>
-        <div>
-          <button type="submit" onclick="return confirm(`Nhận giao đơn hàng này?`)">Nhận đơn</button>
-        </div>
-      </div>
+      <button id="cancel-invoice" onclick="return confirm(`Bạn muốn hủy đơn hàng này?`)" type="submit">Hủy đơn hàng</button>
     </form>
+    @endforeach
+    <br>
+    <a href="{{ URL::previous() }}" class="button">Quay lại</a>
   </div>
 </div>
 @endsection

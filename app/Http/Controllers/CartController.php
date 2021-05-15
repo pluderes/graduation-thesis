@@ -65,10 +65,12 @@ class CartController extends Controller
     {
         $cate_product = DB::table('category')->orderBy('cate_id', 'asc')->get();
         $status_product = DB::table('product_status')->orderBy('status_id', 'asc')->get();
+        $type_product = DB::table('type')->orderBy('type_id','asc')->get();
+
 
         // $prod = DB::table('product')
 
-        return view('pages.cart.show_cart')->with('category', $cate_product)->with('status_prod', $status_product);
+        return view('pages.cart.show_cart')->with('category', $cate_product)->with('status_prod', $status_product)->with('prod_type',$type_product);
     }
 
     public function delete_to_cart($rowId)

@@ -1,0 +1,139 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+  }
+  
+  html {
+    box-sizing: border-box;
+  }
+  
+  *, *:before, *:after {
+    box-sizing: inherit;
+  }
+  
+  .column {
+    float: left;
+    margin-bottom: 16px;
+    padding: 0 8px;
+    margin-left: 100px;
+  }
+  .row{
+    background-color: #f6f5f5;
+  }
+  .card {
+    margin-top: 20px;
+    padding: 10px;
+    box-shadow: 5px 5px 10px #888888;
+    width: 300px;
+    height: 450px;
+    text-align:center;
+    align-items: center;
+  }
+  .card:hover{
+    transform: scale(1.025);
+    transition: 0.5s;
+  }
+  .about-section {
+    padding: 5px;
+    text-align: center;
+    background-color: #968c83;
+    color: whitesmoke;
+  }
+  .container {
+    padding: 0 16px;
+  }
+  
+  .container::after, .row::after {
+    content: "";
+    clear: both;
+    display: table;
+  }
+  .container>a{
+    color: #8b8b8b;
+    padding: 8px 22px;
+    border-radius: 20px;
+  }
+  .container>a>span{
+    font-size: x-large;
+    font-family: monospace;
+  }
+  .container>a:hover{
+    border-radius: 20px;
+    background-color: rgb(0, 127, 201);
+    text-decoration: unset;
+    color: white;
+    transition: 0.5s all;
+    box-shadow: 0px 0px 5px 5px lightblue;
+  }
+
+  .title {
+    color: grey;
+  }
+  
+  .button {
+    border: 1px solid gray;
+    outline: 0;
+    display: inline-block;
+    padding: 8px;
+    /* /* padding: 10px 20px; */
+    font-size: 20px;
+    color: black;
+    background: none;
+    text-align: center;
+    width: 100%;
+    cursor: pointer;    
+    margin:10px;
+    font-family: "montserrat";
+    transition: 0.8s;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  img{
+    height: 200px;
+    width: 200px;
+    border-radius: 50%;
+    text-align: center;
+  }
+
+  .button:hover{
+    color: black;
+    background-color: gray;
+    transition: 0.8s ease-out;
+  }
+  .button::before{
+    content: "";
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 0%;
+    z-index: -1;
+  }
+  .button::before{
+    top: 0;
+    border-radius: 0 0 50% 50%;
+  }
+  .button:hover::before,.button:hover::before{
+    height: 180%;
+  }
+  @media screen and (max-width: 650px) {
+    .column {
+      width: 100%;
+      display: block;
+    }
+  }
+  /* detail */
+  .container>h2{
+    padding-top: 10px;
+    text-align: center;
+    font-size: 29px;
+  }
+  .team{
+    text-align: center;
+    font-size: xx-large;
+    margin: 0;
+    padding-bottom: 2px;
+  }
+  #divteam{
+    background-color: #d6d2c4;
+  }

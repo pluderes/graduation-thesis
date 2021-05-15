@@ -47,11 +47,9 @@ class HomeController extends Controller
         $status_product = DB::table('product_status')->orderBy('status_id','asc')->get();
         $allproduct = DB::table('product')->where('prod_quantity','>','0')->orderBy('prod_id','asc')->get();
         $new_prod = DB::table('product')->where('status_id','=','4')->orderBy('prod_id','asc')->get();
-        $preferential_products = DB::table('product')->where('status_id','=','3')->orderBy('prod_id','asc')->get();
-        $special_products = DB::table('product')->where('status_id','=','2')->orderBy('prod_id','asc')->get();
+        $type_product = DB::table('type')->orderBy('type_id','asc')->get();
 
-        return view('pages.home')->with('category',$cate_product)->with('status_prod',$status_product)->with('new_product',$new_prod)->with('cate_prod',$cate_product);
-    // return view('pages.home')->with('category',$cate_product)->with('status_prod',$status_product)->with('new_product',$new_prod)->with('meta_desc',$meta_desc)->with('meta_keywords',$meta_keywords)->with('meta_title',$meta_title)->with('url_canonical',$url_canonical);
+        return view('pages.home')->with('category',$cate_product)->with('status_prod',$status_product)->with('prod_type',$type_product)->with('new_product',$new_prod)->with('cate_prod',$cate_product);
     }
 
     public function search(Request $request){
@@ -61,15 +59,11 @@ class HomeController extends Controller
         $product = DB::table('product')->where('prod_quantity','>','0')->orderBy('prod_id','desc')->get();
         $cate_product = DB::table('category')->orderBy('cate_id','asc')->get();
         $status_product = DB::table('product_status')->orderBy('status_id','asc')->get();
+        $type_product = DB::table('type')->orderBy('type_id','asc')->get();
         
         $search_product = DB::table('product')->where('prod_name','like','%'.$keywords.'%')->get();
 
-    	return view('pages.product.search')->with('product',$product)->with('status_prod',$status_product)->with('category',$cate_product)->with('search_product',$search_product);
+    	return view('pages.product.search')->with('product',$product)->with('status_prod',$status_product)->with('category',$cate_product)->with('prod_type',$type_product)->with('search_product',$search_product);
 
-    }
-
-    public function user_profile($acc_id)
-    {
-        
     }
 }

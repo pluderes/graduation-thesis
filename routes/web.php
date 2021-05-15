@@ -17,8 +17,9 @@ Route::get('/', 'HomeController@index');
 Route::get('/trang-chu', 'HomeController@index');
 
 // danh muc san pham - trang chu
-Route::get('/danhmucsanpham/{cate_id}', 'CategoryProduct@show_category');
-Route::get('/tinhtrangsanpham/{status_id}', 'CategoryProduct@show_status');
+Route::get('/category-product/{cate_id}', 'CategoryProduct@show_category');
+Route::get('/status-product/{status_id}', 'CategoryProduct@show_status');
+Route::get('/type-product/{type_id}', 'CategoryProduct@show_type');
 Route::get('/chitietsanpham/{prod_id}', 'ProductController@details_product');
 
 // cart
@@ -207,10 +208,18 @@ Route::get('/delivery-detail-invoice-delivered/{invoice_id}','deliveryManager@de
 // ------------------------------------------
 
 // -------------------------------------------------------------------------------------------
-// -------------------------------------------------------------------------------------------
-// -------------------------------------------------------------------------------------------
 // invoice managerment
 // invoice manager
 Route::get('/order-all-invoice', 'orderManager@all_invoice');
 Route::get('/order-edit-invoice/{invoice_id}','orderManager@edit_invoice');
 Route::post('/order-update-invoice/{invoice_id}','orderManager@update_status_invoice');
+
+// -------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------
+// information account
+Route::get('/info/{acc_id}','infoController@info_account');
+Route::get('/customer-detail-invoice/{invoice_id}','infoController@customer_detail_invoice');
+Route::post('/customer-cancel-invoice/{invoice_id}','infoController@customer_cancel_invoice');
+Route::get('/add-wishlist/{prod_id}','infoController@add_wishlist');
+Route::get('/wishlist/{acc_id}','infoController@show_wishlist');
+Route::get('/delete-prod-wishlist/{prod_id}','infoController@delete_prod_wishlist');
