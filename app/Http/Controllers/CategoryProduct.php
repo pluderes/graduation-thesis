@@ -22,6 +22,10 @@ class CategoryProduct extends Controller
         $category_name = DB::table('category')->where('category.cate_id', $cate_id)->limit(1)->get();
         $type_product = DB::table('type')->orderBy('type_id','asc')->get();
 
+        // echo '<pre>';
+        // print_r($cate_by_id);
+        // echo '</pre>';
+
         return view('pages.category.show_category')->with('category', $cate_product)->with('status_prod', $status_product)->with('prod_type',$type_product)->with('cate_by_id', $cate_by_id)->with('category_name', $category_name);
     }
 

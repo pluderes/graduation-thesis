@@ -47,13 +47,17 @@ class CartController extends Controller
         $data['id'] = $prod_id;
         $data['name'] = $prod_info->prod_name;
         $data['qty'] = $prod_quantity;
-        $data['price'] = $prod_info->prod_price;
+        if ($prod_info->status_id == 3) {
+            $data['price'] = $prod_info->prod_price - $prod_info->prod_price * 5 / 100;
+        }else{
+            $data['price'] = $prod_info->prod_price;
+        }
         $data['weight'] = $prod_info->prod_quantity;
         $data['options']['image'] = $prod_info->thumbnail;
 
         Cart::add($data);
 
-        $prod = DB::table('product')->where('product.prod_id',$prod_id)->get();
+        $prod = DB::table('product')->where('product.prod_id', $prod_id)->get();
 
         // echo '<pre>';
         // print_r($prod);
@@ -65,12 +69,12 @@ class CartController extends Controller
     {
         $cate_product = DB::table('category')->orderBy('cate_id', 'asc')->get();
         $status_product = DB::table('product_status')->orderBy('status_id', 'asc')->get();
-        $type_product = DB::table('type')->orderBy('type_id','asc')->get();
+        $type_product = DB::table('type')->orderBy('type_id', 'asc')->get();
 
 
         // $prod = DB::table('product')
 
-        return view('pages.cart.show_cart')->with('category', $cate_product)->with('status_prod', $status_product)->with('prod_type',$type_product);
+        return view('pages.cart.show_cart')->with('category', $cate_product)->with('status_prod', $status_product)->with('prod_type', $type_product);
     }
 
     public function delete_to_cart($rowId)
@@ -81,12 +85,12 @@ class CartController extends Controller
 
     public function update_quantity(Request $request)
     {
-        $max_quantity = DB::table('product')->where('product.prod_id',$request->prod_id)->get();
+        $max_quantity = DB::table('product')->where('product.prod_id', $request->prod_id)->get();
 
         $rowId = $request->rowId_cart;
-        if($request->cart_quantity>$max_quantity[0]->prod_quantity){
+        if ($request->cart_quantity > $max_quantity[0]->prod_quantity) {
             $quantity = $max_quantity[0]->prod_quantity;
-        }else{
+        } else {
             $quantity = $request->cart_quantity;
         }
         Cart::update($rowId, $quantity);
