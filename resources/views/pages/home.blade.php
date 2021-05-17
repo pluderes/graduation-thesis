@@ -1,6 +1,6 @@
 @extends('layout')
 @section('content')
-<div class="features_items">
+<!-- <div class="features_items"> -->
 	<!--features_items-->
 	<h2 class="title text-center">Sản phẩm mới</h2>
 	@if (\Session::has('message'))
@@ -51,6 +51,12 @@
 		</div>
 	</a>
 	@endforeach
-</div>
+	<div class="pagination">
+        <div style="text-align: center;">
+            {!! $new_product->links() !!}
+        </div>
+    </div>
+
+<!-- </div> -->
 <!--features_items-->
 @endsection

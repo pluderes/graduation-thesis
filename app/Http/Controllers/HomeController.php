@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use Session;
 use App\Http\Requests;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Pagination\Paginator;
 session_start();
 
 class HomeController extends Controller
@@ -45,25 +46,28 @@ class HomeController extends Controller
         $cate_product = DB::table('category')->orderBy('cate_id','asc')->get();
         // $type_by_cateid = DB::table('type')->join('category','type.cate_id','=','category.cate_id')->get();
         $status_product = DB::table('product_status')->orderBy('status_id','asc')->get();
-        $allproduct = DB::table('product')->where('prod_quantity','>','0')->orderBy('prod_id','asc')->get();
-        $new_prod = DB::table('product')->where('status_id','=','4')->orderBy('prod_id','asc')->get();
+        // $allproduct = DB::table('product')->where('prod_quantity','>','0')->orderBy('prod_id','asc')->get();
+        $new_prod = DB::table('product')->where('status_id','=','4')->orderBy('prod_id','asc')->paginate(9);
         $type_product = DB::table('type')->orderBy('type_id','asc')->get();
 
-        return view('pages.home')->with('category',$cate_product)->with('status_prod',$status_product)->with('prod_type',$type_product)->with('new_product',$new_prod)->with('cate_prod',$cate_product);
+        return view('pages.home')->with('category',$cate_product)->with('status_prod',$status_product)->with('prod_type',$type_product)->with('new_product',$new_prod);
     }
 
     public function search(Request $request){
 
-        $keywords = $request->keywords_submit;
-
-        $product = DB::table('product')->where('prod_quantity','>','0')->orderBy('prod_id','desc')->get();
         $cate_product = DB::table('category')->orderBy('cate_id','asc')->get();
         $status_product = DB::table('product_status')->orderBy('status_id','asc')->get();
         $type_product = DB::table('type')->orderBy('type_id','asc')->get();
-        
-        $search_product = DB::table('product')->where('prod_name','like','%'.$keywords.'%')->get();
 
-    	return view('pages.product.search')->with('product',$product)->with('status_prod',$status_product)->with('category',$cate_product)->with('prod_type',$type_product)->with('search_product',$search_product);
+        $keywords = $request->keywords_submit;
+        if($keywords!=""){
+            $search_product = DB::table('product')->where('prod_name','like','%'.$keywords.'%')->paginate(9);
+            $search_product->appends($request->all());
+        }else{
+            $search_product = DB::table('product')->paginate(9);
+        }
+
+    	return view('pages.product.search')->with('status_prod',$status_product)->with('category',$cate_product)->with('prod_type',$type_product)->with('search_product',$search_product);
 
     }
 }

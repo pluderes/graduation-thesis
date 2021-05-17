@@ -44,6 +44,11 @@
         </div>
     </a>
     @endforeach
+    <div class="pagination">
+        <div style="text-align: center;">
+            {!! $wishlist->links() !!}
+        </div>
+    </div>
 </div>
 <!--features_items-->
 @endsection

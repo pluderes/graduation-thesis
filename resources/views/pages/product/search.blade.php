@@ -1,6 +1,5 @@
 @extends('layout')
 @section('content')
-
 <section id="introduce" class="section-padding">
 	<div class="text-center">
 		<h2 class="title" style="color: lightcoral;">Kết quả tìm kiếm</h2>
@@ -59,7 +58,10 @@
 		</a>
 		@endforeach
 	</div>
-
 </section>
-
+<div class="pagination">
+	<div style="text-align: center;">
+		{!! $search_product->links() !!}
+	</div>
+</div>
 @endsection

@@ -18,7 +18,7 @@ class CategoryProduct extends Controller
     {
         $cate_product = DB::table('category')->orderBy('cate_id', 'asc')->get();
         $status_product = DB::table('product_status')->orderBy('status_id', 'asc')->get();
-        $cate_by_id = DB::table('product')->join('type', 'product.type_id', '=', 'type.type_id')->join('category', 'type.cate_id', '=', 'category.cate_id')->where('category.cate_id', $cate_id)->get();
+        $cate_by_id = DB::table('product')->join('type', 'product.type_id', '=', 'type.type_id')->join('category', 'type.cate_id', '=', 'category.cate_id')->where('category.cate_id', $cate_id)->paginate(9);
         $category_name = DB::table('category')->where('category.cate_id', $cate_id)->limit(1)->get();
         $type_product = DB::table('type')->orderBy('type_id','asc')->get();
 
@@ -29,7 +29,7 @@ class CategoryProduct extends Controller
     {
         $cate_product = DB::table('category')->orderBy('cate_id', 'asc')->get();
         $status_product = DB::table('product_status')->orderBy('status_id', 'asc')->get();
-        $status_by_id = DB::table('product')->join('product_status', 'product.status_id', '=', 'product_status.status_id')->where('product_status.status_id', $status_id)->get();
+        $status_by_id = DB::table('product')->join('product_status', 'product.status_id', '=', 'product_status.status_id')->where('product_status.status_id', $status_id)->paginate(9);
         $status_name = DB::table('product_status')->where('product_status.status_id', $status_id)->limit(1)->get();
         $type_product = DB::table('type')->orderBy('type_id','asc')->get();
 
@@ -40,7 +40,7 @@ class CategoryProduct extends Controller
     {
         $cate_product = DB::table('category')->orderBy('cate_id', 'asc')->get();
         $status_product = DB::table('product_status')->orderBy('status_id', 'asc')->get();
-        $type_by_id = DB::table('product')->join('type', 'product.type_id', '=', 'type.type_id')->where('type.type_id', $type_id)->get();
+        $type_by_id = DB::table('product')->join('type', 'product.type_id', '=', 'type.type_id')->where('type.type_id', $type_id)->paginate(9);
         $type_name = DB::table('type')->where('type.type_id', $type_id)->limit(1)->get();
         $type_product = DB::table('type')->orderBy('type_id','asc')->get();
 

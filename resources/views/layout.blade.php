@@ -122,7 +122,7 @@
 					</div>
 					<div class="col-sm-3">
 						<div class="search_box pull-right">
-							<form action="{{URL::to('/tim-kiem')}}" method="POST">
+							<form action="{{URL::to('/tim-kiem')}}" method="get">
 								{{csrf_field()}}
 								<input type="text" class="sb-text" name="keywords_submit" placeholder="Search">
 								<button class="sb-sbm" type="submit" name="search_items" id="search">

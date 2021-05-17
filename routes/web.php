@@ -37,7 +37,7 @@ Route::get('/payment', 'CheckoutController@payment');
 Route::post('/order-place', 'CheckoutController@order_place');
 
 // tim kiem
-Route::post('/tim-kiem','HomeController@search');
+Route::get('/tim-kiem','HomeController@search');
 
 // admin
 Route::get('/adminLogin','AdminController@adminLogin');

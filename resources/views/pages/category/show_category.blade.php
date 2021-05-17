@@ -59,6 +59,11 @@
         </div>
     </a>
     @endforeach
+    <div class="pagination">
+        <div style="text-align: center;">
+            {!! $cate_by_id->links() !!}
+        </div>
+    </div>
 </div>
 <!--features_items-->
 @endsection

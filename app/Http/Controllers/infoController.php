@@ -177,7 +177,7 @@ class infoController extends Controller
         $cate_product = DB::table('category')->orderBy('cate_id', 'asc')->get();
         $status_product = DB::table('product_status')->orderBy('status_id', 'asc')->get();
         $type_product = DB::table('type')->orderBy('type_id', 'asc')->get();
-        $wishlist = DB::table('wishlist')->join('product', 'product.prod_id', '=', 'wishlist.prod_id')->where('wishlist.acc_id', $acc_id)->get();
+        $wishlist = DB::table('wishlist')->join('product', 'product.prod_id', '=', 'wishlist.prod_id')->where('wishlist.acc_id', $acc_id)->paginate(9);
 
         // echo '<pre>';
         // print_r($wishlist);
