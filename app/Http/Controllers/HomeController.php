@@ -46,11 +46,11 @@ class HomeController extends Controller
         $cate_product = DB::table('category')->orderBy('cate_id','asc')->get();
         // $type_by_cateid = DB::table('type')->join('category','type.cate_id','=','category.cate_id')->get();
         $status_product = DB::table('product_status')->orderBy('status_id','asc')->get();
-        // $allproduct = DB::table('product')->where('prod_quantity','>','0')->orderBy('prod_id','asc')->get();
-        $new_prod = DB::table('product')->where('status_id','=','4')->orderBy('prod_id','asc')->paginate(9);
+        $allproduct = DB::table('product')->orderBy('prod_id','asc')->paginate(9);;
+        $new_prod = DB::table('product')->where('status_id','=','4')->orderBy('prod_id','asc');
         $type_product = DB::table('type')->orderBy('type_id','asc')->get();
 
-        return view('pages.home')->with('category',$cate_product)->with('status_prod',$status_product)->with('prod_type',$type_product)->with('new_product',$new_prod);
+        return view('pages.home')->with('category',$cate_product)->with('status_prod',$status_product)->with('prod_type',$type_product)->with('all_product',$allproduct);
     }
 
     public function search(Request $request){

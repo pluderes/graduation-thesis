@@ -54,11 +54,11 @@
 				<div class="row">
 					<div class="col-sm-4">
 						<div class="logo pull-left">
-							<!-- <a href="{{URL::TO('/trang-chu')}}"><img src="{{asset('public/Frontend/images/logo.png')}}" alt="" /></a> -->
+							<a href="{{URL::TO('/trang-chu')}}"><img src="{{asset('public/Upload/banner/zorbashop.png')}}" style="width: 150px;" alt="" /></a>
 						</div>
 					</div>
 					<div class="col-sm-8">
-						<div class="shop-menu pull-right">
+						<div class="shop-menu pull-right" style="margin-top: 20px;">
 							<ul class="nav navbar-nav">
 								<li><a href="{{URL::TO('/show-cart')}}"><i class="fa fa-shopping-cart"></i> Giỏ hàng</a></li>
 								<?php
@@ -168,6 +168,7 @@
 								<img src="{{asset('public/Upload/banner/banner4.jpg')}}" alt="" />
 
 							</div>
+
 						</div>
 
 						<a href="#slider-carousel" class="left control-carousel hidden-xs" data-slide="prev">

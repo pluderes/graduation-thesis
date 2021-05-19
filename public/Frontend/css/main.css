@@ -802,9 +802,15 @@ h2.title {
 .sale {
     position: absolute;
     top: 0;
-    right: 0;
+    left: 0;
 }
-
+#saleoff{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 80px;
+    margin-left: 30px;
+}
 .productinfo h2 {
     color: seagreen;
     font-family: "Roboto", sans-serif;
