@@ -95,11 +95,11 @@ class CartController extends Controller
         }
         Cart::update($rowId, $quantity);
 
-        echo '<pre>';
-        print_r(Cart::content());
+        // echo '<pre>';
+        // print_r(Cart::content());
         // print_r($max_quantity);
-        echo '</pre>';
-        // return Redirect::to('/show-cart');
+        // echo '</pre>';
+        return Redirect::to('/show-cart');
     }
     public function update_price(Request $request)
     {

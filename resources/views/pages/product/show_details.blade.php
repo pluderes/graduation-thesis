@@ -28,22 +28,20 @@
 						<label>Số lượng:</label>
 						<input name="prod_quantity" type="number" min="1" max="{{($values->prod_quantity)}}" value="1" />
 						<input name="prod_id_hidden" type="hidden" value="{{($values->prod_id)}}" />
-						<button type="submit" class="btn btn-fefault cart" 
-							<?php if ($values->prod_quantity == '0') { 
-							?> 
-							disabled><i class="fa fa-shopping-cart"></i>
-								Sản phẩm tạm hết hàng
-							<?php } else { 
-							?>
+						<button type="submit" class="btn btn-fefault cart" <?php if ($values->prod_quantity == '0') {
+																			?> disabled><i class="fa fa-shopping-cart"></i>
+							Sản phẩm tạm hết hàng
+						<?php } else {
+						?>
 							><i class="fa fa-shopping-cart"></i>
-								Thêm vào giỏ hàng 
-							<?php } 
-							?>
+							Thêm vào giỏ hàng
+						<?php }
+						?>
 						</button>
 					</div>
 				</span>
 			</form>
-			<a href=""><img src="{{asset('public/Frontend/images/share.png')}}" class="share img-responsive" alt="" /></a>
+			<!-- <a href=""><img src="{{asset('public/Frontend/images/share.png')}}" class="share img-responsive" alt="" /></a> -->
 		</div>
 		<!--/product-information-->
 	</div>
@@ -71,18 +69,40 @@
 		</div>
 		<div class="tab-pane fade" id="tag">
 			@foreach($prod_cate as $key => $prod_by_cate)
-			<div class="col-sm-3">
-				<div class="product-image-wrapper">
-					<div class="single-products">
-						<div class="productinfo text-center">
-							<img style="width: 200px; height: 300px;" src="{{URL::TO('public/Upload/product/'.$prod_by_cate->thumbnail)}}" alt="" />
-							<h2>{{number_format($prod_by_cate->prod_price)}} VND</h2>
-							<p style="height: 50px;">{{$prod_by_cate->prod_name}}</p>
-							<button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
+			<a href="{{URL::TO('/chitietsanpham/'.$prod_by_cate->prod_id)}}">
+				<div class="col-sm-3">
+					<div class="product-image-wrapper">
+						<div class="single-products">
+							<div class="productinfo text-center">
+								<img style="width: 200px; height: 300px;" src="{{URL::TO('public/Upload/product/'.$prod_by_cate->thumbnail)}}" alt="" />
+								<?php
+								if ($prod_by_cate->status_id != 3) {
+								?>
+									<h2><br></h2>
+									<h2>{{number_format($prod_by_cate->prod_price)}} VND</h2>
+								<?php
+								} else {
+								?>
+									<h2 style="text-decoration: line-through; color: gray;">{{number_format($prod_by_cate->prod_price)}} VND</h2>
+									<h2>{{number_format($prod_by_cate->prod_price - ($prod_by_cate->prod_price *5 / 100))}} VND</h2>
+								<?php
+								}
+								?>
+								<p style="height: 50px;">{{$prod_by_cate->prod_name}}</p>
+								<form action="{{URL::TO('/save-cart')}}" method="POST">
+									{{csrf_field()}}
+									<button type="submit" class="btn btn-fefault cart">
+										<i class="fa fa-shopping-cart"></i>
+										Thêm vào giỏ hàng
+									</button>
+									<input name="prod_quantity" type="hidden" value="1" />
+									<input name="prod_id_hidden" type="hidden" value="{{($prod_by_cate->prod_id)}}" />
+								</form>
+							</div>
 						</div>
 					</div>
 				</div>
-			</div>
+			</a>
 			@endforeach
 		</div>
 	</div>
@@ -91,48 +111,60 @@
 
 <div class="recommended_items">
 	<!--recommended_items-->
-	<h2 class="title text-center">recommended items</h2>
+	<h2 class="title text-center">Sản phẩm gợi ý</h2>
 
 	<div id="recommended-item-carousel" class="carousel slide" data-ride="carousel">
 		<div class="carousel-inner">
-			<div class="item active">
+			<div class="">
 				@foreach($prod_status as $key => $prod_by_status)
-				<div class="col-sm-4">
-					<div class="product-image-wrapper">
-						<div class="single-products">
-							<div class="productinfo text-center">
-								<img style="width: 200px; height: 300px;" src="images/home/recommend1.jpg" alt="" />
-								<h2>$56</h2>
-								<p>Easy Polo Black Edition</p>
-								<button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
+				<a href="{{URL::TO('/chitietsanpham/'.$prod_by_status->prod_id)}}">
+					<div class="col-sm-4">
+						<div class="product-image-wrapper">
+							<div class="single-products">
+								<div class="productinfo text-center">
+									<img style="width: 200px; height: 300px;" src="{{URL::TO('public/Upload/product/'.$prod_by_status->thumbnail)}}" alt="" />
+									<?php
+									if ($prod_by_status->status_id != 3) {
+									?>
+										<h2><br></h2>
+										<h2>{{number_format($prod_by_status->prod_price)}} VND</h2>
+									<?php
+									} else {
+									?>
+										<h2 style="text-decoration: line-through; color: gray;">{{number_format($prod_by_status->prod_price)}} VND</h2>
+										<h2>{{number_format($prod_by_status->prod_price - ($prod_by_status->prod_price *5 / 100))}} VND</h2>
+									<?php
+									}
+									?>
+									<p style="height: 50px;">{{$prod_by_status->prod_name}}</p>
+									<form action="{{URL::TO('/save-cart')}}" method="POST">
+										{{csrf_field()}}
+										<button type="submit" class="btn btn-fefault cart">
+											<i class="fa fa-shopping-cart"></i>
+											Thêm vào giỏ hàng
+										</button>
+										<input name="prod_quantity" type="hidden" value="1" />
+										<input name="prod_id_hidden" type="hidden" value="{{($prod_by_status->prod_id)}}" />
+									</form>
+								</div>
 							</div>
 						</div>
 					</div>
-				</div>
+				</a>
 				@endforeach
 			</div>
-			<div class="item">
-				<div class="col-sm-4">
-					<div class="product-image-wrapper">
-						<div class="single-products">
-							<div class="productinfo text-center">
-								<img src="images/home/recommend1.jpg" alt="" />
-								<h2>$56</h2>
-								<p>Easy Polo Black Edition</p>
-								<button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
-							</div>
-						</div>
-					</div>
+			<div class="pagination">
+				<div style="text-align: center;">
+					{!! $prod_status->links() !!}
 				</div>
 			</div>
-		</div>
-		<a class="left recommended-item-control" href="#recommended-item-carousel" data-slide="prev">
+			<!-- <a class="left recommended-item-control" href="#recommended-item-carousel" data-slide="prev">
 			<i class="fa fa-angle-left"></i>
 		</a>
 		<a class="right recommended-item-control" href="#recommended-item-carousel" data-slide="next">
 			<i class="fa fa-angle-right"></i>
-		</a>
+		</a> -->
+		</div>
 	</div>
-</div>
-<!--/recommended_items-->
-@endsection
+	<!--/recommended_items-->
+	@endsection

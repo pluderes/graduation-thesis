@@ -28,7 +28,7 @@ class ProductController extends Controller
             $cate_id = $values->cate_id;
         }
         
-        $prod_by_status = DB::table('product')->join('product_status','product.status_id','=','product_status.status_id')->where('product_status.status_id',$status_id)->whereNotIn('product.prod_id',[$prod_id])->limit(3)->get();
+        $prod_by_status = DB::table('product')->where('product.status_id','=','3')->paginate(3);
         $prod_by_cate = DB::table('product')->join('type','product.type_id','=','type.type_id')->join('category','type.cate_id','=','category.cate_id')->where('category.cate_id',$cate_id)->whereNotIn('product.prod_id',[$prod_id])->limit(4)->get();
 
         return view('pages.product.show_details')->with('category', $cate_product)->with('status_prod', $status_product)->with('prod_type',$type_product)->with('detais_product',$detais_product)->with('author_product',$author_product)->with('supplier_product',$supplier_product)->with('prod_cate',$prod_by_cate)->with('prod_status',$prod_by_status);

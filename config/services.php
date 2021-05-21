@@ -30,4 +30,11 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'facebook' => [
+        'client_id' => '2802459056732451',  //client face của bạn
+        'client_secret' => '2982a51a504511a1021232ddac3b7249',  //client app service face của bạn
+        'redirect' => 'http://localhost/ZorbaShop/adminLogin/callback' //callback trả về
+    ],
+
+
 ];

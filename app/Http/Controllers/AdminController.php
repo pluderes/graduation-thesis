@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use Session;
 use App\Http\Requests;
 use Illuminate\Support\Facades\Redirect;
+use Cart;
 use Symfony\Component\HttpFoundation\Response;
 
 session_start();
@@ -77,7 +78,7 @@ class AdminController extends Controller
             Session::put('accImg', $result->acc_img);
             Session::put('accEmail', $result->acc_email);
             Session::put('accContact', $result->acc_contact);
-            Session::put('acc_id',$result->acc_id);
+            Session::put('acc_id', $result->acc_id);
 
             if ($result->perm_id === 1) {
                 return Redirect::to('/dashboard');
@@ -101,8 +102,11 @@ class AdminController extends Controller
         Session::put('adminname', null);
         Session::put('permId', null);
         Session::put('accImg', null);
-        Session::put('acc_id',null);
-        Session::put('deli_id',null);
+        Session::put('acc_id', null);
+        Session::put('deli_id', null);
+
+        Cart::destroy();
+
         return Redirect::TO('/adminLogin');
     }
 }
