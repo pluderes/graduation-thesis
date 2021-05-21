@@ -95,10 +95,28 @@ class CartController extends Controller
         }
         Cart::update($rowId, $quantity);
 
-        // echo '<pre>';
-        // print_r(Cart::content());
+        echo '<pre>';
+        print_r(Cart::content());
         // print_r($max_quantity);
+        echo '</pre>';
+        // return Redirect::to('/show-cart');
+    }
+    public function update_price(Request $request)
+    {
+        
+        // if ($request->discount != "") {
+        //     if()
+        //     $ = $max_quantity[0]->prod_quantity;
+        // } else {
+        //     $quantity = $request->cart_quantity;
+        // }
+        // Cart::update($rowId, $quantity);
+        // $x = Cart::total(); 
+        // $x = (int)$x*10/100;
+        // Cart::update($);
+        // echo '<pre>';
+        // print_r(Cart::total());
         // echo '</pre>';
-        return Redirect::to('/show-cart');
+        // return Redirect::to('/show-cart');
     }
 }

@@ -266,7 +266,15 @@
 							</form>
 						</div>
 					</div>
-
+					<!-- <div class="col-sm-2">
+						<h1>dasdas</h1>
+					</div> -->
+					<div class="col-sm-6">
+						<div class="single-widget">
+							<h2>Địa chỉ</h2>
+							<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d763.8155633086945!2d105.72391582915975!3d19.784608261109742!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTnCsDQ3JzA0LjYiTiAxMDXCsDQzJzI4LjEiRQ!5e1!3m2!1svi!2s!4v1621562776592!5m2!1svi!2s" width="600" height="200" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>

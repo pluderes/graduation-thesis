@@ -27,6 +27,7 @@ Route::post('/save-cart', 'CartController@save_cart');
 Route::get('/show-cart', 'CartController@show_cart');
 Route::get('/delete-to-cart/{rowId}', 'CartController@delete_to_cart');
 Route::post('/update-quantity', 'CartController@update_quantity');
+Route::post('/update-price', 'CartController@update_price');
 
 // checkout
 Route::get('/login-checkout', 'CheckoutController@login_checkout');

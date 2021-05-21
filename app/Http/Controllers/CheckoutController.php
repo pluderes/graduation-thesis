@@ -110,7 +110,7 @@ class CheckoutController extends Controller
                 $quantity = $request->cart_quantity;
             }
             Cart::update($rowId, $quantity);
-            
+
             if (count($info) !== 0) {
                 return view('pages.checkout.checkout')->with('category', $cate_product)->with('status_prod', $status_product)->with('prod_type', $type_product)->with('deli_info', $deli_info);
             } else if (count($info) === 0) {
@@ -146,7 +146,13 @@ class CheckoutController extends Controller
         $status_product = DB::table('product_status')->orderBy('status_id', 'asc')->get();
         $type_product = DB::table('type')->orderBy('type_id', 'asc')->get();
 
-        return view('pages.checkout.payment')->with('category', $cate_product)->with('status_prod', $status_product)->with('prod_type', $type_product);
+        $count = Cart::count();
+        if ($count > 0) {
+            return view('pages.checkout.payment')->with('category', $cate_product)->with('status_prod', $status_product)->with('prod_type', $type_product);
+        } else {
+            Session::put('warning', 'Bạn chưa có sách nào trong giỏ hàng');
+            return Redirect::to('/show-cart');
+        }
     }
 
     public function order_place(Request $request)

@@ -80,6 +80,26 @@
 	</div>
 </section>
 <!--/#cart_items-->
+<!-- <section id="do_action" style="margin-bottom: 0px;">
+	<div class="container" style="padding-left: 0;">
+		<div class="heading">
+			<h4>Mã giảm giá</h4>
+		</div>
+		<div class="row">
+			<div class="col-sm-6">
+				<div class="total_area">
+					<form action="{{URL::TO('/update-price')}}" method="POST">
+						{{csrf_field()}}
+						<div class="cart_quantity_button">
+							<input type="text" name="discount" id="">
+							<button class="btn btn-default check_out" type="submit">Áp dụng</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</section> -->
 <section id="do_action">
 	<div class="container" style="padding-left: 0;">
 		<div class="heading">

@@ -39,7 +39,17 @@
 						<input name="prod_quantity" type="hidden" value="1" />
 						<input name="prod_id_hidden" type="hidden" value="{{($prod->prod_id)}}" />
 					</form>
-					<img src="{{asset('public/Upload/banner/sale5.png')}}" id="saleoff" alt="" />
+					<?php
+					if ($prod->status_id != 3) {
+					?>
+
+					<?php
+					} else {
+					?>
+						<img src="{{asset('public/Upload/banner/sale5.png')}}" id="saleoff" alt="" />
+					<?php
+					}
+					?>
 				</div>
 			</div>
 			<div class="choose">
