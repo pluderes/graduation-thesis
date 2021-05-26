@@ -167,68 +167,69 @@ class CheckoutController extends Controller
         }
 
         if ($quantity >= 0) {
-            // insert payment
-            $data = array();
-            $data['payment_method'] = $request->payment_option;
-            $data['payment_status'] = 'Chờ xử lý';
-            $data['payment_date_time'] = Carbon::now();
-            $payment_id = DB::table('payment')->insertGetId($data);
-
-            // insert invoice
-            $invoice_data = array();
-            $invoice_data['acc_id'] = Session::get('acc_id');
-            $invoice_data['deli_id'] = Session::get('deli_id');
-            $invoice_data['payment_id'] = $payment_id;
-            $invoice_data['invoice_total'] = Cart::total();
-            $invoice_data['current_status'] = 'Chờ xử lý';
-            $invoice_data['invoice_date_time'] = Carbon::now();
-            $invoice_id = DB::table('invoice')->insertGetId($invoice_data);
-
-            // insert invoice_detail
-            foreach ($content as $v_content) {
-                $invoide_detail_data = array();
-                $invoide_detail_data['invoice_id'] = $invoice_id;
-                $invoide_detail_data['prod_id'] = $v_content->id;
-                $invoide_detail_data['prod_name'] = $v_content->name;
-                $invoide_detail_data['sell_quantity'] = $v_content->qty;
-                $invoide_detail_data['prod_price'] = $v_content->price;
-                DB::table('invoice_detail')->insertGetId($invoide_detail_data);
-            }
-
-            // update table product: quantity product
-
-            foreach ($content as $v_content) {
-
-                // update quantity product
-                $prod_detail = DB::table('product')->where('product.prod_id', $v_content->id)->get();
-
-                $product = array();
-                $product['prod_name'] = $v_content->name;
-                $product['prod_desc'] = $prod_detail[0]->prod_desc;
-                $product['prod_numofpages'] = $prod_detail[0]->prod_numofpages;
-                $product['prod_size'] = $prod_detail[0]->prod_size;
-                $product['prod_datepublished'] = $prod_detail[0]->prod_datepublished;
-                $product['prod_price'] = $prod_detail[0]->prod_price;
-                $product['status_id'] = $prod_detail[0]->status_id;
-                $product['author_id'] = $prod_detail[0]->author_id;
-                $product['supplier_id'] = $prod_detail[0]->supplier_id;
-                $product['thumbnail'] = $prod_detail[0]->thumbnail;
-                $product['type_id'] = $prod_detail[0]->type_id;
-                $product['prod_quantity'] = $prod_detail[0]->prod_quantity - $v_content->qty;
-
-                DB::table('product')->where('product.prod_id', $prod_detail[0]->prod_id)->update($product);
-            }
-
-            // insert invoice_status
-            $invoice_status = array();
-            $invoice_status['invoice_id'] = $invoice_id;
-            $invoice_status['status_detail_id'] = '1';
-            $invoice_status['status_date'] = Carbon::now();
-            DB::table('invoice_status')->insert($invoice_status);
-
             if ($data['payment_method'] === "1") {
                 echo 'ATM';
             } else if ($data['payment_method'] === "2") {
+
+                // insert payment
+                $data = array();
+                $data['payment_method'] = $request->payment_option;
+                $data['payment_status'] = 'Chờ xử lý';
+                $data['payment_date_time'] = Carbon::now();
+                $payment_id = DB::table('payment')->insertGetId($data);
+
+                // insert invoice
+                $invoice_data = array();
+                $invoice_data['acc_id'] = Session::get('acc_id');
+                $invoice_data['deli_id'] = Session::get('deli_id');
+                $invoice_data['payment_id'] = $payment_id;
+                $invoice_data['invoice_total'] = Cart::total();
+                $invoice_data['current_status'] = 'Chờ xử lý';
+                $invoice_data['invoice_date_time'] = Carbon::now();
+                $invoice_id = DB::table('invoice')->insertGetId($invoice_data);
+
+                // insert invoice_detail
+                foreach ($content as $v_content) {
+                    $invoide_detail_data = array();
+                    $invoide_detail_data['invoice_id'] = $invoice_id;
+                    $invoide_detail_data['prod_id'] = $v_content->id;
+                    $invoide_detail_data['prod_name'] = $v_content->name;
+                    $invoide_detail_data['sell_quantity'] = $v_content->qty;
+                    $invoide_detail_data['prod_price'] = $v_content->price;
+                    DB::table('invoice_detail')->insertGetId($invoide_detail_data);
+                }
+
+                // update table product: quantity product
+
+                foreach ($content as $v_content) {
+
+                    // update quantity product
+                    $prod_detail = DB::table('product')->where('product.prod_id', $v_content->id)->get();
+
+                    $product = array();
+                    $product['prod_name'] = $v_content->name;
+                    $product['prod_desc'] = $prod_detail[0]->prod_desc;
+                    $product['prod_numofpages'] = $prod_detail[0]->prod_numofpages;
+                    $product['prod_size'] = $prod_detail[0]->prod_size;
+                    $product['prod_datepublished'] = $prod_detail[0]->prod_datepublished;
+                    $product['prod_price'] = $prod_detail[0]->prod_price;
+                    $product['status_id'] = $prod_detail[0]->status_id;
+                    $product['author_id'] = $prod_detail[0]->author_id;
+                    $product['supplier_id'] = $prod_detail[0]->supplier_id;
+                    $product['thumbnail'] = $prod_detail[0]->thumbnail;
+                    $product['type_id'] = $prod_detail[0]->type_id;
+                    $product['prod_quantity'] = $prod_detail[0]->prod_quantity - $v_content->qty;
+
+                    DB::table('product')->where('product.prod_id', $prod_detail[0]->prod_id)->update($product);
+                }
+
+                // insert invoice_status
+                $invoice_status = array();
+                $invoice_status['invoice_id'] = $invoice_id;
+                $invoice_status['status_detail_id'] = '1';
+                $invoice_status['status_date'] = Carbon::now();
+                DB::table('invoice_status')->insert($invoice_status);
+
                 Cart::destroy();
                 $cate_product = DB::table('category')->orderBy('cate_id', 'asc')->get();
                 $status_product = DB::table('product_status')->orderBy('status_id', 'asc')->get();

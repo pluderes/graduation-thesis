@@ -4,11 +4,11 @@
     <!--features_items-->
     <h2 class="title text-center">Danh sách yêu thích của bạn</h2>
     @if (\Session::has('message'))
-	<div class="alert alert-success alert-dismissable text-center">
-		<button type="button" class="close" data-dismiss="alert" area-hidden="true">&times;</button> {!!
-		\Session::get('message') !!}
-	</div>
-	@endif
+    <div class="alert alert-success alert-dismissable text-center">
+        <button type="button" class="close" data-dismiss="alert" area-hidden="true">&times;</button> {!!
+        \Session::get('message') !!}
+    </div>
+    @endif
     @foreach($wishlist as $key => $prod)
     <a href="{{URL::TO('/chitietsanpham/'.$prod->prod_id)}}">
         <div class="col-sm-4">
@@ -33,6 +33,17 @@
                             <input name="prod_quantity" type="hidden" value="1" />
                             <input name="prod_id_hidden" type="hidden" value="{{($prod->prod_id)}}" />
                         </form>
+                        <?php
+                        if ($prod->status_id != 3) {
+                        ?>
+
+                        <?php
+                        } else {
+                        ?>
+                            <img src="{{asset('public/Upload/banner/sale5.png')}}" id="saleoff" alt="" />
+                        <?php
+                        }
+                        ?>
                     </div>
                 </div>
                 <div class="choose">

@@ -21,27 +21,25 @@
                         <?php
                         if ($prod->status_id != 3) {
                         ?>
-                        <h2><br></h2>
-                        <h2>{{number_format($prod->prod_price)}} VND</h2>
+                            <h2><br></h2>
+                            <h2>{{number_format($prod->prod_price)}} VND</h2>
                         <?php
                         } else {
                         ?>
-                        <h2 style="text-decoration: line-through; color: gray;">{{number_format($prod->prod_price)}} VND</h2>
-                        <h2>{{number_format($prod->prod_price - ($prod->prod_price *5 / 100))}} VND</h2>
+                            <h2 style="text-decoration: line-through; color: gray;">{{number_format($prod->prod_price)}} VND</h2>
+                            <h2>{{number_format($prod->prod_price - ($prod->prod_price *5 / 100))}} VND</h2>
                         <?php
                         }
                         ?>
                         <p style="height: 50px;">{{$prod->prod_name}}</p>
                         <form action="{{URL::TO('/save-cart')}}" method="POST">
                             {{csrf_field()}}
-                            <button type="submit" class="btn btn-fefault cart"
-                            <?php if ($prod->prod_quantity == '0') {
-                            ?> 
-                            disabled><i class="fa fa-shopping-cart"></i>
+                            <button type="submit" class="btn btn-fefault cart" <?php if ($prod->prod_quantity == '0') {
+                                                                                ?> disabled><i class="fa fa-shopping-cart"></i>
                                 Tạm hết hàng
                             <?php } else {
                             ?>
-                            ><i class="fa fa-shopping-cart"></i>
+                                ><i class="fa fa-shopping-cart"></i>
                                 Thêm vào giỏ hàng
                             <?php }
                             ?>
@@ -49,6 +47,17 @@
                             <input name="prod_quantity" type="hidden" value="1" />
                             <input name="prod_id_hidden" type="hidden" value="{{($prod->prod_id)}}" />
                         </form>
+                        <?php
+                        if ($prod->status_id != 3) {
+                        ?>
+
+                        <?php
+                        } else {
+                        ?>
+                            <img src="{{asset('public/Upload/banner/sale5.png')}}" id="saleoff" alt="" />
+                        <?php
+                        }
+                        ?>
                     </div>
                 </div>
                 <div class="choose">
@@ -73,7 +82,7 @@
         </div>
     </a>
     @endforeach
-    <div class="pagination">
+    <div class="pagination col-sm-12">
         <div style="text-align: center;">
             {!! $cate_by_id->links() !!}
         </div>

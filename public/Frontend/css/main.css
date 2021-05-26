@@ -1235,7 +1235,7 @@ h2.title {
     font-family: "Roboto", sans-serif;
     font-size: 15px;
     margin-bottom: 10px;
-    margin-left: 20px;
+    /* margin-left: 20px; */
 }
 
 .shop-details-tab {

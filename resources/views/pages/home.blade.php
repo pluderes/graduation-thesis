@@ -74,7 +74,7 @@
 	</div>
 </a>
 @endforeach
-<div class="pagination">
+<div class="pagination col-sm-12">
 	<div style="text-align: center;">
 		{!! $all_product->links() !!}
 	</div>

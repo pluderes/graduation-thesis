@@ -59,7 +59,6 @@
 		</ul>
 	</div>
 	<div class="tab-content">
-
 		<div class="tab-pane fade active in" id="reviews">
 			<div class="col-sm-12">
 				@foreach($detais_product as $key => $values)
@@ -146,6 +145,16 @@
 										<input name="prod_quantity" type="hidden" value="1" />
 										<input name="prod_id_hidden" type="hidden" value="{{($prod_by_status->prod_id)}}" />
 									</form>
+									<?php
+									if ($prod_by_status->status_id != 3) {
+									?>
+									<?php
+									} else {
+									?>
+										<img src="{{asset('public/Upload/banner/sale5.png')}}" id="saleoff" alt="" />
+									<?php
+									}
+									?>
 								</div>
 							</div>
 						</div>
@@ -153,7 +162,7 @@
 				</a>
 				@endforeach
 			</div>
-			<div class="pagination">
+			<div class="pagination col-sm-12">
 				<div style="text-align: center;">
 					{!! $prod_status->links() !!}
 				</div>

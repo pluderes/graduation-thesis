@@ -60,6 +60,17 @@
 									<button style="background-color: seagreen; color: seashell;" type="submit" name="update_qty" class="btn btn-default btn-sm">Cập nhật</button>
 								</div>
 							</form>
+							<?php
+							if ($value_content->status_id != 3) {
+							?>
+
+							<?php
+							} else {
+							?>
+								<img src="{{asset('public/Upload/banner/sale5.png')}}" id="saleoff" alt="" />
+							<?php
+							}
+							?>
 						</td>
 						<td class="cart_total">
 							<p class="cart_total_price">

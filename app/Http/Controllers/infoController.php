@@ -146,17 +146,17 @@ class infoController extends Controller
 
     public function add_wishlist($prod_id)
     {
+        $acc_id = Session::get('acc_id');
         $product = DB::table('product')->where('product.prod_id', $prod_id)->get();
         $wishlist = array();
         $wishlist['prod_id'] = $prod_id;
         $wishlist['prod_name'] = $product[0]->prod_name;
-        $wishlist['acc_id'] = Session::get('acc_id');
+        $wishlist['acc_id'] = $acc_id;
 
         $count_list = DB::table('wishlist')->count();
-        $list = DB::table('wishlist')->orderBy('list_id', 'asc')->get();
         if ($count_list > 0) {
-            $prod_by_id = DB::table('wishlist')->where('wishlist.prod_id', $prod_id)->count();
-            if ($prod_by_id>0) {
+            $list = DB::table('wishlist')->where(['wishlist.acc_id' => $acc_id, 'wishlist.prod_id' => $prod_id])->count();
+            if ($list > 0) {
                 return redirect()->back()->with('message', 'Đã có sách này trong danh sách ưu thích!');
             } else {
                 DB::table('wishlist')->insert($wishlist);
@@ -166,7 +166,6 @@ class infoController extends Controller
             DB::table('wishlist')->insert($wishlist);
             return redirect()->back()->with('message', 'Đã thêm sách này vào danh sách ưu thích!');
         }
-
         // echo '<pre>';
         // print_r($list);
         // echo '</pre>';
