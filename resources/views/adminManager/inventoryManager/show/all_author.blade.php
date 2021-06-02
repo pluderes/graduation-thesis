@@ -1,14 +1,16 @@
 @extends('adminLayout')
 @section('admin_content')
-<div class="table-agile-info" style="overflow: auto; width: 1080px; height: 500px; display: flex;">
+<div class="panel-heading" style="text-align: center; background-color: lightgray;">
+  <h2 style="margin: 0;">Danh sách tác giả</h2>
+</div>
+<div class="table-agile-info" style="overflow: auto; height: 500px; display: flex;">
   <div class="panel panel-default">
-    <div class="panel-heading" style="text-align: center;">
-      Danh sách tác giả
-    </div>
     <?php
     $message = Session::get('message');
     if ($message) {
-      echo '<span style="color:red; font-weight:bold">', $message, '</span>';
+      echo '<div class="alert alert-warning alert-dismissable text-center">
+						<button type="button" class="close" data-dismiss="alert" area-hidden="true">&times;</button>', $message,
+      '</div>';
       Session::put('message', null);
     }
     ?>
@@ -17,7 +19,7 @@
         <thead>
           <tr>
             <th style="width:30px;"></th>
-            <th>ID tác giả</th>
+            <th>Mã tác giả</th>
             <th>Tên tác giả</th>
             <th>Giới thiệu</th>
           </tr>
@@ -38,22 +40,7 @@
       </table>
     </div>
     <footer class="panel-footer">
-      <div class="row">
 
-        <div class="col-sm-5 text-center">
-          <small class="text-muted inline m-t-sm m-b-sm">showing 20-30 of 50 items</small>
-        </div>
-        <div class="col-sm-7 text-right text-center-xs">
-          <ul class="pagination pagination-sm m-t-none m-b-none">
-            <li><a href=""><i class="fa fa-chevron-left"></i></a></li>
-            <li><a href="">1</a></li>
-            <li><a href="">2</a></li>
-            <li><a href="">3</a></li>
-            <li><a href="">4</a></li>
-            <li><a href=""><i class="fa fa-chevron-right"></i></a></li>
-          </ul>
-        </div>
-      </div>
     </footer>
   </div>
 </div>

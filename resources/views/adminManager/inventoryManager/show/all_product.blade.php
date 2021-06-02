@@ -1,23 +1,25 @@
 @extends('adminLayout')
 @section('admin_content')
-<div class="table-agile-info" style="overflow: auto; width: 1080px; height: 500px; display: flex;">
+<div class="panel-heading" style="text-align: center; background-color: lightgray;">
+  <h2 style="margin: 0;">Tất cả sách</h2>
+</div>
+<div class="table-agile-info" style="overflow: auto; height: 500px; display: flex;">
   <div class="panel panel-default">
-    <div class="panel-heading" style="text-align: center;">
-      Danh sách sách
-    </div>
     <?php
-            $message = Session::get('message');
-            if ($message) {
-                echo '<span style="color:red; font-weight:bold">', $message, '</span>';
-                Session::put('message', null);
-            }
-            ?>
+    $message = Session::get('message');
+    if ($message) {
+      echo '<div class="alert alert-warning alert-dismissable text-center">
+						<button type="button" class="close" data-dismiss="alert" area-hidden="true">&times;</button>', $message,
+      '</div>';
+      Session::put('message', null);
+    }
+    ?>
     <div class="table-responsive">
       <table class="table table-striped b-t b-light">
         <thead>
           <tr>
             <th style="width:30px;"></th>
-            <th>ID sách</th>
+            <th>Mã sách</th>
             <th>Tên sách</th>
             <th>Mô tả</th>
             <th>Số trang</th>
@@ -25,20 +27,20 @@
             <th>Ngày xuất bản</th>
             <th>Giá</th>
             <th>Số lượng</th>
-            <th>ID trạng thái</th>
-            <th>ID tác giả</th>
-            <th>ID NXB</th>
+            <th>Mã trạng thái</th>
+            <th>Mã tác giả</th>
+            <th>Mã NXB</th>
             <th>Hình ảnh</th>
-            <th>ID loại sách</th>
+            <th>Mã loại sách</th>
 
           </tr>
         </thead>
         <tbody>
           @foreach($all_product as $key => $product)
           <tr>
-          <td>
+            <td>
               <a href="{{URL::TO('/admin-edit-product/'.$product->prod_id)}}" class="active" ui-toggle-class=""><i class="fa fa-check text-success text-active"></i></a>
-              <a onclick="return confirm(`Bạn có chắc muốn xóa danh mục này?`)" href="{{URL::TO('/admin-delete-product/'.$product->prod_id)}}"class="active" ui-toggle-class=""><i class="fa fa-times text-danger text"></i></a>
+              <a onclick="return confirm(`Bạn có chắc muốn xóa danh mục này?`)" href="{{URL::TO('/admin-delete-product/'.$product->prod_id)}}" class="active" ui-toggle-class=""><i class="fa fa-times text-danger text"></i></a>
             </td>
             <td>{{$product->prod_id}}</td>
             <td><span class="text-ellipsis">{{$product->prod_name}}</span></td>
@@ -59,22 +61,7 @@
       </table>
     </div>
     <footer class="panel-footer">
-      <div class="row">
 
-        <div class="col-sm-5 text-center">
-          <small class="text-muted inline m-t-sm m-b-sm">showing 20-30 of 50 items</small>
-        </div>
-        <div class="col-sm-7 text-right text-center-xs">
-          <ul class="pagination pagination-sm m-t-none m-b-none">
-            <li><a href=""><i class="fa fa-chevron-left"></i></a></li>
-            <li><a href="">1</a></li>
-            <li><a href="">2</a></li>
-            <li><a href="">3</a></li>
-            <li><a href="">4</a></li>
-            <li><a href=""><i class="fa fa-chevron-right"></i></a></li>
-          </ul>
-        </div>
-      </div>
     </footer>
   </div>
 </div>

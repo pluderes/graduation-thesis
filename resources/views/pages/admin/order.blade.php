@@ -1,6 +1,6 @@
 @extends('orderLayout')
 @section('order_content')
-
-<h1>Quản lý đơn hàng</h1>
-
+<div class="panel-heading" style="text-align: center;">
+    <h2 style="margin: 0;">Quản lý đơn hàng</h2>
+</div>
 @endsection

@@ -6,10 +6,12 @@
       Thông tin khách hàng
     </div>
     <?php
-    $message = Session::get('message1');
+    $message = Session::get('message');
     if ($message) {
-      echo '<span style="color:red; font-weight:bold">', $message, '</span>';
-      Session::put('message1', null);
+      echo '<div class="alert alert-success alert-dismissable text-center">
+						<button type="button" class="close" data-dismiss="alert" area-hidden="true">&times;</button>', $message,
+      '</div>';
+      Session::put('message', null);
     }
     ?>
     <div class="table-responsive">
@@ -59,7 +61,7 @@
             <td><span class="text-ellipsis"></span>{{$invoice_id->prod_name}}</td>
             <td><span class="text-ellipsis"></span>{{$invoice_id->sell_quantity}}</td>
             <td><span class="text-ellipsis"></span>{{$invoice_id->prod_price}}</td>
-            <td><span class="text-ellipsis"></span>{{$invoice_id->invoice_total}} (Đã tính phí)</td>
+            <td><span class="text-ellipsis"></span>{{$invoice_id->invoice_total}} VNĐ (Đã tính phí)</td>
           </tr>
           @endforeach
         </tbody>

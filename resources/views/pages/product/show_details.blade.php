@@ -147,10 +147,13 @@
 									</form>
 									<?php
 									if ($prod_by_status->status_id != 3) {
+										if ($prod_by_status->status_id == 4) {
 									?>
-									<?php
+											<img src="{{asset('public/Upload/banner/new.png')}}" id="new" alt="" />
+										<?php
+										}
 									} else {
-									?>
+										?>
 										<img src="{{asset('public/Upload/banner/sale5.png')}}" id="saleoff" alt="" />
 									<?php
 									}

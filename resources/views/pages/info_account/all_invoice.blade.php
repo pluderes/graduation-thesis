@@ -8,7 +8,9 @@
     <?php
     $message = Session::get('message');
     if ($message) {
-      echo '<span style="color:red; font-weight:bold">', $message, '</span>';
+      echo '<div class="alert alert-success alert-dismissable text-center">
+						<button type="button" class="close" data-dismiss="alert" area-hidden="true">&times;</button>', $message,
+      '</div>';
       Session::put('message', null);
     }
     ?>
@@ -31,7 +33,7 @@
               <!-- <a onclick="return confirm(`Bạn có chắc muốn xóa đơn hàng này?`)" href="{{URL::TO('/order-delete-invoice/'.$invoice->invoice_id)}}" class="active" ui-toggle-class=""><i class="fa fa-times text-danger text"></i></a> -->
             </td>
             <td><span class="text-ellipsis">{{$invoice->invoice_id}}</span></td>
-            <td><span class="text-ellipsis">{{$invoice->invoice_total}}</span></td>
+            <td><span class="text-ellipsis">{{$invoice->invoice_total}} VNĐ</span></td>
             <td>{{$invoice->current_status}}</td>
             <td><span class="text-ellipsis">{{$invoice->invoice_date_time}}</span></td>
           </tr>

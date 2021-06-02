@@ -28,7 +28,9 @@
                         <?php
                         $message = Session::get('message');
                         if ($message) {
-                            echo '<span style="color:red; font-weight:bold">', $message, '</span>';
+                            echo '<div class="alert alert-success alert-dismissable text-center">
+						<button type="button" class="close" data-dismiss="alert" area-hidden="true">&times;</button>', $message,
+                            '</div>';
                             Session::put('message', null);
                         }
                         ?>

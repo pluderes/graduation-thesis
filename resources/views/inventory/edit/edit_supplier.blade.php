@@ -3,13 +3,15 @@
 <div class="col-lg-12">
     <section class="panel">
         <header class="panel-heading" style="text-align: center; background-color: lightgray;">
-            Cập nhật nhà xuất bản
+        <h2 style="margin: 0;">Cập nhật nhà xuất bản</h2>
         </header>
         <div class="panel-body">
             <?php
             $message = Session::get('message');
             if ($message) {
-                echo '<span style="color:red; font-weight:bold">', $message, '</span>';
+                echo '<div class="alert alert-success alert-dismissable text-center">
+						<button type="button" class="close" data-dismiss="alert" area-hidden="true">&times;</button>', $message,
+                '</div>';
                 Session::put('message', null);
             }
             ?>
@@ -29,11 +31,17 @@
                         <label for="supplierAddress">Địa chỉ</label>
                         <input type="text" class="form-control" id="supplierAddress" name="supplier_address" value="{{$edit_value->supplier_addr}}" required>
                     </div>
-                    <button type="submit" class="btn btn-info">Xác nhận</button>
+                    <button id="btnsubmit" type="submit" class="btn btn-info">Xác nhận</button>
                 </form>
+                <button style="margin-top: 10px;" id="btnback" type="submit" class="btn btn-info" onclick="goBack()">Trở về</button>
             </div>
             @endforeach
         </div>
     </section>
 </div>
+<script>
+    function goBack() {
+        window.history.back();
+    }
+</script>
 @endsection

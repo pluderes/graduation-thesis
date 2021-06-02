@@ -87,13 +87,19 @@ class HomeController extends Controller
 
         Session::put('count_product',$count_product);
         Session::put('count_author',$count_author);
+        Session::put('keywords',$keywords);
 
         return view('pages.product.search')->with('status_prod', $status_product)->with('category', $cate_product)->with('prod_type', $type_product)->with('search_product', $search_product)->with('search_author', $search_author);
         // echo '<pre>';
         // print_r($search_author);
-        // print_r($count_author);
+        // // print_r($count_author);
         // print_r($search_product);
-        // print_r($count_product);
+        // // print_r($count_product);
         // echo '</pre>';
+    }
+
+    public function aboutus()
+    {
+        return view('pages.admin.userprofile');
     }
 }

@@ -1,0 +1,12 @@
+
+#btndangnhap, 
+#btndangki {
+    margin-top: 20px;
+    height: max-content;
+    width: 150px;
+}
+
+#username,
+#pass {
+    width: 30%;
+}

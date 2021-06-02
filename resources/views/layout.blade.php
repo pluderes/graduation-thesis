@@ -69,24 +69,24 @@
 								?>
 									<li><a href="{{URL::TO('/info/'.$acc_id)}}"><i class="fa fa-user"></i> Tài khoản</a></li>
 									<li><a href="{{URL::TO('/wishlist/'.$acc_id)}}"><i class="fa fa-star"></i> Yêu thích</a></li>
-									<?php
-									if ($deli_id == NULL) {
+									<!-- <?php
+									// if ($deli_id == NULL) {
 									?>
 										<li><a href="{{URL::TO('/checkout/'.$acc_id)}}"><i class="far fa-credit-card"></i> Thanh toán</a></li>
 									<?php
-									} else if ($deli_id != NULL) {
+									// } else if ($deli_id != NULL) {
 									?>
 										<li><a href="{{URL::TO('/payment')}}"><i class="far fa-credit-card"></i> Thanh toán</a></li>
 									<?php
-									}
-									?>
+									// }
+									?> -->
 									<li><a href="{{URL::TO('/adminLogout')}}"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a></li>
 								<?php
 								} else {
 								?>
 									<li><a href="{{URL::TO('/login-checkout')}}"><i class="fa fa-user"></i> Tài khoản</a></li>
 									<li><a href="{{URL::TO('/login-checkout')}}"><i class="fa fa-star"></i> Yêu thích</a></li>
-									<li><a href="{{URL::TO('/login-checkout')}}"><i class="far fa-credit-card"></i> Thanh toán</a></li>
+									<!-- <li><a href="{{URL::TO('/login-checkout')}}"><i class="far fa-credit-card"></i> Thanh toán</a></li> -->
 									<li><a href="{{URL::TO('/adminLogin')}}"><i class="fas fa-sign-in-alt"></i> Đăng nhập</a></li>
 								<?php
 								}
@@ -115,8 +115,7 @@
 										@endforeach
 									</ul>
 								</li>
-								<li><a href="{{URL::TO('/show-cart')}}"><i class="fa fa-shopping-cart"></i> Giỏ hàng</a></li>
-								<li><a href="contact-us.html"><i class="fa fa-phone"></i> Liên hệ</a></li>
+								<li><a href="{{URL::TO('/aboutus')}}"><i class="fa fa-phone"></i> Liên hệ</a></li>
 							</ul>
 						</div>
 					</div>
@@ -252,7 +251,7 @@
 							<h2>Dịch vụ</h2>
 							<ul class="nav nav-pills nav-stacked">
 								<li><a href="#">Hỗ trợ trực tuyến</a></li>
-								<li><a href="#">Liên hệ với chúng tôi</a></li>
+								<li><a href="{{URL::TO('/aboutus')}}">Liên hệ với chúng tôi</a></li>
 							</ul>
 						</div>
 					</div>
@@ -283,7 +282,7 @@
 			<div class="container">
 				<div class="row">
 					<p class="pull-left">Copyright © 2013 E-SHOPPER Inc. All rights reserved.</p>
-					<p class="pull-right">Designed by <span><a target="_blank" href="http://www.themeum.com">Themeum</a></span></p>
+					<p class="pull-right">Designed by <span><a target="_blank" href="http://www.themeum.com">Trung Đức</a></span></p>
 				</div>
 			</div>
 		</div>

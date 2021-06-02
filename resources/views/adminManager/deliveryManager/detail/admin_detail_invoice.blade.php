@@ -2,8 +2,8 @@
 @section('admin_content')
 <div class="table-agile-info">
   <div class="panel panel-default">
-    <div class="panel-heading" style="text-align: center;">
-      Thông tin khách hàng
+    <div class="panel-heading" style="text-align: center; background-color: lightgray;">
+      <h3 style="margin: 0;">Thông tin khách hàng</h3>
     </div>
     <div class="table-responsive">
       <table class="table table-striped b-t b-light">
@@ -33,8 +33,8 @@
 <br>
 <div class="table-agile-info">
   <div class="panel panel-default">
-    <div class="panel-heading" style="text-align: center;">
-      Chi tiết đơn hàng
+    <div class="panel-heading" style="text-align: center; background-color: lightgray;">
+      <h3 style="margin: 0;">Chi tiết đơn hàng</h3>
     </div>
     <div class="table-responsive">
       <table class="table table-striped b-t b-light">
@@ -66,8 +66,8 @@
   <div class="panel panel-default">
     <form action="{{URL::TO('/admin-delivery-add-ship/'.$account->invoice_id)}}" method="post">
       {{csrf_field()}}
-      <div class="panel-heading" style="text-align: center;">
-        Thông tin đơn hàng
+      <div class="panel-heading" style="text-align: center; background-color: lightgray;">
+        <h3 style="margin: 0;">Thông tin đơn hàng</h3>
       </div>
       <div class="table-responsive">
         <table class="table table-striped b-t b-light">
@@ -89,10 +89,16 @@
           </tbody>
         </table>
         <div>
-          <button type="submit" onclick="return confirm(`Nhận giao đơn hàng này?`)">Nhận đơn</button>
+          <button id="btnsubmit" type="submit" class="btn btn-info" onclick="return confirm(`Nhận giao đơn hàng này?`)">Nhận đơn</button>
         </div>
       </div>
     </form>
+    <button style="margin-top: 10px;" id="btnback" type="submit" class="btn btn-info" onclick="goBack()">Trở về</button>
   </div>
 </div>
+<script>
+  function goBack() {
+    window.history.back();
+  }
+</script>
 @endsection

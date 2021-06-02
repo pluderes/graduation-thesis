@@ -94,14 +94,11 @@ class CheckoutController extends Controller
         $max_quantity = DB::table('product')->where('product.prod_id', $request->prod_id)->get();
 
         // -------------
-        $info = DB::table('delivery')->where('acc_id', $acc_id)->get();
+        $count_info = DB::table('delivery')->where('acc_id', $acc_id)->count();
         $deli_info = DB::table('delivery')->where('acc_id', $acc_id)->limit(1)->get();
 
         $count = Cart::count();
 
-        // echo '<pre>';
-        // print_r($max_quantity[0]->prod_quantity);
-        // echo '</pre>';
         if ($count > 0) {
             $rowId = $request->rowId_cart;
             if ($request->cart_quantity > $max_quantity[0]->prod_quantity) {
@@ -111,9 +108,9 @@ class CheckoutController extends Controller
             }
             Cart::update($rowId, $quantity);
 
-            if (count($info) !== 0) {
+            if ($count_info !== 0) {
                 return view('pages.checkout.checkout')->with('category', $cate_product)->with('status_prod', $status_product)->with('prod_type', $type_product)->with('deli_info', $deli_info);
-            } else if (count($info) === 0) {
+            } else if ($count_info === 0) {
                 return view('pages.checkout.new_checkout')->with('category', $cate_product)->with('status_prod', $status_product)->with('prod_type', $type_product);
             }
         } else {
@@ -160,7 +157,8 @@ class CheckoutController extends Controller
 
         $content = Cart::content();
         $quantity = 0;
-
+        $data = array();
+        $data['payment_method'] = $request->payment_option;
         foreach ($content as $v_content) {
             $prod_detail = DB::table('product')->where('product.prod_id', $v_content->id)->get();
             $quantity = $prod_detail[0]->prod_quantity - $v_content->qty;
@@ -168,12 +166,14 @@ class CheckoutController extends Controller
 
         if ($quantity >= 0) {
             if ($data['payment_method'] === "1") {
-                echo 'ATM';
+                $cate_product = DB::table('category')->orderBy('cate_id', 'asc')->get();
+                $status_product = DB::table('product_status')->orderBy('status_id', 'asc')->get();
+                $type_product = DB::table('type')->orderBy('type_id', 'asc')->get();
+
+                return view('pages.checkout.ATM')->with('category', $cate_product)->with('status_prod', $status_product)->with('prod_type', $type_product);
             } else if ($data['payment_method'] === "2") {
 
                 // insert payment
-                $data = array();
-                $data['payment_method'] = $request->payment_option;
                 $data['payment_status'] = 'Chờ xử lý';
                 $data['payment_date_time'] = Carbon::now();
                 $payment_id = DB::table('payment')->insertGetId($data);

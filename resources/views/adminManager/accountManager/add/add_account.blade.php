@@ -3,13 +3,15 @@
 <div class="col-lg-12">
     <section class="panel">
         <header class="panel-heading" style="text-align: center; background-color: lightgray;">
-            Thêm tài khoản
+            <h2 style="margin: 0;">Thêm tài khoản</h2>
         </header>
         <div class="panel-body">
             <?php
             $message = Session::get('message');
             if ($message) {
-                echo '<span style="color:red; font-weight:bold">', $message, '</span>';
+                echo '<div class="alert alert-success alert-dismissable text-center">
+						<button type="button" class="close" data-dismiss="alert" area-hidden="true">&times;</button>', $message,
+                '</div>';
                 Session::put('message', null);
             }
             ?>
@@ -43,7 +45,7 @@
                         <input type="file" name="inpthumbnail" class="form-control" id="accThumbnail">
                     </div>
                     <div>
-                        <label for="permID">ID quyền</label>
+                        <label for="permID">Mã phân quyền</label>
                         <br>
                         <select name="perm_id" id="permID">
                             @foreach($perm as $key => $perm_acc)
@@ -54,19 +56,14 @@
                     <br>
                     <button type="submit" class="btn btn-info">Xác nhận</button>
                 </form>
+                <button style="margin-top: 10px;" id="btnback" type="submit" class="btn btn-info" onclick="goBack()">Trở về</button>
             </div>
         </div>
     </section>
 </div>
-<!-- <script>
-    let inpThumbnail = document.getElementById("accThumbnail");
-    let thumbnail = document.getElementById("thumbnail");
-    inpThumbnail.addEventListener("change", function() {
-        if (inpThumbnail.value != null) {
-            thumbnail.innerHTML = inpThumbnail.value.substring(12, inpThumbnail.length);
-        }
-        console.log(inpThumbnail);
-        console.log(thumbnail);
-    });
-</script> -->
+<script>
+    function goBack() {
+        window.history.back();
+    }
+</script>
 @endsection

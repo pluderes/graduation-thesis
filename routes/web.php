@@ -224,3 +224,8 @@ Route::post('/customer-cancel-invoice/{invoice_id}','infoController@customer_can
 Route::get('/add-wishlist/{prod_id}','infoController@add_wishlist');
 Route::get('/wishlist/{acc_id}','infoController@show_wishlist');
 Route::get('/delete-prod-wishlist/{prod_id}','infoController@delete_prod_wishlist');
+
+// -------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------
+// about us
+Route::get('/aboutus','HomeController@aboutus');

@@ -18,14 +18,18 @@
 					<?php
 					$message = Session::get('warning');
 					if ($message) {
-						echo '<span style="color:red; font-weight:bold">', $message, '</span>';
+						echo '<div class="alert alert-warning alert-dismissable text-center">
+						<button type="button" class="close" data-dismiss="alert" area-hidden="true">&times;</button>', $message,
+						'</div>';
 						Session::put('warning', null);
 					}
 					?>
 					<?php
 					$message = Session::get('error');
 					if ($message) {
-						echo '<span style="color:red; font-weight:bold">', $message, '</span>';
+						echo '<div class="alert alert-danger alert-dismissable text-center">
+						<button type="button" class="close" data-dismiss="alert" area-hidden="true">&times;</button>', $message,
+						'</div>';
 						Session::put('error', null);
 					}
 					?>
@@ -60,17 +64,7 @@
 									<button style="background-color: seagreen; color: seashell;" type="submit" name="update_qty" class="btn btn-default btn-sm">Cập nhật</button>
 								</div>
 							</form>
-							<?php
-							if ($value_content->status_id != 3) {
-							?>
-
-							<?php
-							} else {
-							?>
-								<img src="{{asset('public/Upload/banner/sale5.png')}}" id="saleoff" alt="" />
-							<?php
-							}
-							?>
+							
 						</td>
 						<td class="cart_total">
 							<p class="cart_total_price">
@@ -90,27 +84,6 @@
 		</div>
 	</div>
 </section>
-<!--/#cart_items-->
-<!-- <section id="do_action" style="margin-bottom: 0px;">
-	<div class="container" style="padding-left: 0;">
-		<div class="heading">
-			<h4>Mã giảm giá</h4>
-		</div>
-		<div class="row">
-			<div class="col-sm-6">
-				<div class="total_area">
-					<form action="{{URL::TO('/update-price')}}" method="POST">
-						{{csrf_field()}}
-						<div class="cart_quantity_button">
-							<input type="text" name="discount" id="">
-							<button class="btn btn-default check_out" type="submit">Áp dụng</button>
-						</div>
-					</form>
-				</div>
-			</div>
-		</div>
-	</div>
-</section> -->
 <section id="do_action">
 	<div class="container" style="padding-left: 0;">
 		<div class="heading">

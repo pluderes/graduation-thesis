@@ -3,13 +3,15 @@
 <div class="table-agile-info">
   <div class="panel panel-default">
     <div class="panel-heading" style="text-align: center;">
-      Thông tin khách hàng
+      <h3 style="margin: 0;">Thông tin khách hàng</h3>
     </div>
     <?php
-    $message = Session::get('message1');
+    $message = Session::get('message');
     if ($message) {
-      echo '<span style="color:red; font-weight:bold">', $message, '</span>';
-      Session::put('message1', null);
+      echo '<div class="alert alert-success alert-dismissable text-center">
+						<button type="button" class="close" data-dismiss="alert" area-hidden="true">&times;</button>', $message,
+      '</div>';
+      Session::put('message', null);
     }
     ?>
     <div class="table-responsive">
@@ -41,7 +43,7 @@
 <div class="table-agile-info">
   <div class="panel panel-default">
     <div class="panel-heading" style="text-align: center;">
-      Chi tiết đơn hàng
+      <h3 style="margin: 0;">Chi tiết đơn hàng</h3>
     </div>
     <div class="table-responsive">
       <table class="table table-striped b-t b-light">
@@ -72,7 +74,7 @@
 <div class="table-agile-info">
   <div class="panel panel-default">
     <div class="panel-heading" style="text-align: center;">
-      Thông tin đơn hàng
+      <h3 style="margin: 0;">Thông tin đơn hàng</h3>
     </div>
     <div class="table-responsive">
       <table class="table table-striped b-t b-light">
@@ -107,7 +109,13 @@
       <option value="{{$detail->status_detail_id}}">{{$detail->status_detail_id}} - {{$detail->status_name}}</option>
       @endforeach
     </select>
-    <button type="submit">Cập nhật</button>
+    <button id="btnsubmit" type="submit" class="btn btn-info">Cập nhật</button>
   </form>
+  <button style="margin-top: 10px;" id="btnback" type="submit" class="btn btn-info" onclick="goBack()">Trở về</button>
 </div>
+<script>
+  function goBack() {
+    window.history.back();
+  }
+</script>
 @endsection

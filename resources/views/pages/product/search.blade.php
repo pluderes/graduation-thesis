@@ -2,17 +2,27 @@
 @section('content')
 <section id="introduce" class="section-padding">
 	<div class="text-center">
-		<h2 class="title" style="color: lightcoral;">Kết quả tìm kiếm</h2>
+		<?php
+		$keywords = Session::get('keywords');
+		?>
+		<h2 class="title">Kết quả tìm kiếm:
+			<?php
+			echo $keywords;
+			?>
+		</h2>
 		<?php
 		$count_product = Session::get('count_product');
 		$count_author = Session::get('count_author');
 		$message = Session::get('search_error');
 		if ($message) {
-			echo '<span style="color:red; font-weight:bold">', $message, '</span>';
+			echo '<div class="alert alert-danger alert-dismissable text-center">
+			<button type="button" class="close" data-dismiss="alert" area-hidden="true">&times;</button>', $message,
+			'</div>';
 			Session::put('search_error', null);
 		?>
 			<br>
 			<img src="{{asset('public/Upload/banner/oops.png')}}" alt="">
+
 		<?php
 		} else {
 		?>
@@ -45,11 +55,13 @@
 									</form>
 									<?php
 									if ($prod->status_id != 3) {
+										if ($prod->status_id == 4) {
 									?>
-
-									<?php
+											<img src="{{asset('public/Upload/banner/new.png')}}" id="new" alt="" />
+										<?php
+										}
 									} else {
-									?>
+										?>
 										<img src="{{asset('public/Upload/banner/sale5.png')}}" id="saleoff" alt="" />
 									<?php
 									}
@@ -107,11 +119,13 @@
 									</form>
 									<?php
 									if ($prod->status_id != 3) {
+										if ($prod->status_id == 4) {
 									?>
-
-									<?php
+											<img src="{{asset('public/Upload/banner/new.png')}}" id="new" alt="" />
+										<?php
+										}
 									} else {
-									?>
+										?>
 										<img src="{{asset('public/Upload/banner/sale5.png')}}" id="saleoff" alt="" />
 									<?php
 									}
@@ -169,11 +183,13 @@
 									</form>
 									<?php
 									if ($prod->status_id != 3) {
+										if ($prod->status_id == 4) {
 									?>
-
-									<?php
+											<img src="{{asset('public/Upload/banner/new.png')}}" id="new" alt="" />
+										<?php
+										}
 									} else {
-									?>
+										?>
 										<img src="{{asset('public/Upload/banner/sale5.png')}}" id="saleoff" alt="" />
 									<?php
 									}
@@ -228,11 +244,13 @@
 									</form>
 									<?php
 									if ($prod->status_id != 3) {
+										if ($prod->status_id == 4) {
 									?>
-
-									<?php
+											<img src="{{asset('public/Upload/banner/new.png')}}" id="new" alt="" />
+										<?php
+										}
 									} else {
-									?>
+										?>
 										<img src="{{asset('public/Upload/banner/sale5.png')}}" id="saleoff" alt="" />
 									<?php
 									}
@@ -290,11 +308,13 @@
 									</form>
 									<?php
 									if ($prod->status_id != 3) {
+										if ($prod->status_id == 4) {
 									?>
-
-									<?php
+											<img src="{{asset('public/Upload/banner/new.png')}}" id="new" alt="" />
+										<?php
+										}
 									} else {
-									?>
+										?>
 										<img src="{{asset('public/Upload/banner/sale5.png')}}" id="saleoff" alt="" />
 									<?php
 									}

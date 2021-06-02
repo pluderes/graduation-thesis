@@ -8,10 +8,10 @@
     <div class="container">
         <div id="form-deli">
             <div class="row">
-                <div class="col-sm-12">
-                    <h2>Thông tin vận chuyển</h2>
+                <div class="col-sm-9">
+                    <h2 style="text-align: center; color: seagreen;">Thông tin vận chuyển</h2>
                     <hr>
-                    <div class="bill-to">
+                    <div class="bill-to row">
                     @foreach($deli_info as $key => $value)
                         <div class="form-one">
                             <form action="{{URL::to('/save-checkout-customer')}}" method="POST">
@@ -26,6 +26,9 @@
                             </form>
                         </div>
                     @endforeach
+                    <div class="col-sm-2">
+                        <img style="width: 420px; height: 610px;" src="{{asset('public/Upload/banner/man-delivery.png')}}" alt="">
+                    </div>
                     </div>
                 </div>
             </div>
