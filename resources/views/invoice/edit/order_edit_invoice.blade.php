@@ -6,12 +6,12 @@
       <h3 style="margin: 0;">Thông tin khách hàng</h3>
     </div>
     <?php
-    $message = Session::get('message');
+    $message = Session::get('message1');
     if ($message) {
       echo '<div class="alert alert-success alert-dismissable text-center">
 						<button type="button" class="close" data-dismiss="alert" area-hidden="true">&times;</button>', $message,
       '</div>';
-      Session::put('message', null);
+      Session::put('message1', null);
     }
     ?>
     <div class="table-responsive">
@@ -109,7 +109,11 @@
       <option value="{{$detail->status_detail_id}}">{{$detail->status_detail_id}} - {{$detail->status_name}}</option>
       @endforeach
     </select>
-    <button id="btnsubmit" type="submit" class="btn btn-info">Cập nhật</button>
+    <br>
+    <button style="margin-top: 10px;" id="btnsubmit" type="submit" class="btn btn-info">Cập nhật</button>
+  </form>
+  <form action="">
+    <button style="margin-top: 10px;" id="btnsubmit" type="submit" class="btn btn-info">Xuất hóa đơn</button>
   </form>
   <button style="margin-top: 10px;" id="btnback" type="submit" class="btn btn-info" onclick="goBack()">Trở về</button>
 </div>

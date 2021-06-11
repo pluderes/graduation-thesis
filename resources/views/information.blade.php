@@ -42,6 +42,7 @@
         </div>
         <?php
         $image = Session::get('accImg');
+        $acc_id = Session::get('acc_id');
         ?>
         <div class="columns-block">
             <div class="left-col-block blocks">
@@ -87,6 +88,11 @@
                                                                                 echo $contact;
                                                                             }
                                                                             ?></p>
+                                        </li>
+                                        <li>
+                                            <div class="front row">
+                                                <a href="{{URL::TO('/edit-info/'.$acc_id)}}"><i class="fa fa-edit"></i>Chỉnh sửa thông tin tài khoản</a>
+                                            </div>
                                         </li>
                                     </ul>
                                 </div>

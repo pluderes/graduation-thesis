@@ -189,7 +189,7 @@ class deliveryManager extends Controller
             ->join('account', 'invoice.acc_id', '=', 'account.acc_id')
             ->join('delivery', 'invoice.deli_id', '=', 'delivery.deli_id')
             ->join('shipper', 'invoice.invoice_id', '=', 'shipper.invoice_id')
-            ->where('shipper.acc_id', $ship_id)
+            ->where('shipper.acc_id', $ship_id)->where('invoice.current_status', '=', 'Đang giao hàng')
             ->select('invoice.*', 'account.acc_name', 'delivery.deli_address',)
             ->orderBy('invoice.invoice_id', 'desc')->get();
         $manager_delivery = view('delivery.order.delivery_shipper')->with('all_invoice', $delivery_all_invoice);

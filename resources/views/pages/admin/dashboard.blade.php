@@ -1,7 +1,13 @@
 @extends('adminLayout')
 @section('admin_content')
+
+<div class="panel-heading" style="text-align: center;">
+    <h2 style="margin: 0;">Quản lý quản trị</h2>
+    <img src="{{asset('public/Upload/banner/admin-manager.png')}}" alt="" srcset="">
+</div>
+
 <!--  project and team member start -->
-<div class="col-xl-8 col-md-12">
+<!-- <div class="col-xl-8 col-md-12" style="text-align: center;">
     <div class="card table-card">
         <div class="card-header">
             <h5>Projects</h5>
@@ -71,8 +77,8 @@
             </div>
         </div>
     </div>
-</div>
-<div class="col-xl-4 col-md-12">
+</div> -->
+<!-- <div class="col-xl-4 col-md-12">
     <div class="card ">
         <div class="card-header">
             <h5>Team Members</h5>
@@ -100,6 +106,6 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->
 <!--  project and team member end -->
 @endsection

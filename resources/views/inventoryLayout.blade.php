@@ -114,7 +114,7 @@
                             </div>
                         </div>
                         <a href="index.html">
-                            <img class="img-fluid" src="{{asset('public/Backend/assets/images/logo.png')}}" alt="Theme-Logo" />
+                            <img style="width: 150px; margin-left: 25px;" src="{{asset('public\Upload\banner\zorbashop.png')}}" alt="Theme-Logo" />
                         </a>
                         <a class="mobile-options waves-effect waves-light">
                             <i class="ti-more"></i>
@@ -145,18 +145,22 @@
 
                             <li class="user-profile header-notification">
                                 <a href="#!" class="waves-effect waves-light">
-                                    <img src="{{asset('public/Backend/assets/images/avatar-4.jpg')}}" class="img-radius" alt="User-Profile-Image">
+                                    <?php
+                                    $image = Session::get('accImg');
+                                    $acc_id = Session::get('acc_id');
+                                    ?>
+                                    <img style="height: 40px;" src="{{asset('public/Backend/images/'.$image)}}" class="img-radius" alt="User-Profile-Image">
                                     <span> <?php
                                             $name = Session::get('adminname');
-                                            if($name){
+                                            if ($name) {
                                                 echo $name;
                                             }
-                                        ?></span>
+                                            ?></span>
                                     <i class="ti-angle-down"></i>
                                 </a>
                                 <ul class="show-notification profile-notification">
-                                       <li class="waves-effect waves-light">
-                                        <a href="user-profile.html">
+                                    <li class="waves-effect waves-light">
+                                        <a href="{{URL::TO('/info/'.$acc_id)}}">
                                             <i class="ti-user"></i> Hồ sơ
                                         </a>
                                     </li>
@@ -179,29 +183,29 @@
                         <div class="pcoded-inner-navbar main-menu">
                             <div class="">
                                 <div class="main-menu-header">
-                                    <img class="img-80 img-radius" src="{{asset('public/Backend/assets/images/avatar-4.jpg')}}" alt="User-Profile-Image">
+                                    <img class="img-80 img-radius" style="height: 60px;" src="{{asset('public/Backend/images/'.$image)}}" alt="User-Profile-Image">
                                     <div class="user-details">
                                         <span id="more-details">
-                                        <?php
+                                            <?php
                                             $name = Session::get('adminname');
-                                            if($name){
+                                            if ($name) {
                                                 echo $name;
                                             }
-                                        ?>
-                                        <i class="fa fa-caret-down"></i></span>
+                                            ?>
+                                            <i class="fa fa-caret-down"></i></span>
                                     </div>
                                 </div>
 
                                 <div class="main-menu-content">
                                     <ul>
                                         <li class="more-details">
-                                            <a href="user-profile.html"><i class="ti-user"></i>Xem hồ sơ</a>
+                                            <a href="{{URL::TO('/info/'.$acc_id)}}"><i class="ti-user"></i>Xem hồ sơ</a>
                                             <a href="{{URL::TO('/adminLogout')}}"><i class="ti-layout-sidebar-left"></i>Đăng xuất</a>
                                         </li>
                                     </ul>
                                 </div>
                             </div>
-                              <div class="pcoded-navigation-label" data-i18n="nav.category.navigation">Per</div>
+                            <div class="pcoded-navigation-label" data-i18n="nav.category.navigation">Per</div>
                             <ul class="pcoded-item pcoded-left-item">
                                 <li class="active">
                                     <a href="" class="waves-effect waves-dark">

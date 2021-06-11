@@ -114,7 +114,7 @@
                             </div>
                         </div>
                         <a href="index.html">
-                            <img class="img-fluid" src="{{asset('public/Backend/assets/images/logo.png')}}" alt="Theme-Logo" />
+                            <img style="width: 150px; margin-left: 25px;" src="{{asset('public\Upload\banner\zorbashop.png')}}" alt="Theme-Logo" />
                         </a>
                         <a class="mobile-options waves-effect waves-light">
                             <i class="ti-more"></i>
@@ -145,7 +145,11 @@
 
                             <li class="user-profile header-notification">
                                 <a href="#!" class="waves-effect waves-light">
-                                    <img src="{{asset('public/Backend/assets/images/avatar-4.jpg')}}" class="img-radius" alt="User-Profile-Image">
+                                    <?php
+                                    $image = Session::get('accImg');
+                                    $acc_id = Session::get('acc_id');
+                                    ?>
+                                    <img src="{{asset('public/Backend/images/'.$image)}}" class="img-radius" alt="User-Profile-Image">
                                     <span> <?php
                                             $name = Session::get('adminname');
                                             if ($name) {
@@ -156,7 +160,7 @@
                                 </a>
                                 <ul class="show-notification profile-notification">
                                     <li class="waves-effect waves-light">
-                                        <a href="user-profile.html">
+                                        <a href="{{URL::TO('/info/'.$acc_id)}}">
                                             <i class="ti-user"></i> Hồ sơ
                                         </a>
                                     </li>
@@ -179,7 +183,7 @@
                         <div class="pcoded-inner-navbar main-menu">
                             <div class="">
                                 <div class="main-menu-header">
-                                    <img class="img-80 img-radius" src="{{asset('public/Backend/assets/images/avatar-4.jpg')}}" alt="User-Profile-Image">
+                                    <img class="img-80 img-radius" src="{{asset('public/Backend/images/'.$image)}}" alt="User-Profile-Image">
                                     <div class="user-details">
                                         <span id="more-details">
                                             <?php
@@ -195,7 +199,7 @@
                                 <div class="main-menu-content">
                                     <ul>
                                         <li class="more-details">
-                                            <a href="user-profile.html"><i class="ti-user"></i>Xem hồ sơ</a>
+                                            <a href="{{URL::TO('/info/'.$acc_id)}}"><i class="ti-user"></i>Xem hồ sơ</a>
                                             <a href="auth-normal-sign-in.html"><i class="ti-layout-sidebar-left"></i>Đăng xuất</a>
                                         </li>
                                     </ul>

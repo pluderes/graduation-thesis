@@ -10,6 +10,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Redirect;
 use Cart;
 use Illuminate\Contracts\Session\Session as SessionSession;
+use App\Models\account;
 
 session_start();
 
@@ -61,7 +62,7 @@ class infoController extends Controller
             ->join('shipper', 'shipper.invoice_id', '=', 'invoice.invoice_id')
             ->join('account', 'account.acc_id', '=', 'shipper.acc_id')
             ->select('invoice_status.*', 'invoice_status_detail.*', 'account.*')
-            ->where('invoice.invoice_id', $invoice_id)->get();
+            ->where('invoice.invoice_id', $invoice_id)->orderBy('invoice_status.invoice_status_id', 'asc')->get();
 
         $invoice_by_ID = DB::table('invoice')
             ->join('delivery', 'invoice.deli_id', '=', 'delivery.deli_id')
@@ -70,14 +71,15 @@ class infoController extends Controller
             ->select('delivery.*', 'invoice.*', 'invoice_detail.*', 'account.*')
             ->orderBy('invoice.invoice_id', 'desc')->where('invoice.invoice_id', $invoice_id)->get();
 
-        $status_detail = DB::table('invoice_status_detail')
-            ->orderBy('invoice_status_detail.status_detail_id', 'asc')->get();
+        $invoice_detail = DB::table('invoice_status')->join('invoice_status_detail', 'invoice_status.status_detail_id', '=', 'invoice_status_detail.status_detail_id')->where('invoice_status.invoice_id', $invoice_id)->get();
+        $count = $status->count();
 
-        $manager_invoice = view('pages.info_account.customer_detail_invoice')->with('invoice_by_id', $invoice_by_ID)->with('info_account', $info_account)->with('invoice_status', $status)->with('status_detail', $status_detail);
+        $manager_invoice = view('pages.info_account.customer_detail_invoice')->with('invoice_by_id', $invoice_by_ID)->with('info_account', $info_account)->with('invoice_status', $status)->with('invoice_detail', $invoice_detail);
 
         // echo '<pre>';
-        // print_r($invoice_by_ID);
+        // print_r($invoice_detail);
         // echo '</pre>';
+        Session::put('countstatus', $count);
         return view('information')->with('pages.info_account.customer_detail_invoice', $manager_invoice);
     }
 
@@ -189,5 +191,59 @@ class infoController extends Controller
         $acc_id = Session::get('acc_id');
         DB::table('wishlist')->where('wishlist.prod_id', $prod_id)->delete();
         return Redirect::to('/wishlist/' . $acc_id)->with('message', 'Đã xóa sách này trong danh sách ưu thích!');
+    }
+
+    public function edit_info_account($acc_id)
+    {
+        $this->checkLogin();
+
+        $edit_account = account::find($acc_id);
+        // echo '<pre>';
+        // print_r($edit_account);
+        // echo '</pre>';
+        return view('pages.info_account.edit_info_customer')->with('edit_account', $edit_account);
+    }
+
+    public function update_info_account(Request $request, $acc_id)
+    {
+        $this->checkLogin();
+        $data = array();
+        $data['username'] = $request->username;
+        $data['password'] = md5($request->password);
+        $data['acc_name'] = $request->acc_name;
+        $data['acc_email'] = $request->email;
+        $data['acc_contact'] = $request->acc_contact;
+        $data['perm_id'] = '5';
+        $get_image = $request->file('inpthumbnail');
+        if ($get_image) {
+            $get_name_image = $get_image->getClientOriginalName();
+            $name_image = current(explode('.', $get_name_image));
+            $new_image = $name_image . '.' . $get_image->getClientOriginalExtension();
+            $get_image->move('public/Backend/images', $new_image);
+            $data['acc_img'] = $new_image;
+
+            // echo '<pre>';
+            // print_r($data);
+            // echo '</pre>';
+
+            DB::table('account')->where('acc_id', $acc_id)->update($data);
+
+            Session::put('message', 'Cập nhật tài khoản thành công!');
+            $img = account::find($acc_id);
+            Session::put('accImg', $img->acc_img);
+            return Redirect::to('/info/' . $acc_id);
+        } else {
+            $data['acc_img'] = $request->account_thumbnail;
+
+            // echo '<pre>';
+            // print_r($data);
+            // echo '</pre>';
+            DB::table('account')->where('acc_id', $acc_id)->update($data);
+
+            Session::put('message', 'Cập nhật tài khoản thành công!');
+            $img = account::find($acc_id);
+            Session::put('accImg', $img->acc_img);
+            return Redirect::to('/info/' . $acc_id);
+        }
     }
 }

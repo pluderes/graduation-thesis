@@ -656,7 +656,7 @@ class adminManager extends Controller
         }
         DB::table('invoice')->where('invoice.invoice_id', $invoice_id)->update($invoice);
 
-        Session::put('message1', 'Cập nhật tình trạng đơn hàng thành công!');
+        Session::put('message', 'Cập nhật tình trạng đơn hàng thành công!');
 
         return Redirect::to('/admin-edit-invoice/' . $invoice_id);
     }
@@ -809,7 +809,7 @@ class adminManager extends Controller
             ->join('account', 'invoice.acc_id', '=', 'account.acc_id')
             ->join('delivery', 'invoice.deli_id', '=', 'delivery.deli_id')
             ->join('shipper', 'invoice.invoice_id', '=', 'shipper.invoice_id')
-            ->where('shipper.acc_id',$ship_id)
+            ->where('shipper.acc_id',$ship_id)->where('invoice.current_status', '=', 'Đang giao hàng')
             ->select('invoice.*', 'account.acc_name', 'delivery.deli_address',)
             ->orderBy('invoice.invoice_id', 'desc')->get();
         $manager_delivery = view('adminManager.deliveryManager.order.shipper')->with('all_invoice', $delivery_all_invoice);
@@ -885,7 +885,7 @@ class adminManager extends Controller
 
             DB::table('invoice')->where('invoice.invoice_id', $invoice_id)->update($invoice);
 
-            Session::put('message', 'Cập nhật đơn hàng thành công!');
+            Session::put('message', 'Giao đơn hàng thành công!');
         } else if ($request->invoice_status == 7) {
 
             // // update status table invoice_status
@@ -927,7 +927,7 @@ class adminManager extends Controller
 
             DB::table('invoice')->where('invoice.invoice_id', $invoice_id)->update($invoice);
 
-            Session::put('message', 'Cập nhật đơn hàng thành công!');
+            Session::put('message', 'Giao đơn hàng thất bại!');
         }
 
         // echo '<pre>';
@@ -991,4 +991,9 @@ class adminManager extends Controller
     }
 
     // -----------------------------------------------------------------------
+    // thống kê
+    public function FunctionName(Type $var = null)
+    {
+        # code...
+    }
 }

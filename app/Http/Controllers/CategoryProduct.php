@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use Session;
 use App\Http\Requests;
 use Illuminate\Support\Facades\Redirect;
+use App\Models\category;
 
 session_start();
 
@@ -20,13 +21,13 @@ class CategoryProduct extends Controller
         $status_product = DB::table('product_status')->orderBy('status_id', 'asc')->get();
         $cate_by_id = DB::table('product')->join('type', 'product.type_id', '=', 'type.type_id')->join('category', 'type.cate_id', '=', 'category.cate_id')->join('product_status', 'product.status_id', '=', 'product_status.status_id')->where('category.cate_id', $cate_id)->paginate(9);
         $category_name = DB::table('category')->where('category.cate_id', $cate_id)->limit(1)->get();
-        $type_product = DB::table('type')->orderBy('type_id','asc')->get();
+        $type_product = DB::table('type')->orderBy('type_id', 'asc')->get();
 
         // echo '<pre>';
         // print_r($cate_by_id);
         // echo '</pre>';
 
-        return view('pages.category.show_category')->with('category', $cate_product)->with('status_prod', $status_product)->with('prod_type',$type_product)->with('cate_by_id', $cate_by_id)->with('category_name', $category_name);
+        return view('pages.category.show_category')->with('category', $cate_product)->with('status_prod', $status_product)->with('prod_type', $type_product)->with('cate_by_id', $cate_by_id)->with('category_name', $category_name);
     }
 
     public function show_status($status_id)
@@ -35,9 +36,9 @@ class CategoryProduct extends Controller
         $status_product = DB::table('product_status')->orderBy('status_id', 'asc')->get();
         $status_by_id = DB::table('product')->join('product_status', 'product.status_id', '=', 'product_status.status_id')->where('product_status.status_id', $status_id)->paginate(9);
         $status_name = DB::table('product_status')->where('product_status.status_id', $status_id)->limit(1)->get();
-        $type_product = DB::table('type')->orderBy('type_id','asc')->get();
+        $type_product = DB::table('type')->orderBy('type_id', 'asc')->get();
 
-        return view('pages.category.show_status')->with('category', $cate_product)->with('status_prod', $status_product)->with('prod_type',$type_product)->with('status_by_id', $status_by_id)->with('status_name', $status_name);
+        return view('pages.category.show_status')->with('category', $cate_product)->with('status_prod', $status_product)->with('prod_type', $type_product)->with('status_by_id', $status_by_id)->with('status_name', $status_name);
     }
 
     public function show_type($type_id)
@@ -46,16 +47,16 @@ class CategoryProduct extends Controller
         $status_product = DB::table('product_status')->orderBy('status_id', 'asc')->get();
         $type_by_id = DB::table('product')->join('type', 'product.type_id', '=', 'type.type_id')->join('product_status', 'product.status_id', '=', 'product_status.status_id')->where('type.type_id', $type_id)->paginate(9);
         $type_name = DB::table('type')->where('type.type_id', $type_id)->limit(1)->get();
-        $type_product = DB::table('type')->orderBy('type_id','asc')->get();
+        $type_product = DB::table('type')->orderBy('type_id', 'asc')->get();
 
-        return view('pages.category.show_type')->with('category', $cate_product)->with('status_prod', $status_product)->with('prod_type',$type_product)->with('type_by_id', $type_by_id)->with('type_name', $type_name);
+        return view('pages.category.show_type')->with('category', $cate_product)->with('status_prod', $status_product)->with('prod_type', $type_product)->with('type_by_id', $type_by_id)->with('type_name', $type_name);
     }
     // ---------------------------------------------------------------------------------------------------
     // check login
     public function checkLogin()
     {
         $accPermID = Session::get('permId');
-        if($accPermID){
+        if ($accPermID) {
             if ($accPermID === 1) {
                 return Redirect::to('/dashboard');
             } else if ($accPermID === 2) {
@@ -78,7 +79,8 @@ class CategoryProduct extends Controller
     public function all_category()
     {
         $this->checkLogin();
-        $all_category = DB::table('category')->get();
+        // $all_category = DB::table('category')->get();
+        $all_category = category::all();
         $manager_category = view('inventory.show.all_category')->with('all_cate', $all_category);
 
         return view('inventoryLayout')->with('inventory.show.all_category', $manager_category);
@@ -91,11 +93,17 @@ class CategoryProduct extends Controller
     public function save_category(Request $request)
     {
         $this->checkLogin();
-        $data = array();
-        $data['cate_name'] = $request->cate_name;
-        $data['cate_desc'] = $request->cate_desc;
 
-        DB::table('category')->insert($data);
+        $data = $request->all();
+        $cate = new category();
+        $cate->cate_name = $data['cate_name'];
+        $cate->cate_desc = $data['cate_desc'];
+        $cate->save();
+
+        // $data = array();
+        // $data['cate_name'] = $request->cate_name;
+        // $data['cate_desc'] = $request->cate_desc;
+        // DB::table('category')->insert($data);
 
         Session::put('message', 'Thêm danh mục sách thành công!');
 
@@ -104,7 +112,10 @@ class CategoryProduct extends Controller
     public function edit_category($cate_id)
     {
         $this->checkLogin();
-        $edit_category = DB::table('category')->where('cate_id', $cate_id)->get();
+        // $edit_category = DB::table('category')->where('cate_id', $cate_id)->get();
+
+        // $edit_category = category::where('cate_id', $cate_id)->get();
+        $edit_category = category::find($cate_id);
         $manager_category = view('inventory.edit.edit_category')->with('edit_category', $edit_category);
 
         return view('inventoryLayout')->with('inventory.edit.edit_category', $manager_category);
@@ -112,11 +123,16 @@ class CategoryProduct extends Controller
     public function update_category(Request $request, $cate_id)
     {
         $this->checkLogin();
-        $data = array();
-        $data['cate_name'] = $request->cate_name;
-        $data['cate_desc'] = $request->cate_desc;
+        // $data = array();
+        // $data['cate_name'] = $request->cate_name;
+        // $data['cate_desc'] = $request->cate_desc;
+        // DB::table('category')->where('cate_id', $cate_id)->update($data);
 
-        DB::table('category')->where('cate_id', $cate_id)->update($data);
+        $data = $request->all();
+        $cate = category::find($cate_id);
+        $cate->cate_name = $data['cate_name'];
+        $cate->cate_desc = $data['cate_desc'];
+        $cate->save();
 
         Session::put('message', 'Cập nhật danh mục sách thành công!');
         return Redirect::to('/all-category');
@@ -124,7 +140,7 @@ class CategoryProduct extends Controller
     public function delete_category($cate_id)
     {
         $this->checkLogin();
-        DB::table('category')->where('cate_id', $cate_id)->delete();
+        category::where('cate_id', $cate_id)->delete();
 
         Session::put('message', 'Xóa danh mục sách thành công!');
         return Redirect::to('/all-category');

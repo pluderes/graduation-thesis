@@ -87,14 +87,32 @@
           </tr>
         </thead>
         <tbody>
-          @foreach($invoice_status as $key => $status)
-          <tr>
-            <td><span class="text-ellipsis"></span>{{$status->acc_name}}</td>
-            <td><span class="text-ellipsis"></span>{{$status->acc_contact}}</td>
-            <td><span class="text-ellipsis"></span>{{$status->status_date}}</td>
-            <td><span class="text-ellipsis"></span>{{$status->status_name}}</td>
-          </tr>
-          @endforeach
+          <?php
+          $count = Session::get('countstatus');
+          if ($count > 0) {
+          ?>
+            @foreach($invoice_status as $key => $status)
+            <tr>
+              <td><span class="text-ellipsis"></span>{{$status->acc_name}}</td>
+              <td><span class="text-ellipsis"></span>{{$status->acc_contact}}</td>
+              <td><span class="text-ellipsis"></span>{{$status->status_date}}</td>
+              <td><span class="text-ellipsis"></span>{{$status->status_name}}</td>
+            </tr>
+            @endforeach
+          <?php
+          } else {
+          ?>
+            @foreach($invoice_detail as $key => $status)
+            <tr>
+              <td><span class="text-ellipsis"></span></td>
+              <td><span class="text-ellipsis"></span></td>
+              <td><span class="text-ellipsis"></span>{{$status->status_date}}</td>
+              <td><span class="text-ellipsis"></span>{{$status->status_name}}</td>
+            </tr>
+            @endforeach
+          <?php
+          }
+          ?>
         </tbody>
       </table>
     </div>

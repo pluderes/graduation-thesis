@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -224,8 +225,17 @@ Route::post('/customer-cancel-invoice/{invoice_id}','infoController@customer_can
 Route::get('/add-wishlist/{prod_id}','infoController@add_wishlist');
 Route::get('/wishlist/{acc_id}','infoController@show_wishlist');
 Route::get('/delete-prod-wishlist/{prod_id}','infoController@delete_prod_wishlist');
+Route::get('/edit-info/{acc_id}','infoController@edit_info_account');
+Route::post('/update-info/{acc_id}','infoController@update_info_account');
+
 
 // -------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------
 // about us
 Route::get('/aboutus','HomeController@aboutus');
+// send email
+Route::get('/send-email', 'HomeController@send_email');
+// login fb
+Route::get('/login-facebook','AdminController@login_facebook');
+Route::get('/adminLogin/callback','AdminController@callback_facebook');
+Route::get('/confirm-facebook#_=_','AdminController@confirm_facebook');

@@ -9,6 +9,7 @@ use App\Http\Requests;
 use Illuminate\Contracts\Session\Session as SessionSession;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Pagination\Paginator;
+use Mail;
 
 session_start();
 
@@ -101,5 +102,20 @@ class HomeController extends Controller
     public function aboutus()
     {
         return view('pages.admin.userprofile');
+    }
+
+    public function send_email()
+    {
+        $to_name = "Trung Duc";
+        $to_email = "kingofpoppro@gmail.com";//send to this email
+
+        $data = array("name"=>"Phản hồi từ khách hàng","body"=>"Phản hồi sản phẩm"); //body of mail.blade.php
+    
+        Mail::send('pages.send_email',$data,function($message) use ($to_name,$to_email){
+            $message->to($to_email)->subject('test mail');//send this mail with subject
+            $message->from($to_email,$to_name);//send from this mail
+        });
+
+        // return Redirect::to('/trang-chu')->with('message','');
     }
 }

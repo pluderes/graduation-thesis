@@ -1,10 +1,10 @@
 @extends('inventoryLayout')
 @section('inventory_content')
-<div class="panel-heading" style="text-align: center;">
-  <h2 style="margin: 0;">Loại sách</h2>
-</div>
 <div class="table-agile-info">
   <div class="panel panel-default">
+  <div class="panel-heading" style="text-align: center; background-color: lightgray; width: 100%;">
+  <h2 style="margin: 0;">Loại sách</h2>
+</div>
     <?php
     $message = Session::get('message');
     if ($message) {
@@ -19,10 +19,10 @@
         <thead>
           <tr>
             <th style="width:30px;"></th>
-            <th>ID loại</th>
+            <th>Mã loại</th>
             <th>Tên loại</th>
             <th>Mô tả</th>
-            <th>ID danh mục</th>
+            <th>Mã danh mục</th>
           </tr>
         </thead>
         <tbody>

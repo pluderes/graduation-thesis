@@ -1,9 +1,9 @@
 @extends('inventoryLayout')
 @section('inventory_content')
-<div class="panel-heading" style="text-align: center;">
+<div class="panel-heading" style="text-align: center; background-color: lightgray; width: 100%;">
   <h2 style="margin: 0;">Tất cả sách</h2>
 </div>
-<div class="table-agile-info" style="overflow: auto; width: 1080px; height: 500px; display: flex;">
+<div class="table-agile-info" style="overflow: auto; height: 500px; display: flex;">
   <div class="panel panel-default">
     <?php
     $message = Session::get('message');
@@ -19,7 +19,7 @@
         <thead>
           <tr>
             <th style="width:30px;"></th>
-            <th>ID sách</th>
+            <th>Mã sách</th>
             <th>Tên sách</th>
             <th>Mô tả</th>
             <th>Số trang</th>
@@ -27,11 +27,11 @@
             <th>Ngày xuất bản</th>
             <th>Giá</th>
             <th>Số lượng</th>
-            <th>ID trạng thái</th>
-            <th>ID tác giả</th>
-            <th>ID NXB</th>
+            <th>Mã trạng thái</th>
+            <th>Mã tác giả</th>
+            <th>Mã NXB</th>
             <th>Hình ảnh</th>
-            <th>ID loại sách</th>
+            <th>Mã loại sách</th>
 
           </tr>
         </thead>
@@ -39,8 +39,8 @@
           @foreach($all_product as $key => $product)
           <tr>
             <td>
-              <a href="{{URL::TO('/edit-product/'.$product->prod_id)}}" class="active" ui-toggle-class=""><i class="fa fa-check text-success text-active"></i></a>
-              <a onclick="return confirm(`Bạn có chắc muốn xóa danh mục này?`)" href="{{URL::TO('/delete-product/'.$product->prod_id)}}" class="active" ui-toggle-class=""><i class="fa fa-times text-danger text"></i></a>
+              <a href="{{URL::TO('/admin-edit-product/'.$product->prod_id)}}" class="active" ui-toggle-class=""><i class="fa fa-check text-success text-active"></i></a>
+              <a onclick="return confirm(`Bạn có chắc muốn xóa danh mục này?`)" href="{{URL::TO('/admin-delete-product/'.$product->prod_id)}}" class="active" ui-toggle-class=""><i class="fa fa-times text-danger text"></i></a>
             </td>
             <td>{{$product->prod_id}}</td>
             <td><span class="text-ellipsis">{{$product->prod_name}}</span></td>

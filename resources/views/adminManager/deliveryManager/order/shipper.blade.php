@@ -1,7 +1,7 @@
 @extends('adminLayout')
 @section('admin_content')
 <div class="panel-heading" style="text-align: center; background-color: lightgray;">
-    <h2 style="margin: 0;">Danh sách đơn hàng</h2>
+    <h2 style="margin: 0;">Danh sách đơn hàng đang giao</h2>
 </div>
 <div class="table-agile-info">
     <div class="panel panel-default">
@@ -32,7 +32,7 @@
                     <tr>
                         <td>
                             <div class="row" style="margin-left: 10px;">
-                                <a href="{{URL::TO('/admin-delivery-detail-invoice-received/'.$invoice->invoice_id)}}" class="active" ui-toggle-class=""><i class="fa fa-check text-success text-active"></i></a>
+                                <a href="{{URL::TO('/admin-delivery-detail-invoice-received/'.$invoice->invoice_id)}}" class="active" style="padding-top: 2px;"><i class="fa fa-check text-success text-active"></i></a>
                                 <form action="{{URL::TO('/admin-delivery-delete-ship/'.$invoice->invoice_id)}}" method="post">
                                     {{(csrf_field())}}
                                     <button onclick="return confirm(`Hủy giao đơn hàng này?`)" type="submit" class="add-invoice"><i class="fa fa-times"></i></button>

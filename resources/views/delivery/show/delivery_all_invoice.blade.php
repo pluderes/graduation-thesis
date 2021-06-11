@@ -1,7 +1,7 @@
 @extends('deliveryLayout')
 @section('delivery_content')
 <div class="panel-heading" style="text-align: center; background-color: lightgray;">
-    <h2 style="margin: 0;">Danh sách đơn hàng</h2>
+    <h2 style="margin: 0;">Danh sách đơn hàng có thể giao</h2>
 </div>
 <div class="table-agile-info">
     <div class="panel panel-default">

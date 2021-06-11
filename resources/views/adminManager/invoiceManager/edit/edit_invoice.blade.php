@@ -1,19 +1,19 @@
 @extends('adminLayout')
 @section('admin_content')
+<?php
+$message = Session::get('message');
+if ($message) {
+  echo '<div class="alert alert-success alert-dismissable text-center">
+						<button type="button" class="close" data-dismiss="alert" area-hidden="true">&times;</button>', $message,
+  '</div>';
+  Session::put('message', null);
+}
+?>
 <div class="table-agile-info">
   <div class="panel panel-default">
-    <div class="panel-heading"  style="text-align: center; background-color: lightgray;">
+    <div class="panel-heading" style="text-align: center; background-color: lightgray;">
       <h3 style="margin: 0;">Thông tin khách hàng</h3>
     </div>
-    <?php
-    $message = Session::get('message');
-    if ($message) {
-      echo '<div class="alert alert-success alert-dismissable text-center">
-						<button type="button" class="close" data-dismiss="alert" area-hidden="true">&times;</button>', $message,
-      '</div>';
-      Session::put('message', null);
-    }
-    ?>
     <div class="table-responsive">
       <table class="table table-striped b-t b-light">
         <thead>
@@ -42,7 +42,7 @@
 <br>
 <div class="table-agile-info">
   <div class="panel panel-default">
-    <div class="panel-heading"  style="text-align: center; background-color: lightgray;">
+    <div class="panel-heading" style="text-align: center; background-color: lightgray;">
       <h3 style="margin: 0;">Chi tiết đơn hàng</h3>
     </div>
     <div class="table-responsive">
@@ -73,7 +73,7 @@
 <br>
 <div class="table-agile-info">
   <div class="panel panel-default">
-    <div class="panel-heading"  style="text-align: center; background-color: lightgray;">
+    <div class="panel-heading" style="text-align: center; background-color: lightgray;">
       <h3 style="margin: 0;">Thông tin đơn hàng</h3>
     </div>
     <div class="table-responsive">
@@ -112,11 +112,14 @@
     <br>
     <button style="margin-top: 10px;" id="btnsubmit" type="submit" class="btn btn-info">Xác nhận</button>
   </form>
+  <form action="">
+    <button style="margin-top: 10px;" id="btnsubmit" type="submit" class="btn btn-info">Xuất hóa đơn</button>
+  </form>
   <button style="margin-top: 10px;" id="btnback" type="submit" class="btn btn-info" onclick="goBack()">Trở về</button>
 </div>
 <script>
-    function goBack() {
-        window.history.back();
-    }
+  function goBack() {
+    window.history.back();
+  }
 </script>
 @endsection

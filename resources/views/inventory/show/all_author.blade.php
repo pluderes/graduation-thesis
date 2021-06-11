@@ -1,10 +1,10 @@
 @extends('inventoryLayout')
 @section('inventory_content')
-<div class="panel-heading" style="text-align: center;">
-  <h2 style="margin: 0;">Danh sách tác giả</h2>
-</div>
-<div class="table-agile-info" style="overflow: auto; width: 1080px; height: 500px; display: flex;">
+<div class="table-agile-info">
   <div class="panel panel-default">
+    <div class="panel-heading" style="text-align: center; background-color: lightgray;">
+      <h2 style="margin: 0;">Danh sách tác giả</h2>
+    </div>
     <?php
     $message = Session::get('message');
     if ($message) {
