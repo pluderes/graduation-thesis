@@ -66,7 +66,7 @@
 								<a href="{{URL::TO('/trang-chu')}}" class="txt1"> Trở về trang chủ!</a>
 							</div>
 							<div>
-								<a href="#" class="txt1">
+								<a href="{{URL::TO('/forgot')}}" class="txt1">
 									Quên mật khẩu?
 								</a>
 							</div>

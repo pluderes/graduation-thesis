@@ -320,7 +320,7 @@ class deliveryManager extends Controller
 
     // ----------------------------------------------------------------
     // delivered
-    public function delivery_invoice_delivered()
+    public function delivery_invoice_delivered($acc_id)
     {
         $this->checkLogin();
         $delivery_all_invoice = DB::table('invoice')
@@ -329,6 +329,7 @@ class deliveryManager extends Controller
             ->join('shipper', 'invoice.invoice_id', '=', 'shipper.invoice_id')
             ->join('invoice_status', 'invoice.invoice_id', '=', 'invoice_status.invoice_id')
             ->where('invoice_status.status_detail_id', '>', '5')
+            ->where('shipper.acc_id',$acc_id)
             ->select('invoice.*', 'account.acc_name', 'delivery.deli_address')
             ->orderBy('invoice.invoice_id', 'desc')->get();
         $manager_delivery = view('delivery.order.delivery_delivered')->with('all_invoice', $delivery_all_invoice);

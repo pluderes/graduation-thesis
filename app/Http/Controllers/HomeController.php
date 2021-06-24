@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use Session;
 use App\Http\Requests;
@@ -10,6 +11,9 @@ use Illuminate\Contracts\Session\Session as SessionSession;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Pagination\Paginator;
 use Mail;
+use App\Models\account;
+use PharIo\Manifest\Email;
+use PhpOffice\PhpSpreadsheet\Calculation\MathTrig\Random;
 
 session_start();
 
@@ -58,7 +62,6 @@ class HomeController extends Controller
 
     public function search(Request $request)
     {
-
         $cate_product = DB::table('category')->orderBy('cate_id', 'asc')->get();
         $status_product = DB::table('product_status')->orderBy('status_id', 'asc')->get();
         $type_product = DB::table('type')->orderBy('type_id', 'asc')->get();
@@ -86,9 +89,9 @@ class HomeController extends Controller
             $count_author = 0;
         }
 
-        Session::put('count_product',$count_product);
-        Session::put('count_author',$count_author);
-        Session::put('keywords',$keywords);
+        Session::put('count_product', $count_product);
+        Session::put('count_author', $count_author);
+        Session::put('keywords', $keywords);
 
         return view('pages.product.search')->with('status_prod', $status_product)->with('category', $cate_product)->with('prod_type', $type_product)->with('search_product', $search_product)->with('search_author', $search_author);
         // echo '<pre>';
@@ -104,18 +107,98 @@ class HomeController extends Controller
         return view('pages.admin.userprofile');
     }
 
-    public function send_email()
+    public function send_email(Request $request)
     {
-        $to_name = "Trung Duc";
-        $to_email = "kingofpoppro@gmail.com";//send to this email
+        $to_name = $request->sendmail;
+        $to_email = "kingofpoppro@gmail.com"; //send to this email
 
-        $data = array("name"=>"Phản hồi từ khách hàng","body"=>"Phản hồi sản phẩm"); //body of mail.blade.php
-    
-        Mail::send('pages.send_email',$data,function($message) use ($to_name,$to_email){
-            $message->to($to_email)->subject('test mail');//send this mail with subject
-            $message->from($to_email,$to_name);//send from this mail
+        $data = array("name" => $to_name, "body" => "Khách hàng đăng kí nhận thông báo khi có khuyến mại mới"); //body of mail.blade.php
+
+        Mail::send('pages.send_email', $data, function ($message) use ($to_name, $to_email) {
+            $message->to($to_email)->subject('Đăng kí nhận thông báo'); //send this mail with subject
+            $message->from($to_email, $to_name); //send from this mail
         });
 
-        // return Redirect::to('/trang-chu')->with('message','');
+        return Redirect::to('/trang-chu')->with('message', 'Cảm ơn bạn đã đăng kí. Bạn sẽ nhận được thông báo qua email khi có khuyến mại mới');
+    }
+
+    public function forgot_password()
+    {
+        $cate_product = DB::table('category')->orderBy('cate_id', 'asc')->get();
+        // $type_by_cateid = DB::table('type')->join('category','type.cate_id','=','category.cate_id')->get();
+        $status_product = DB::table('product_status')->orderBy('status_id', 'asc')->get();
+        $allproduct = DB::table('product')->orderBy('prod_id', 'asc')->paginate(9);
+        $type_product = DB::table('type')->orderBy('type_id', 'asc')->get();
+
+        return view('pages.checkout.forgot_password')->with('category', $cate_product)->with('status_prod', $status_product)->with('prod_type', $type_product)->with('all_product', $allproduct);
+    }
+
+    public function password_retrieval(Request $request)
+    {
+        $data = $request->all();
+        $title = "Lấy lại mật khẩu";
+        $customer = account::where('acc_email', '=', $data['email_account'])->get();
+
+        foreach ($customer as $key => $value) {
+            $customer_id = $value->acc_id;
+        }
+        // echo '<pre>';
+        // print_r($customer);
+        // echo '</pre>';
+        if ($customer) {
+            $count = $customer->count();
+            if ($count == 0) {
+                return redirect()->back()->with('error', 'Email này chưa được đăng kí tài khoản');
+            } else {
+                $token_random = Str::random(10);
+
+                $customer = account::find($customer_id);
+                $customer->customer_token = $token_random;
+                $customer->save();
+
+                $to_email = $data['email_account'];
+                $link_reset = URL('/update-pass?email=' . $to_email . '&token=' . $token_random);
+
+                $data = array("name" => "", "body" => $link_reset, 'email' => $data['email_account']); //body of mail.blade.php
+                Mail::send('pages.checkout.forget_pass_notify', ['data' => $data], function ($message) use ($title, $data) {
+                    $message->to($data['email'])->subject($title); //send this mail with subject
+                    $message->from($data['email'], $title); //send from this mail
+                });
+
+                return redirect()->back()->with('success', 'Đã gửi email đặt lại mật khẩu. Kiểm tra email của bạn');
+            }
+        }
+    }
+
+    public function update_pass(Request $request)
+    {
+        $cate_product = DB::table('category')->orderBy('cate_id', 'asc')->get();
+        // $type_by_cateid = DB::table('type')->join('category','type.cate_id','=','category.cate_id')->get();
+        $status_product = DB::table('product_status')->orderBy('status_id', 'asc')->get();
+        $allproduct = DB::table('product')->orderBy('prod_id', 'asc')->paginate(9);
+        $type_product = DB::table('type')->orderBy('type_id', 'asc')->get();
+
+        return view('pages.checkout.update_pass')->with('category', $cate_product)->with('status_prod', $status_product)->with('prod_type', $type_product)->with('all_product', $allproduct);
+    }
+
+    public function reset_password(Request $request)
+    {
+        $data = $request->all();
+        $token_random = Str::random(10);
+        $customer = account::where('acc_email', '=', $data['email'])->where('customer_token', '=', $data['token'])->get();
+
+        $count = $customer->count();
+        if ($count > 0) {
+            foreach ($customer as $key => $value) {
+                $customer_id = $value->acc_id;
+            }
+            $reset = account::find($customer_id);
+            $reset->password = md5($data['new_password']);
+            $reset->customer_token = $token_random;
+            $reset->save();
+            return redirect('adminLogin')->with('sucess', 'Cập nhật mật khẩu thành công');
+        } else {
+           return redirect('forgot')->with('error', 'Nhập lại email để đặt lại mật khẩu');
+        }
     }
 }

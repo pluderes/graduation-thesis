@@ -1,19 +1,19 @@
 @extends('information')
 @section('info_content')
+<?php
+$message = Session::get('message');
+if ($message) {
+  echo '<div class="alert alert-success alert-dismissable text-center">
+						<button type="button" class="close" data-dismiss="alert" area-hidden="true">&times;</button>', $message,
+  '</div>';
+  Session::put('message', null);
+}
+?>
 <div class="table-agile-info">
   <div class="panel panel-default">
     <div class="panel-heading" style="text-align: center;">
       Danh sách đơn hàng
     </div>
-    <?php
-    $message = Session::get('message');
-    if ($message) {
-      echo '<div class="alert alert-success alert-dismissable text-center">
-						<button type="button" class="close" data-dismiss="alert" area-hidden="true">&times;</button>', $message,
-      '</div>';
-      Session::put('message', null);
-    }
-    ?>
     <div class="table-responsive">
       <table class="table table-striped b-t b-light">
         <thead>

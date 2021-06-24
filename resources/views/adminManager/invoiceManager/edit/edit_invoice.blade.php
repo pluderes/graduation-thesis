@@ -2,6 +2,7 @@
 @section('admin_content')
 <?php
 $message = Session::get('message');
+$inv_id = Session::get('inv-id');
 if ($message) {
   echo '<div class="alert alert-success alert-dismissable text-center">
 						<button type="button" class="close" data-dismiss="alert" area-hidden="true">&times;</button>', $message,
@@ -83,6 +84,7 @@ if ($message) {
             <th>Mã đơn hàng</th>
             <th>Thời gian</th>
             <th>Tình trạng đơn hàng</th>
+            <th>Người giao hàng</th>
           </tr>
         </thead>
         <tbody>
@@ -91,6 +93,7 @@ if ($message) {
             <td><span class="text-ellipsis"></span>{{$status->invoice_id}}</td>
             <td><span class="text-ellipsis"></span>{{$status->status_date}}</td>
             <td><span class="text-ellipsis"></span>{{$status->status_name}}</td>
+            <td><span class="text-ellipsis"></span>{{$status->acc_name}}</td>
           </tr>
           @endforeach
         </tbody>
@@ -112,9 +115,8 @@ if ($message) {
     <br>
     <button style="margin-top: 10px;" id="btnsubmit" type="submit" class="btn btn-info">Xác nhận</button>
   </form>
-  <form action="">
-    <button style="margin-top: 10px;" id="btnsubmit" type="submit" class="btn btn-info">Xuất hóa đơn</button>
-  </form>
+  <a style="margin-top: 10px; color: white;" class="btn btn-info" href="{{url('/print-invoice/'.$inv)}}">Xuất hóa đơn</a>
+  <br>
   <button style="margin-top: 10px;" id="btnback" type="submit" class="btn btn-info" onclick="goBack()">Trở về</button>
 </div>
 <script>

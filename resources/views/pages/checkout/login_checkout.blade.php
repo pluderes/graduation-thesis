@@ -7,11 +7,14 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Đăng kí tài khoản</title>
 
+
     <!-- Font Icon -->
     <link rel="stylesheet" href="{{asset('public/Frontend/loginCheckout/fonts/material-icon/css/material-design-iconic-font.min.css')}}">
 
     <!-- Main css -->
     <link rel="stylesheet" href="{{asset('public/Frontend/loginCheckout/css/style.css')}}">
+
+
 </head>
 
 <body>
@@ -28,8 +31,8 @@
                         <?php
                         $message = Session::get('message');
                         if ($message) {
-                            echo '<div class="alert alert-success alert-dismissable text-center">
-						<button type="button" class="close" data-dismiss="alert" area-hidden="true">&times;</button>', $message,
+                            echo '<div style="background-color: #f8d7da; font-family: Montserrat">
+						    <button type="button" style="background-color:#f8d7da; border: unset; height: 50px;" data-dismiss="alert" area-hidden="true">&times;</button>', $message,
                             '</div>';
                             Session::put('message', null);
                         }
@@ -102,6 +105,8 @@
     </script>
     <script src="{{asset('public/Frontend/loginCheckout/vendor/jquery/jquery.min.js')}}"></script>
     <script src="{{asset('public/Frontend/loginCheckout/js/main.js')}}"></script>
-</body><!-- This templates was made by Colorlib (https://colorlib.com) -->
+    <script src="{{asset('public/Frontend/js/jquery.js')}}"></script>
+    <script src="{{asset('public/Frontend/js/bootstrap.min.js')}}"></script>
+</body>
 
 </html>

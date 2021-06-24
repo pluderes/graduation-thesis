@@ -26,8 +26,8 @@
                             </form>
                         </div>
                     @endforeach
-                    <div class="col-sm-2">
-                        <img style="width: 420px; height: 610px;" src="{{asset('public/Upload/banner/man-delivery.png')}}" alt="">
+                    <div class="col-sm-6">
+                        <img style="width: fit-content; height: auto;" src="{{asset('public/Upload/banner/man-delivery.png')}}" alt="">
                     </div>
                     </div>
                 </div>

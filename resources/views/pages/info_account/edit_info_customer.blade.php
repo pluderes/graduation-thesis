@@ -28,30 +28,30 @@
                         <?php
                         $message = Session::get('message');
                         if ($message) {
-                            echo '<div class="alert alert-success alert-dismissable text-center">
-						<button type="button" class="close" data-dismiss="alert" area-hidden="true">&times;</button>', $message,
+                            echo '<div style="background-color: #f8d7da; font-family: Montserrat">
+						    <button type="button" style="background-color:#f8d7da; border: unset; height: 50px;" data-dismiss="alert" area-hidden="true">&times;</button>', $message,
                             '</div>';
                             Session::put('message', null);
                         }
                         ?>
                         <div class="form-group">
-                            <input type="text" class="form-input" name="acc_name" id="name" placeholder="Tên tài khoản" value="{{$edit_account->acc_name}}" required/>
+                            <input type="text" class="form-input" name="acc_name" id="name" placeholder="Tên tài khoản" value="{{$edit_account->acc_name}}" required />
                         </div>
-                        <div class="form-group">
+                        <!-- <div class="form-group">
                             <input type="text" class="form-input" name="username" id="username" placeholder="Tên đăng nhập" value="{{$edit_account->username}}" required/>
+                        </div> -->
+                        <div class="form-group">
+                            <input type="email" class="form-input" name="email" id="email" placeholder="Email" value="{{$edit_account->acc_email}}" required />
                         </div>
                         <div class="form-group">
-                            <input type="email" class="form-input" name="email" id="email" placeholder="Email" value="{{$edit_account->acc_email}}" required/>
+                            <input type="text" class="form-input" name="acc_contact" id="contact" placeholder="Số điện thoại" value="{{$edit_account->acc_contact}}" required />
                         </div>
                         <div class="form-group">
-                            <input type="text" class="form-input" name="acc_contact" id="contact" placeholder="Số điện thoại" value="{{$edit_account->acc_contact}}" required/>
-                        </div>
-                        <div class="form-group">
-                            <input type="password" class="form-input" name="password" id="password" placeholder="Mật khẩu" value="" required/>
+                            <input type="password" class="form-input" name="password" id="password" placeholder="Mật khẩu" value="" required />
                             <span toggle="#password" class="zmdi zmdi-eye field-icon toggle-password"></span>
                         </div>
                         <div class="form-group">
-                            <input type="password" class="form-input" name="re_password" id="re_password" placeholder="Nhập lại mật khẩu" required/>
+                            <input type="password" class="form-input" name="re_password" id="re_password" placeholder="Nhập lại mật khẩu" required />
                         </div>
                         <div class="form-group">
                             <textarea id="thumbnail" name="account_thumbnail" cols="100" rows="5" style="display:none">{{$edit_account->acc_img}}</textarea>

@@ -83,10 +83,10 @@
                         {{csrf_field()}}
                         <div class="payment-options">
                             <span>
-                                <label><input name="payment_option" value="1" type="radio" /> Thanh toán bằng thẻ ATM</label>
+                                <label><input name="payment_option" value="1" type="radio" required/> Thanh toán qua thẻ ngân hàng</label>
                             </span>
                             <span>
-                                <label><input name="payment_option" value="2" type="radio" /> Thanh toán khi nhận hàng</label>
+                                <label><input name="payment_option" value="2" type="radio" required/> Thanh toán khi nhận hàng</label>
                             </span>
                         </div>
                         <input name="send_order_place" class="btn btn-default check_out" type="submit" value="Đặt hàng"></input>

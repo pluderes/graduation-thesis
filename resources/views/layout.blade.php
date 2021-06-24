@@ -70,8 +70,8 @@
 									<li><a href="{{URL::TO('/info/'.$acc_id)}}"><i class="fa fa-user"></i> Tài khoản</a></li>
 									<li><a href="{{URL::TO('/wishlist/'.$acc_id)}}"><i class="fa fa-star"></i> Yêu thích</a></li>
 									<!-- <?php
-									// if ($deli_id == NULL) {
-									?>
+											// if ($deli_id == NULL) {
+											?>
 										<li><a href="{{URL::TO('/checkout/'.$acc_id)}}"><i class="far fa-credit-card"></i> Thanh toán</a></li>
 									<?php
 									// } else if ($deli_id != NULL) {
@@ -258,8 +258,9 @@
 					<div class="col-sm-3 col-sm-offset-1">
 						<div class="single-widget">
 							<h2>Nhận thông báo</h2>
-							<form action="#" class="searchform">
-								<input type="text" placeholder="Địa chỉ email của bạn" />
+							<form action="{{URL::TO('/send-email')}}" class="searchform" method="get">
+								{{csrf_field()}}
+								<input type="text" placeholder="Địa chỉ email của bạn" name="sendmail" />
 								<button type="submit" class="btn btn-default"><i class="fas fa-arrow-alt-circle-right"></i></button>
 								<p>Gửi lại email của bạn để nhận những ưu đãi mới nhất</p>
 							</form>
@@ -281,8 +282,7 @@
 		<div class="footer-bottom">
 			<div class="container">
 				<div class="row">
-					<p class="pull-left">Copyright © 2013 E-SHOPPER Inc. All rights reserved.</p>
-					<p class="pull-right">Designed by <span><a target="_blank" href="http://www.themeum.com">Trung Đức</a></span></p>
+					<p class="text-center">Designed by <span><a target="_blank" href="https://www.facebook.com/pluderes/">Trung Đức</a></span></p>
 				</div>
 			</div>
 		</div>

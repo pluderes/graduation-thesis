@@ -207,9 +207,16 @@ class infoController extends Controller
     public function update_info_account(Request $request, $acc_id)
     {
         $this->checkLogin();
+        $img = account::find($acc_id);
+
         $data = array();
-        $data['username'] = $request->username;
-        $data['password'] = md5($request->password);
+        $data['username'] = $img->username;
+        if ($request->password === $request->re_password) {
+            $data['password'] = md5($request->password);
+        } else {
+            Session::put('message', 'Nhập lại mật khẩu không chính xác!');
+            return Redirect::to('/login-checkout');
+        }
         $data['acc_name'] = $request->acc_name;
         $data['acc_email'] = $request->email;
         $data['acc_contact'] = $request->acc_contact;
@@ -229,8 +236,14 @@ class infoController extends Controller
             DB::table('account')->where('acc_id', $acc_id)->update($data);
 
             Session::put('message', 'Cập nhật tài khoản thành công!');
-            $img = account::find($acc_id);
+
             Session::put('accImg', $img->acc_img);
+            Session::put('adminname', $img->acc_name);
+            Session::put('permId', $img->perm_id);
+            Session::put('accEmail', $img->acc_email);
+            Session::put('accContact', $img->acc_contact);
+            Session::put('acc_id', $img->acc_id);
+
             return Redirect::to('/info/' . $acc_id);
         } else {
             $data['acc_img'] = $request->account_thumbnail;
@@ -241,8 +254,13 @@ class infoController extends Controller
             DB::table('account')->where('acc_id', $acc_id)->update($data);
 
             Session::put('message', 'Cập nhật tài khoản thành công!');
-            $img = account::find($acc_id);
+
             Session::put('accImg', $img->acc_img);
+            Session::put('adminname', $img->acc_name);
+            Session::put('permId', $img->perm_id);
+            Session::put('accEmail', $img->acc_email);
+            Session::put('accContact', $img->acc_contact);
+            Session::put('acc_id', $img->acc_id);
             return Redirect::to('/info/' . $acc_id);
         }
     }

@@ -69,7 +69,12 @@ class orderManager extends Controller
         $status_detail = DB::table('invoice_status_detail')
             ->orderBy('invoice_status_detail.status_detail_id', 'asc')->get();
 
-        $manager_invoice = view('invoice.edit.order_edit_invoice')->with('invoice_by_id', $invoice_by_ID)->with('info_account', $info_account)->with('invoice_status', $status)->with('status_detail', $status_detail);
+        $manager_invoice = view('invoice.edit.order_edit_invoice')
+        ->with('invoice_by_id', $invoice_by_ID)
+        ->with('info_account', $info_account)
+        ->with('invoice_status', $status)
+        ->with('status_detail', $status_detail)
+        ->with('inv', $invoice_id);
 
         // echo '<pre>';
         // print_r($invoice_by_ID);

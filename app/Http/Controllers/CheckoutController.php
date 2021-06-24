@@ -170,11 +170,16 @@ class CheckoutController extends Controller
                 $status_product = DB::table('product_status')->orderBy('status_id', 'asc')->get();
                 $type_product = DB::table('type')->orderBy('type_id', 'asc')->get();
 
+                // insert payment
+                $data['payment_status'] = 'Thanh toán qua thẻ ngân hàng';
+                $data['payment_date_time'] = Carbon::now();
+                $payment_id = DB::table('payment')->insertGetId($data);
+
                 return view('pages.checkout.ATM')->with('category', $cate_product)->with('status_prod', $status_product)->with('prod_type', $type_product);
             } else if ($data['payment_method'] === "2") {
 
                 // insert payment
-                $data['payment_status'] = 'Chờ xử lý';
+                $data['payment_status'] = 'Thanh toán khi nhận hàng';
                 $data['payment_date_time'] = Carbon::now();
                 $payment_id = DB::table('payment')->insertGetId($data);
 
@@ -183,7 +188,7 @@ class CheckoutController extends Controller
                 $invoice_data['acc_id'] = Session::get('acc_id');
                 $invoice_data['deli_id'] = Session::get('deli_id');
                 $invoice_data['payment_id'] = $payment_id;
-                $invoice_data['invoice_total'] = Cart::total();
+                $invoice_data['invoice_total'] = (int)str_replace(',', '', Cart::total());
                 $invoice_data['current_status'] = 'Chờ xử lý';
                 $invoice_data['invoice_date_time'] = Carbon::now();
                 $invoice_id = DB::table('invoice')->insertGetId($invoice_data);

@@ -9,6 +9,12 @@ use App\Http\Requests;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Redirect;
 use Cart;
+use App\Exports\Export;
+use Excel;
+use App\Models\invoice;
+use Illuminate\Contracts\Session\Session as SessionSession;
+use Illuminate\Support\Facades\App;
+use PDF;
 
 session_start();
 
@@ -601,7 +607,9 @@ class adminManager extends Controller
         $status = DB::table('invoice')
             ->join('invoice_status', 'invoice.invoice_id', '=', 'invoice_status.invoice_id')
             ->join('invoice_status_detail', 'invoice_status.status_detail_id', '=', 'invoice_status_detail.status_detail_id')
-            ->select('invoice_status.*', 'invoice_status_detail.*')
+            ->join('shipper', 'shipper.invoice_id', '=', 'invoice.invoice_id')
+            ->join('account', 'shipper.acc_id', '=', 'account.acc_id')
+            ->select('invoice_status.*', 'invoice_status_detail.*', 'shipper.acc_id', 'account.acc_name')
             ->where('invoice.invoice_id', $invoice_id)->get();
 
         $invoice_by_ID = DB::table('invoice')
@@ -614,8 +622,12 @@ class adminManager extends Controller
         $status_detail = DB::table('invoice_status_detail')
             ->orderBy('invoice_status_detail.status_detail_id', 'asc')->get();
 
-        $manager_invoice = view('adminManager.invoiceManager.edit.edit_invoice')->with('invoice_by_id', $invoice_by_ID)->with('info_account', $info_account)->with('invoice_status', $status)->with('status_detail', $status_detail);
-
+        $manager_invoice = view('adminManager.invoiceManager.edit.edit_invoice')
+            ->with('invoice_by_id', $invoice_by_ID)
+            ->with('info_account', $info_account)
+            ->with('invoice_status', $status)
+            ->with('status_detail', $status_detail)
+            ->with('inv', $invoice_id);
         // echo '<pre>';
         // print_r($invoice_by_ID);
         // echo '</pre>';
@@ -660,6 +672,166 @@ class adminManager extends Controller
 
         return Redirect::to('/admin-edit-invoice/' . $invoice_id);
     }
+
+    // export excel
+    public function export_invoice()
+    {
+        return Excel::download(new Export, 'all-invoice.xlsx');
+    }
+    // prinnt-invoice
+    public function print_invoice($invoice_id)
+    {
+        $pdf = \App::make('dompdf.wrapper');
+        $pdf->loadHTML($this->print_invoice_convert($invoice_id));
+        return $pdf->stream();
+    }
+    public function print_invoice_convert($invoice_id)
+    {
+        $this->checkLogin();
+
+        $info_account =  DB::table('invoice')
+            ->join('delivery', 'invoice.deli_id', '=', 'delivery.deli_id')
+            ->join('account', 'delivery.acc_id', '=', 'account.acc_id')
+            ->where('invoice.invoice_id', $invoice_id)->first();
+
+        $invoice_by_ID = DB::table('invoice')
+            ->join('invoice_detail', 'invoice.invoice_id', '=', 'invoice_detail.invoice_id')
+            ->select('invoice.*', 'invoice_detail.*')
+            ->orderBy('invoice.invoice_id', 'desc')->where('invoice.invoice_id', $invoice_id)->get();
+
+        $output = '';
+
+        $output .= '
+            <style>
+            *{
+                margin: 0;
+                padding: 0;
+            }
+                body{
+                    font-family: DejaVu Sans;
+                }
+                p{
+                    font-size: 12px;
+                }
+                .div-container{
+                    width: 100%;
+                    margin-left: -350px;
+                }
+                .div-left{
+                    display: inline-block;
+                    text-align: center;
+                    padding-top: 50px;
+                }
+                .div-right{
+                    display: inline-block;
+                    text-align: center;
+                    padding-top: 50px;
+                    margin-left: 100px;
+                }
+                .content{
+                    margin-left: 60px;
+                }
+                .table-style{
+                    font-size: 14px;
+                    margin-left: 50px;
+                    margin-right: 50px;
+                    width: 100%;
+                    border-collapse: collapse;
+                }
+                table, td, th {
+                    border: 1px solid black;
+                }
+                td{
+                    padding-left: 10px;
+                }
+            </style>
+            <div class="div-container">
+              <div class="div-left">
+                <h4>
+                  Cửa hàng
+                </h4>
+                <h2>
+                    ZORBA SHOP
+                </h2>
+                <h6>ĐC: Văn Trung - Đông Văn - Đông Sơn - Thanh Hóa</h6>
+                <p>SĐT: 0359280808</p>
+                <p>Email: manba211198@gmail.com</p>
+                <p>Website: www.zorbashop.com</p>
+              </div>
+              <div class="div-right">
+                <h3>HÓA ĐƠN BÁN HÀNG</h3>
+                <p>----------*----------</p>
+                <p>Mã đơn hàng: ' . $invoice_id . '</p>
+                <p>Ngày lập: ' . date("d/m/Y", strtotime($info_account->invoice_date_time)) . '</p>
+                <br>
+              </div>
+            </div>
+            <div class="content">
+                <div>
+                    <h5 style="display: inline-block">Tên khách hàng:<p style="display: inline-block; margin-left: 10px; font-size: 16px">' . $info_account->deli_name . '</p></h5>
+                    <p style="display: inline-block; margin-right: 70px; float: right; font-size: 16px"><span style="font-weight: bold; font-size: 14px">SĐT:</span>&ensp;' . $info_account->deli_phone . '</p>
+                </div>
+                <div>
+                <h5 style="display: inline-block">Địa chỉ:<p style="display: inline-block; margin-left: 10px; font-size: 16px">' . $info_account->deli_address . '</p></h5>
+                </div>
+            </div>
+            <br>
+            <table class="table-style">
+                <tr>
+                    <th>STT</th>
+                    <th>Tên sách</th> 
+                    <th>Số lượng</th>
+                    <th>Đơn giá</th>
+                    <th>Thành tiền</th>
+                </tr>
+        ';
+        $count = 1;
+        $total1 = 0;
+        foreach ($invoice_by_ID as $key => $value) {
+            $subtotal = $value->sell_quantity * $value->prod_price;
+            $total1 += $subtotal;
+            $output .= '
+                <tr>
+                    <td style="text-align: center; padding: 0;">' . $count . '</td>
+                    <td>' . $value->prod_name . '</td>
+                    <td style="text-align: center; padding: 0;">' . $value->sell_quantity . '</td>
+                    <td>' . number_format($value->prod_price) . ' VNĐ</td>
+                    <td>' . number_format($subtotal) . ' VNĐ</td>
+                </tr>
+        ';
+            $count = $count + 1;
+        }
+        $output .= '
+                <tr>
+                    <td></td>
+                    <td><b>Cộng</b></td>
+                    <td></td>
+                    <td></td>
+                    <td>' . number_format($total1) . ' VNĐ</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><b>Tổng (đã tính VAT)</b></td>
+                    <td></td>
+                    <td></td>
+                    <td>' . number_format($info_account->invoice_total) . ' VNĐ</td>
+                </tr>
+            </table>
+            <br>
+        <div>
+            <div style="float: left; display: inline-block; margin-left: 70px">
+                <h5 style="margin-left: 15px">Khách hàng</h5>
+                <p>(Kí và ghi rõ họ tên)</p>
+            </div>
+            <div style="float: right; display: inline-block; margin-right: 70px">
+                <h5 style="">Người bán hàng</h5>
+                <p>(Kí và ghi rõ họ tên)</p>
+            </div>
+        </div>
+        ';
+        return $output;
+    }
+
     // end invoice
     // -------------------------------------------------------------------------------------------
     // delivery
@@ -763,7 +935,7 @@ class adminManager extends Controller
 
         // $acc_id = Session::get('acc_id');
         // table shipper
-        DB::table('shipper')->where('shipper.invoice_id',$invoice_id)->delete();
+        DB::table('shipper')->where('shipper.invoice_id', $invoice_id)->delete();
 
         // table invoice_status
         $data_invoice_status = array();
@@ -809,7 +981,7 @@ class adminManager extends Controller
             ->join('account', 'invoice.acc_id', '=', 'account.acc_id')
             ->join('delivery', 'invoice.deli_id', '=', 'delivery.deli_id')
             ->join('shipper', 'invoice.invoice_id', '=', 'shipper.invoice_id')
-            ->where('shipper.acc_id',$ship_id)->where('invoice.current_status', '=', 'Đang giao hàng')
+            ->where('shipper.acc_id', $ship_id)->where('invoice.current_status', '=', 'Đang giao hàng')
             ->select('invoice.*', 'account.acc_name', 'delivery.deli_address',)
             ->orderBy('invoice.invoice_id', 'desc')->get();
         $manager_delivery = view('adminManager.deliveryManager.order.shipper')->with('all_invoice', $delivery_all_invoice);
@@ -947,8 +1119,8 @@ class adminManager extends Controller
             ->join('account', 'invoice.acc_id', '=', 'account.acc_id')
             ->join('delivery', 'invoice.deli_id', '=', 'delivery.deli_id')
             ->join('shipper', 'invoice.invoice_id', '=', 'shipper.invoice_id')
-            ->join('invoice_status','invoice.invoice_id','=','invoice_status.invoice_id')
-            ->where('invoice_status.status_detail_id','>','5')
+            ->join('invoice_status', 'invoice.invoice_id', '=', 'invoice_status.invoice_id')
+            ->where('invoice_status.status_detail_id', '>', '5')
             ->select('invoice.*', 'account.acc_name', 'delivery.deli_address')
             ->orderBy('invoice.invoice_id', 'desc')->get();
         $manager_delivery = view('adminManager.deliveryManager.order.delivered')->with('all_invoice', $delivery_all_invoice);
@@ -991,9 +1163,4 @@ class adminManager extends Controller
     }
 
     // -----------------------------------------------------------------------
-    // thống kê
-    public function FunctionName(Type $var = null)
-    {
-        # code...
-    }
 }

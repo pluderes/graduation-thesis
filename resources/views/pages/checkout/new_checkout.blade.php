@@ -8,10 +8,10 @@
     <div class="container">
         <div id="form-deli">
             <div class="row">
-                <div class="col-sm-12">
-                    <h2>Thông tin vận chuyển</h2>
+                <div class="col-sm-9">
+                    <h2 style="text-align: center; color: seagreen;">Thông tin vận chuyển</h2>
                     <hr>
-                    <div class="bill-to">
+                    <div class="bill-to row">
                         <div class="form-one">
                             <form action="{{URL::to('/save-checkout-customer')}}" method="POST">
                                 {{csrf_field()}}
@@ -24,6 +24,9 @@
                                 <input type="submit" value="Xác nhận" name="conf_deli" class="btn btn-sm" style="background-color: seagreen; color: seashell; font-size: 14px;">
                             </form>
                         </div>
+                    <div class="col-sm-2">
+                        <img style="width: 420px; height: 610px;" src="{{asset('public/Upload/banner/man-delivery.png')}}" alt="">
+                    </div>
                     </div>
                 </div>
             </div>

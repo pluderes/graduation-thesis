@@ -30,6 +30,7 @@
     <link rel="stylesheet" type="text/css" href="{{asset('public/Backend/assets/icon/themify-icons/themify-icons.css')}}">
     <!-- Font Awesome -->
     <link rel="stylesheet" type="text/css" href="{{asset('public/Backend/assets/icon/font-awesome/css/font-awesome.min.css')}}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" />
     <!-- scrollbar.css -->
     <link rel="stylesheet" type="text/css" href="{{asset('public/Backend/assets/css/jquery.mCustomScrollbar.css')}}">
     <!-- am chart export.css -->
@@ -132,7 +133,7 @@
                             <li>
                                 <div class="sidebar_toggle"><a href="javascript:void(0)"><i class="ti-menu"></i></a></div>
                             </li>
-                            <li class="header-search">
+                            <!-- <li class="header-search">
                                 <div class="main-search morphsearch-search">
                                     <div class="input-group">
                                         <span class="input-group-addon search-close"><i class="ti-close"></i></span>
@@ -140,7 +141,7 @@
                                         <span class="input-group-addon search-btn"><i class="ti-search"></i></span>
                                     </div>
                                 </div>
-                            </li>
+                            </li> -->
                             <li>
                                 <a href="#!" onclick="javascript:toggleFullScreen()" class="waves-effect waves-light">
                                     <i class="ti-fullscreen"></i>
@@ -211,7 +212,7 @@
                                     </ul>
                                 </div>
                             </div>
-                            <div class="pcoded-navigation-label" data-i18n="nav.category.navigation">Per</div>
+                            <div class="pcoded-navigation-label" data-i18n="nav.category.navigation"></div>
                             <ul class="pcoded-item pcoded-left-item">
                                 <li class="active">
                                     <a href="{{URL::TO('/dashboard')}}" class="waves-effect waves-dark">
@@ -381,7 +382,7 @@
                                                     </a>
                                                 </li>
                                                 <li class=" ">
-                                                    <a href="{{URL::TO('/admin-delivery-invoice-delivered')}}" class="waves-effect waves-dark">
+                                                    <a href="{{URL::TO('/admin-delivery-invoice-delivered/'.$acc_id)}}" class="waves-effect waves-dark">
                                                         <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
                                                         <span class="pcoded-mtext" data-i18n="nav.basic-components.breadcrumbs">Đơn hàng đã giao</span>
                                                         <span class="pcoded-mcaret"></span>
@@ -434,7 +435,7 @@
                                     <div class="col-md-4">
                                         <ul class="breadcrumb-title">
                                             <li class="breadcrumb-item">
-                                                <a href="{{URL::TO('/trang-chu')}}"> <i class="fa fa-home"></i> </a>
+                                                <a href="{{URL::TO('/dashboard')}}"> <i class="fa fa-home"></i> </a>
                                             </li>
                                             <li class="breadcrumb-item"><a href="#!">Quản trị</a>
                                             </li>
@@ -492,9 +493,837 @@
     <script src="{{asset('public/Backend/assets/js/pcoded.min.js')}}"></script>
     <script src="{{asset('public/Backend/assets/js/vertical-layout.min.js ')}}"></script>
     <!-- custom js -->
-    <script type="text/javascript" src="{{asset('public/Backend/assets/pages/dashboard/custom-dashboard.js')}}"></script>
+    <!-- <script type="text/javascript" src="{{asset('public/Backend/assets/pages/dashboard/custom-dashboard.js')}}"></script> -->
     <script type="text/javascript" src="{{asset('public/Backend/assets/js/script.js')}} "></script>
+    <script>
+        "use strict";
+        $(document).ready(function() {
+            // sale analytics start
+            var chart = AmCharts.makeChart("sales-analytics", {
+                type: "serial",
+                theme: "light",
+                // "hideCredits": true,
+                marginRight: 40,
+                marginLeft: 40,
+                autoMarginOffset: 20,
+                dataDateFormat: "YYYY-MM-DD",
+                valueAxes: [{
+                    id: "v1",
+                    axisAlpha: 0,
+                    position: "left",
+                    ignoreAxisWidth: true,
+                }, ],
+                balloon: {
+                    borderThickness: 1,
+                    shadowAlpha: 0,
+                },
+                graphs: [{
+                    id: "g1",
+                    balloon: {
+                        drop: true,
+                        adjustBorderColor: false,
+                        color: "#ffffff",
+                        type: "smoothedLine",
+                    },
+                    fillAlphas: 0.5,
+                    bullet: "round",
+                    bulletBorderAlpha: 1,
+                    bulletColor: "#FFFFFF",
+                    lineColor: "#11c15b",
+                    bulletSize: 5,
+                    hideBulletsCount: 50,
+                    lineThickness: 3,
+                    title: "red line",
+                    useLineColorForBulletBorder: true,
+                    valueField: "value",
+                    balloonText: "<span style='font-size:18px;'>[[value]] VNĐ</span>",
+                }, ],
+                chartCursor: {
+                    valueLineEnabled: true,
+                    valueLineBalloonEnabled: true,
+                    cursorAlpha: 0,
+                    zoomable: false,
+                    valueZoomable: true,
+                    valueLineAlpha: 0.5,
+                },
+                chartScrollbar: {
+                    autoGridCount: true,
+                    graph: "g1",
+                    oppositeAxis: true,
+                    scrollbarHeight: 90,
+                },
+                categoryField: "date",
+                categoryAxis: {
+                    parseDates: true,
+                    dashLength: 1,
+                    minorGridEnabled: true,
+                },
+                export: {
+                    enabled: true,
+                },
+                dataProvider: [
+                    <?php
+                    $conn = mysqli_connect("localhost", "root", "", "zorbashop");
+                    $data = "SELECT sum(`invoice_total`) as `total_day`,`invoice_date_time` FROM `invoice` where `current_status`='Giao hàng thành công' group BY `invoice_date_time`";
+                    $resdata = mysqli_query($conn, $data);
+                    // $count = "SELECT COUNT(invoice_total) FROM invoice";
+                    if ($resdata->num_rows > 0) {
+                        // Load dữ liệu lên website
+                        while ($rows = $resdata->fetch_assoc()) {
+                    ?> {
+                                date: "<?php
+                                        echo $rows['invoice_date_time'];
+                                        ?>",
+                                value: <?php
+                                        echo $rows['total_day'];
+                                        ?>,
+                            },
+                    <?php
+                        }
+                    }
+                    ?>
+                ],
+            });
+            var ctx = document.getElementById("this-month").getContext("2d");
+            var myChart = new Chart(ctx, {
+                type: "bar",
+                data: avgvalchart(
+                    "#11c15b",
+                    [30, 15, 25, 35, 30, 20, 25, 30, 15, 1],
+                    "#11c15b"
+                ),
+                options: buildchartoption(),
+            });
 
+            function avgvalchart(a, b, f) {
+                if (f == null) {
+                    f = "rgba(0,0,0,0)";
+                }
+                return {
+                    labels: [
+                        "January",
+                        "February",
+                        "March",
+                        "April",
+                        "May",
+                        "June",
+                        "July",
+                        "August",
+                        "September",
+                        "October",
+                    ],
+                    datasets: [{
+                        label: "",
+                        borderColor: a,
+                        borderWidth: 2,
+                        hitRadius: 30,
+                        pointHoverRadius: 4,
+                        pointBorderWidth: 50,
+                        pointHoverBorderWidth: 12,
+                        pointBackgroundColor: Chart.helpers
+                            .color("#000000")
+                            .alpha(0)
+                            .rgbString(),
+                        pointBorderColor: Chart.helpers
+                            .color("#000000")
+                            .alpha(0)
+                            .rgbString(),
+                        pointHoverBackgroundColor: a,
+                        pointHoverBorderColor: Chart.helpers
+                            .color("#000000")
+                            .alpha(0.1)
+                            .rgbString(),
+                        fill: true,
+                        backgroundColor: f,
+                        data: b,
+                    }, ],
+                };
+            }
+
+            function buildchartoption() {
+                return {
+                    title: {
+                        display: !1,
+                    },
+                    tooltips: {
+                        position: "nearest",
+                        mode: "index",
+                        intersect: false,
+                        yPadding: 10,
+                        xPadding: 10,
+                    },
+                    legend: {
+                        display: !1,
+                        labels: {
+                            usePointStyle: !1,
+                        },
+                    },
+                    responsive: !0,
+                    maintainAspectRatio: !0,
+                    hover: {
+                        mode: "index",
+                    },
+                    scales: {
+                        xAxes: [{
+                            display: !1,
+                            gridLines: !1,
+                            scaleLabel: {
+                                display: !0,
+                                labelString: "Month",
+                            },
+                        }, ],
+                        yAxes: [{
+                            display: !1,
+                            gridLines: !1,
+                            scaleLabel: {
+                                display: !0,
+                                labelString: "Value",
+                            },
+                            ticks: {
+                                beginAtZero: !0,
+                            },
+                        }, ],
+                    },
+                    elements: {
+                        point: {
+                            radius: 4,
+                            borderWidth: 12,
+                        },
+                    },
+                    layout: {
+                        padding: {
+                            left: 0,
+                            right: 0,
+                            top: 0,
+                            bottom: 0,
+                        },
+                    },
+                };
+            }
+            // sale analytics end
+        });
+    </script>
+    <script>
+        "use strict";
+        $(document).ready(function() {
+            // sale analytics start
+            var chart = AmCharts.makeChart("delivery-analytics", {
+                type: "serial",
+                theme: "light",
+                // "hideCredits": true,
+                marginRight: 40,
+                marginLeft: 40,
+                autoMarginOffset: 20,
+                dataDateFormat: "YYYY-MM-DD",
+                valueAxes: [{
+                    id: "v1",
+                    axisAlpha: 0,
+                    position: "left",
+                    ignoreAxisWidth: true,
+                }, ],
+                balloon: {
+                    borderThickness: 1,
+                    shadowAlpha: 0,
+                },
+                graphs: [{
+                    id: "g1",
+                    balloon: {
+                        drop: true,
+                        adjustBorderColor: false,
+                        color: "#ffffff",
+                        type: "smoothedLine",
+                    },
+                    fillAlphas: 0.5,
+                    bullet: "round",
+                    bulletBorderAlpha: 1,
+                    bulletColor: "#FFFFFF",
+                    lineColor: "#11c15b",
+                    bulletSize: 5,
+                    hideBulletsCount: 50,
+                    lineThickness: 3,
+                    title: "red line",
+                    useLineColorForBulletBorder: true,
+                    valueField: "value",
+                    balloonText: "<span style='font-size:18px;'>[[value]] đơn</span>",
+                }, ],
+                chartCursor: {
+                    valueLineEnabled: true,
+                    valueLineBalloonEnabled: true,
+                    cursorAlpha: 0,
+                    zoomable: false,
+                    valueZoomable: true,
+                    valueLineAlpha: 0.5,
+                },
+                chartScrollbar: {
+                    autoGridCount: true,
+                    graph: "g1",
+                    oppositeAxis: true,
+                    scrollbarHeight: 90,
+                },
+                categoryField: "date",
+                categoryAxis: {
+                    parseDates: true,
+                    dashLength: 1,
+                    minorGridEnabled: true,
+                },
+                export: {
+                    enabled: true,
+                },
+                dataProvider: [
+                    <?php
+                    $conn = mysqli_connect("localhost", "root", "", "zorbashop");
+                    $data = "SELECT count(`invoice_id`) as `total_day`,`invoice_date_time` FROM `invoice` group BY `invoice_date_time`";
+                    $resdata = mysqli_query($conn, $data);
+                    if ($resdata->num_rows > 0) {
+                        // Load dữ liệu lên website
+                        while ($rows = $resdata->fetch_assoc()) {
+                    ?> {
+                                date: "<?php
+                                        echo $rows['invoice_date_time'];
+                                        ?>",
+                                value: <?php
+                                        echo $rows['total_day'];
+                                        ?>,
+                            },
+                    <?php
+                        }
+                    }
+                    ?>
+                ],
+            });
+            var ctx = document.getElementById("this-month").getContext("2d");
+            var myChart = new Chart(ctx, {
+                type: "bar",
+                data: avgvalchart(
+                    "#11c15b",
+                    [30, 15, 25, 35, 30, 20, 25, 30, 15, 1],
+                    "#11c15b"
+                ),
+                options: buildchartoption(),
+            });
+
+            function avgvalchart(a, b, f) {
+                if (f == null) {
+                    f = "rgba(0,0,0,0)";
+                }
+                return {
+                    labels: [
+                        "January",
+                        "February",
+                        "March",
+                        "April",
+                        "May",
+                        "June",
+                        "July",
+                        "August",
+                        "September",
+                        "October",
+                    ],
+                    datasets: [{
+                        label: "",
+                        borderColor: a,
+                        borderWidth: 2,
+                        hitRadius: 30,
+                        pointHoverRadius: 4,
+                        pointBorderWidth: 50,
+                        pointHoverBorderWidth: 12,
+                        pointBackgroundColor: Chart.helpers
+                            .color("#000000")
+                            .alpha(0)
+                            .rgbString(),
+                        pointBorderColor: Chart.helpers
+                            .color("#000000")
+                            .alpha(0)
+                            .rgbString(),
+                        pointHoverBackgroundColor: a,
+                        pointHoverBorderColor: Chart.helpers
+                            .color("#000000")
+                            .alpha(0.1)
+                            .rgbString(),
+                        fill: true,
+                        backgroundColor: f,
+                        data: b,
+                    }, ],
+                };
+            }
+
+            function buildchartoption() {
+                return {
+                    title: {
+                        display: !1,
+                    },
+                    tooltips: {
+                        position: "nearest",
+                        mode: "index",
+                        intersect: false,
+                        yPadding: 10,
+                        xPadding: 10,
+                    },
+                    legend: {
+                        display: !1,
+                        labels: {
+                            usePointStyle: !1,
+                        },
+                    },
+                    responsive: !0,
+                    maintainAspectRatio: !0,
+                    hover: {
+                        mode: "index",
+                    },
+                    scales: {
+                        xAxes: [{
+                            display: !1,
+                            gridLines: !1,
+                            scaleLabel: {
+                                display: !0,
+                                labelString: "Month",
+                            },
+                        }, ],
+                        yAxes: [{
+                            display: !1,
+                            gridLines: !1,
+                            scaleLabel: {
+                                display: !0,
+                                labelString: "Value",
+                            },
+                            ticks: {
+                                beginAtZero: !0,
+                            },
+                        }, ],
+                    },
+                    elements: {
+                        point: {
+                            radius: 4,
+                            borderWidth: 12,
+                        },
+                    },
+                    layout: {
+                        padding: {
+                            left: 0,
+                            right: 0,
+                            top: 0,
+                            bottom: 0,
+                        },
+                    },
+                };
+            }
+            // sale analytics end
+        });
+    </script>
+    <script>
+        "use strict";
+        $(document).ready(function() {
+            // sale analytics start
+            var chart = AmCharts.makeChart("book-analytics", {
+                type: "serial",
+                theme: "light",
+                // "hideCredits": true,
+                marginRight: 40,
+                marginLeft: 40,
+                autoMarginOffset: 20,
+                dataDateFormat: "YYYY-MM-DD",
+                valueAxes: [{
+                    id: "v1",
+                    axisAlpha: 0,
+                    position: "left",
+                    ignoreAxisWidth: true,
+                }, ],
+                balloon: {
+                    borderThickness: 1,
+                    shadowAlpha: 0,
+                },
+                graphs: [{
+                    id: "g1",
+                    balloon: {
+                        drop: true,
+                        adjustBorderColor: false,
+                        color: "#ffffff",
+                        type: "smoothedLine",
+                    },
+                    fillAlphas: 0.5,
+                    bullet: "round",
+                    bulletBorderAlpha: 1,
+                    bulletColor: "#FFFFFF",
+                    lineColor: "#11c15b",
+                    bulletSize: 5,
+                    hideBulletsCount: 50,
+                    lineThickness: 3,
+                    title: "red line",
+                    useLineColorForBulletBorder: true,
+                    valueField: "value",
+                    balloonText: "<span style='font-size:18px;'>[[value]] đơn</span>",
+                }, ],
+                chartCursor: {
+                    valueLineEnabled: true,
+                    valueLineBalloonEnabled: true,
+                    cursorAlpha: 0,
+                    zoomable: false,
+                    valueZoomable: true,
+                    valueLineAlpha: 0.5,
+                },
+                chartScrollbar: {
+                    autoGridCount: true,
+                    graph: "g1",
+                    oppositeAxis: true,
+                    scrollbarHeight: 90,
+                },
+                categoryField: "date",
+                categoryAxis: {
+                    parseDates: true,
+                    dashLength: 1,
+                    minorGridEnabled: true,
+                },
+                export: {
+                    enabled: true,
+                },
+                dataProvider: [
+                    <?php
+                    $conn = mysqli_connect("localhost", "root", "", "zorbashop");
+                    $data = "SELECT count(`invoice_id`) as `total_day`,`invoice_date_time` FROM `invoice` group BY `invoice_date_time`";
+                    $resdata = mysqli_query($conn, $data);
+                    if ($resdata->num_rows > 0) {
+                        // Load dữ liệu lên website
+                        while ($rows = $resdata->fetch_assoc()) {
+                    ?> {
+                                date: "<?php
+                                        echo $rows['invoice_date_time'];
+                                        ?>",
+                                value: <?php
+                                        echo $rows['total_day'];
+                                        ?>,
+                            },
+                    <?php
+                        }
+                    }
+                    ?>
+                ],
+            });
+            var ctx = document.getElementById("this-month").getContext("2d");
+            var myChart = new Chart(ctx, {
+                type: "bar",
+                data: avgvalchart(
+                    "#11c15b",
+                    [30, 15, 25, 35, 30, 20, 25, 30, 15, 1],
+                    "#11c15b"
+                ),
+                options: buildchartoption(),
+            });
+
+            function avgvalchart(a, b, f) {
+                if (f == null) {
+                    f = "rgba(0,0,0,0)";
+                }
+                return {
+                    labels: [
+                        "January",
+                        "February",
+                        "March",
+                        "April",
+                        "May",
+                        "June",
+                        "July",
+                        "August",
+                        "September",
+                        "October",
+                    ],
+                    datasets: [{
+                        label: "",
+                        borderColor: a,
+                        borderWidth: 2,
+                        hitRadius: 30,
+                        pointHoverRadius: 4,
+                        pointBorderWidth: 50,
+                        pointHoverBorderWidth: 12,
+                        pointBackgroundColor: Chart.helpers
+                            .color("#000000")
+                            .alpha(0)
+                            .rgbString(),
+                        pointBorderColor: Chart.helpers
+                            .color("#000000")
+                            .alpha(0)
+                            .rgbString(),
+                        pointHoverBackgroundColor: a,
+                        pointHoverBorderColor: Chart.helpers
+                            .color("#000000")
+                            .alpha(0.1)
+                            .rgbString(),
+                        fill: true,
+                        backgroundColor: f,
+                        data: b,
+                    }, ],
+                };
+            }
+
+            function buildchartoption() {
+                return {
+                    title: {
+                        display: !1,
+                    },
+                    tooltips: {
+                        position: "nearest",
+                        mode: "index",
+                        intersect: false,
+                        yPadding: 10,
+                        xPadding: 10,
+                    },
+                    legend: {
+                        display: !1,
+                        labels: {
+                            usePointStyle: !1,
+                        },
+                    },
+                    responsive: !0,
+                    maintainAspectRatio: !0,
+                    hover: {
+                        mode: "index",
+                    },
+                    scales: {
+                        xAxes: [{
+                            display: !1,
+                            gridLines: !1,
+                            scaleLabel: {
+                                display: !0,
+                                labelString: "Month",
+                            },
+                        }, ],
+                        yAxes: [{
+                            display: !1,
+                            gridLines: !1,
+                            scaleLabel: {
+                                display: !0,
+                                labelString: "Value",
+                            },
+                            ticks: {
+                                beginAtZero: !0,
+                            },
+                        }, ],
+                    },
+                    elements: {
+                        point: {
+                            radius: 4,
+                            borderWidth: 12,
+                        },
+                    },
+                    layout: {
+                        padding: {
+                            left: 0,
+                            right: 0,
+                            top: 0,
+                            bottom: 0,
+                        },
+                    },
+                };
+            }
+            // sale analytics end
+        });
+    </script>
+    <script>
+        "use strict";
+        $(document).ready(function() {
+            // sale analytics start
+            var chart = AmCharts.makeChart("book-analytics", {
+                type: "serial",
+                theme: "light",
+                // "hideCredits": true,
+                marginRight: 40,
+                marginLeft: 40,
+                autoMarginOffset: 20,
+                dataDateFormat: "YYYY-MM-DD",
+                valueAxes: [{
+                    id: "v1",
+                    axisAlpha: 0,
+                    position: "left",
+                    ignoreAxisWidth: true,
+                }, ],
+                balloon: {
+                    borderThickness: 1,
+                    shadowAlpha: 0,
+                },
+                graphs: [{
+                    id: "g1",
+                    balloon: {
+                        drop: true,
+                        adjustBorderColor: false,
+                        color: "#ffffff",
+                        type: "smoothedLine",
+                    },
+                    fillAlphas: 0.5,
+                    bullet: "round",
+                    bulletBorderAlpha: 1,
+                    bulletColor: "#FFFFFF",
+                    lineColor: "#11c15b",
+                    bulletSize: 5,
+                    hideBulletsCount: 50,
+                    lineThickness: 3,
+                    title: "red line",
+                    useLineColorForBulletBorder: true,
+                    valueField: "value",
+                    balloonText: "<span style='font-size:18px;'>[[value]] sách</span>",
+                }, ],
+                chartCursor: {
+                    valueLineEnabled: true,
+                    valueLineBalloonEnabled: true,
+                    cursorAlpha: 0,
+                    zoomable: false,
+                    valueZoomable: true,
+                    valueLineAlpha: 0.5,
+                },
+                chartScrollbar: {
+                    autoGridCount: true,
+                    graph: "g1",
+                    oppositeAxis: true,
+                    scrollbarHeight: 90,
+                },
+                categoryField: "date",
+                categoryAxis: {
+                    parseDates: true,
+                    dashLength: 1,
+                    minorGridEnabled: true,
+                },
+                export: {
+                    enabled: true,
+                },
+                dataProvider: [
+                    <?php
+                    $conn = mysqli_connect("localhost", "root", "", "zorbashop");
+                    $data = "SELECT count(`sell_quantity`) as `total_day`,`invoice_date_time` FROM `invoice` INNER JOIN invoice_detail ON invoice.invoice_id = invoice_detail.invoice_id group BY `invoice_date_time`";
+                    $resdata = mysqli_query($conn, $data);
+                    if ($resdata->num_rows > 0) {
+                        // Load dữ liệu lên website
+                        while ($rows = $resdata->fetch_assoc()) {
+                    ?> {
+                                date: "<?php
+                                        echo $rows['invoice_date_time'];
+                                        ?>",
+                                value: <?php
+                                        echo $rows['total_day'];
+                                        ?>,
+                            },
+                    <?php
+                        }
+                    }
+                    ?>
+                ],
+            });
+            var ctx = document.getElementById("this-month").getContext("2d");
+            var myChart = new Chart(ctx, {
+                type: "bar",
+                data: avgvalchart(
+                    "#11c15b",
+                    [30, 15, 25, 35, 30, 20, 25, 30, 15, 1],
+                    "#11c15b"
+                ),
+                options: buildchartoption(),
+            });
+
+            function avgvalchart(a, b, f) {
+                if (f == null) {
+                    f = "rgba(0,0,0,0)";
+                }
+                return {
+                    labels: [
+                        "January",
+                        "February",
+                        "March",
+                        "April",
+                        "May",
+                        "June",
+                        "July",
+                        "August",
+                        "September",
+                        "October",
+                    ],
+                    datasets: [{
+                        label: "",
+                        borderColor: a,
+                        borderWidth: 2,
+                        hitRadius: 30,
+                        pointHoverRadius: 4,
+                        pointBorderWidth: 50,
+                        pointHoverBorderWidth: 12,
+                        pointBackgroundColor: Chart.helpers
+                            .color("#000000")
+                            .alpha(0)
+                            .rgbString(),
+                        pointBorderColor: Chart.helpers
+                            .color("#000000")
+                            .alpha(0)
+                            .rgbString(),
+                        pointHoverBackgroundColor: a,
+                        pointHoverBorderColor: Chart.helpers
+                            .color("#000000")
+                            .alpha(0.1)
+                            .rgbString(),
+                        fill: true,
+                        backgroundColor: f,
+                        data: b,
+                    }, ],
+                };
+            }
+
+            function buildchartoption() {
+                return {
+                    title: {
+                        display: !1,
+                    },
+                    tooltips: {
+                        position: "nearest",
+                        mode: "index",
+                        intersect: false,
+                        yPadding: 10,
+                        xPadding: 10,
+                    },
+                    legend: {
+                        display: !1,
+                        labels: {
+                            usePointStyle: !1,
+                        },
+                    },
+                    responsive: !0,
+                    maintainAspectRatio: !0,
+                    hover: {
+                        mode: "index",
+                    },
+                    scales: {
+                        xAxes: [{
+                            display: !1,
+                            gridLines: !1,
+                            scaleLabel: {
+                                display: !0,
+                                labelString: "Month",
+                            },
+                        }, ],
+                        yAxes: [{
+                            display: !1,
+                            gridLines: !1,
+                            scaleLabel: {
+                                display: !0,
+                                labelString: "Value",
+                            },
+                            ticks: {
+                                beginAtZero: !0,
+                            },
+                        }, ],
+                    },
+                    elements: {
+                        point: {
+                            radius: 4,
+                            borderWidth: 12,
+                        },
+                    },
+                    layout: {
+                        padding: {
+                            left: 0,
+                            right: 0,
+                            top: 0,
+                            bottom: 0,
+                        },
+                    },
+                };
+            }
+            // sale analytics end
+        });
+    </script>
 </body>
 
 </html>

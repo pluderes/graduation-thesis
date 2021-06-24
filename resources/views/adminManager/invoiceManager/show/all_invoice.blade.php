@@ -44,7 +44,10 @@
       </table>
     </div>
     <footer class="panel-footer">
-
+      <form action="{{url('/export-invoice')}}" method="POST">
+        {{@csrf_field()}}
+        <button style="margin-top: 10px;" id="btnsubmit" type="submit" class="btn btn-info" name="export_invoice">Xuất excel</button>
+      </form>
     </footer>
   </div>
 </div>
