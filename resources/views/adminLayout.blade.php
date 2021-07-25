@@ -167,7 +167,7 @@
                                 </a>
                                 <ul class="show-notification profile-notification">
                                     <li class="waves-effect waves-light">
-                                        <a href="{{URL::TO('/info/'.$acc_id)}}">
+                                        <a href="{{URL::TO('/info-admin/'.$acc_id)}}">
                                             <i class="ti-user"></i> Hồ sơ
                                         </a>
                                     </li>
@@ -206,7 +206,7 @@
                                 <div class="main-menu-content">
                                     <ul>
                                         <li class="more-details">
-                                            <a href="{{URL::TO('/info/'.$acc_id)}}"><i class="ti-user"></i>Xem hồ sơ</a>
+                                            <a href="{{URL::TO('/info-admin/'.$acc_id)}}"><i class="ti-user"></i>Xem hồ sơ</a>
                                             <a href="{{URL::TO('/adminLogout')}}"><i class="ti-layout-sidebar-left"></i>Đăng xuất</a>
                                         </li>
                                     </ul>
@@ -535,8 +535,8 @@
                     lineThickness: 3,
                     title: "red line",
                     useLineColorForBulletBorder: true,
-                    valueField: "value",
-                    balloonText: "<span style='font-size:18px;'>[[value]] VNĐ</span>",
+                    valueField: "Total",
+                    balloonText: "<span style='font-size:18px;'>[[Total]] VNĐ</span>",
                 }, ],
                 chartCursor: {
                     valueLineEnabled: true,
@@ -574,7 +574,7 @@
                                 date: "<?php
                                         echo $rows['invoice_date_time'];
                                         ?>",
-                                value: <?php
+                                Total: <?php
                                         echo $rows['total_day'];
                                         ?>,
                             },
@@ -1186,7 +1186,7 @@
                 dataProvider: [
                     <?php
                     $conn = mysqli_connect("localhost", "root", "", "zorbashop");
-                    $data = "SELECT count(`sell_quantity`) as `total_day`,`invoice_date_time` FROM `invoice` INNER JOIN invoice_detail ON invoice.invoice_id = invoice_detail.invoice_id group BY `invoice_date_time`";
+                    $data = "SELECT count(`sell_quantity`) as `total_day`,`invoice_date_time` FROM `invoice` INNER JOIN invoice_detail ON invoice.invoice_id = invoice_detail.invoice_id where `current_status`='Giao hàng thành công' group BY `invoice_date_time`";
                     $resdata = mysqli_query($conn, $data);
                     if ($resdata->num_rows > 0) {
                         // Load dữ liệu lên website

@@ -2,12 +2,39 @@
 @section('content')
 <!-- <div class="features_items"> -->
 <!--features_items-->
-<h2 class="title text-center">Sản phẩm</h2>
+<h2 class="title text-center">Tất cả sản phẩm</h2>
+<div class="row">
+	<div class="col-sm-8">
+		<form action="{{URL::to('/sort')}}" method="get">
+			{{csrf_field()}}
+			<label for="sort">Sắp xếp:</label>
+			<select id="sort" name="sort" style="max-width: max-content;">
+				<option value="{{Request::URL()}}?sort=unset">---</option>
+				<option value="{{Request::URL()}}?sort=sale">Đang giảm giá</option>
+				<option value="{{Request::URL()}}?sort=new">Sản phẩm mới</option>
+				<option value="{{Request::URL()}}?sort=desc">Giá giảm dần</option>
+				<option value="{{Request::URL()}}?sort=asc">Giá tăng dần</option>
+			</select>
+		</form>
+	</div>
+	<div class="search_box col-sm-4">
+		<form action="{{URL::to('/tim-kiem')}}" method="get">
+			{{csrf_field()}}
+			<div class="pull-right" style="margin-right: 15px;">
+				<input type="text" class="sb-text" name="keywords_submit" placeholder="Tìm kiếm">
+				<button class="sb-sbm" type="submit" name="search_items" id="search">
+					<i class="fas fa-search"></i>
+			</div>
+		</form>
+	</div>
+</div>
+<br>
 <?php
 $message = Session::get('message');
 if ($message) {
-	echo '<div class="alert alert-success alert-dismissable text-center">
-						<button type="button" class="close" data-dismiss="alert" area-hidden="true">&times;</button>', $message,
+	echo
+	'<div class="alert alert-success alert-dismissable text-center">
+		<button type="button" class="close" data-dismiss="alert" area-hidden="true">&times;</button>', $message,
 	'</div>';
 	Session::put('message', null);
 }
@@ -84,7 +111,4 @@ if ($message) {
 		{!! $all_product->links() !!}
 	</div>
 </div>
-
-<!-- </div> -->
-<!--features_items-->
 @endsection

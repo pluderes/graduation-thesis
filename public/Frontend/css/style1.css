@@ -1,9 +1,21 @@
-#inp_qty{
+#inp_qty {
     width: 50px;
-  }
-#imgdetail{
+}
+#imgdetail {
     width: 150px;
 }
-.cart_description{
+.cart_description {
     width: 300px;
+}
+.sort:hover {
+    cursor: pointer;
+}
+.productinfo:hover {
+    transform: scale(1.05);
+    background-color: lightgray;
+    transition: 1s;
+}
+.cart:hover {
+    color: black;
+    transition: 1s;
 }

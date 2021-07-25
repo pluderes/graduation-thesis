@@ -8,20 +8,17 @@
     <title>Liên hệ</title>
     <link rel="stylesheet" href="{{asset('public/Frontend/aboutme/CSS/aboutdemo.css')}}">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
-    />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" />
 </head>
 
 <body>
     <div class="about-section">
         <a href="{{URL::TO('/trang-chu')}}">
             <img src="{{('public/Upload/banner/zorbashop.png')}}" style="width: 160px; height: 80px;" alt="">
-          </a>
+        </a>
     </div>
     <div class="team" id="divteam">
-        <h5 class="team">ABOUT ME</h5>
+        <h5 class="team">Thông tin liên hệ</h5>
     </div>
     <div class="row" style="margin: 0; background-color: #888888;">
         <div class="column">

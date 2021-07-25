@@ -5,6 +5,30 @@
 	@foreach($type_name as $key => $type_name)
 	<h2 class="title text-center">{{$type_name->type_name}}</h2>
 	@endforeach
+	<div class="row">
+		<div class="col-sm-8">
+			<form action="{{URL::to('/sort')}}" method="get">
+				{{csrf_field()}}
+				<label for="sort">Sắp xếp:</label>
+				<select id="sort" name="sort" style="max-width: max-content;">
+					<option value="{{Request::URL()}}?sort=unset">---</option>
+					<option value="{{Request::URL()}}?sort=desc">Giá giảm dần</option>
+					<option value="{{Request::URL()}}?sort=asc">Giá tăng dần</option>
+				</select>
+			</form>
+		</div>
+		<div class="search_box col-sm-4">
+			<form action="{{URL::to('/tim-kiem')}}" method="get">
+				{{csrf_field()}}
+				<div class="pull-right" style="margin-right: 15px;">
+					<input type="text" class="sb-text" name="keywords_submit" placeholder="Tìm kiếm">
+					<button class="sb-sbm" type="submit" name="search_items" id="search">
+						<i class="fas fa-search"></i>
+				</div>
+			</form>
+		</div>
+	</div>
+	<br>
 	<?php
 	$message = Session::get('message');
 	if ($message) {
@@ -52,9 +76,9 @@
 						</form>
 						<?php
 						if ($prod->status_id != 3) {
-							if($prod->status_id == 4){
-							?>
-							<img src="{{asset('public/Upload/banner/new.png')}}" id="new" alt="" />		
+							if ($prod->status_id == 4) {
+						?>
+								<img src="{{asset('public/Upload/banner/new.png')}}" id="new" alt="" />
 							<?php
 							}
 						} else {

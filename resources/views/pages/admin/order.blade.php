@@ -1,5 +1,6 @@
 @extends('orderLayout')
 @section('order_content')
+<h2 style="text-align: center;">Thống kê doanh thu</h2>
 <div class="panel-heading" style="text-align: center;">
     <div class="row">
         <!-- task, page, download counter  start -->
@@ -8,8 +9,7 @@
                 <div class="card-block">
                     <div class="row align-items-center">
                         <div class="col-10">
-                            <h4 class="text-c-purple">{{number_format((int)$total_price_invoice)}} VNĐ</h4>
-                            <h6 class="text-muted m-b-0">Tổng doanh thu</h6>
+                            <h4 class="text-c-purple" style="margin: 0;">{{number_format((int)$total_price_invoice)}} VNĐ</h4>
                         </div>
                         <div class="col-2" style="margin: 0; padding: 0;">
                             <i class="fa fa-bar-chart f-28"></i>
@@ -18,11 +18,8 @@
                 </div>
                 <div class="card-footer bg-c-purple">
                     <div class="row align-items-center">
-                        <div class="col-9">
-                            <p class="text-white m-b-0">% tăng trưởng</p>
-                        </div>
-                        <div class="col-3 text-right">
-                            <i class="fa fa-line-chart text-white f-16"></i>
+                        <div class="col-12">
+                            <p class="text-white m-b-0">Tổng doanh thu</p>
                         </div>
                     </div>
 
@@ -34,8 +31,7 @@
                 <div class="card-block">
                     <div class="row align-items-center">
                         <div class="col-10">
-                            <h4 class="text-c-green">{{$total_prod_invoice}}</h4>
-                            <h6 class="text-muted m-b-0">Số lượng sách bán ra</h6>
+                            <h4 class="text-c-green" style="margin: 0;">{{$total_prod_invoice}}</h4>
                         </div>
                         <div class="col-2">
                             <i class="fa fa-book f-28"></i>
@@ -44,14 +40,10 @@
                 </div>
                 <div class="card-footer bg-c-green">
                     <div class="row align-items-center">
-                        <div class="col-9">
-                            <p class="text-white m-b-0">% tăng trưởng</p>
-                        </div>
-                        <div class="col-3 text-right">
-                            <i class="fa fa-line-chart text-white f-16"></i>
+                        <div class="col-12">
+                            <p class="text-white m-b-0">Số lượng sách bán ra</p>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
@@ -60,22 +52,20 @@
                 <div class="card-block">
                     <div class="row align-items-center">
                         <div class="col-10">
-                            <h4 class="text-c-red">{{$total_order}}</h4>
-                            <h6 class="text-muted m-b-0">Tổng lượt đặt hàng</h6>
+                            <h4 class="text-c" style="color: lightsalmon; margin: 0;">{{$total_order}}</h4>
+
                         </div>
                         <div class="col-2">
                             <i class="fa fa-calendar-check-o f-28"></i>
                         </div>
                     </div>
                 </div>
-                <div class="card-footer bg-c-red">
+                <div class="card-footer bg-c" style="background-color: lightsalmon;">
                     <div class="row align-items-center">
-                        <div class="col-9">
-                            <p class="text-white m-b-0">% tăng trưởng</p>
+                        <div class="col-12">
+                            <p class="text-white m-b-0">Tổng lượt đặt hàng</p>
                         </div>
-                        <div class="col-3 text-right">
-                            <i class="fa fa-line-chart text-white f-16"></i>
-                        </div>
+
                     </div>
                 </div>
             </div>
@@ -108,22 +98,18 @@
                 <div class="card">
                     <div class="card-block">
                         <div class="row align-items-center">
-                            <div class="col-8">
-                                <h4 class="text-c-blue">{{$total_quantity_prod}}</h4>
-                                <h6 class="text-muted m-b-0">Số sách tồn</h6>
+                            <div class="col-10">
+                                <h4 class="text-c-red" style="margin: 0;">{{$total_quantity_prod}}</h4>
                             </div>
-                            <div class="col-4 text-right">
+                            <div class="col-2">
                                 <i class="fas fa-book f-28"></i>
                             </div>
                         </div>
                     </div>
-                    <div class="card-footer bg-c-blue">
+                    <div class="card-footer bg-c-red">
                         <div class="row align-items-center">
-                            <div class="col-9">
-                                <p class="text-white m-b-0">% tăng trưởng</p>
-                            </div>
-                            <div class="col-3 text-right">
-                                <i class="fa fa-line-chart text-white f-16"></i>
+                            <div class="col-12">
+                                <p class="text-white m-b-0">Số sách tồn</p>
                             </div>
                         </div>
                     </div>
@@ -139,16 +125,19 @@
                     <div class="progress">
                         <div class="progress-bar bg-c-blue" style="width: <?php
                                                                             echo $online_revenue / ($online_revenue + $offline_revenue) * 100;
-                                                                            ?>"></div>
+                                                                            ?>%"></div>
                     </div>
                     <h5 class="m-t-15">{{$offline_revenue}}</h5>
                     <p class="text-muted">Doanh thu ngoại tuyến<span class="f-right">{{$offline_revenue/($online_revenue + $offline_revenue) * 100}}%</span></p>
                     <div class="progress">
                         <div class="progress-bar bg-c-green" style="width: <?php
                                                                             echo $offline_revenue / ($online_revenue + $offline_revenue) * 100;
-                                                                            ?>"></div>
+                                                                            ?>%"></div>
                     </div>
                 </div>
+            </div>
+            <div>
+                <button>xuất thống kê</button>
             </div>
         </div>
         <!--  sale analytics end -->

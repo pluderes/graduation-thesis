@@ -43,21 +43,35 @@ class HomeController extends Controller
     // -----------------------------------------------------------------------------------------
     public function index()
     {
-
-        // SEO
-        // $meta_desc = "Mang đến cho bạn những cuốn sách hay của những nhà văn kiệt xuất trên thế giới"; 
-        // $meta_keywords = "sach, van hoc, tho ca, tieu thuyet, khoa hoc, luu but, zorba, zorbashop";
-        // $meta_title = "Zorba Shop";
-        // $url_canonical = $request->url();
-
-
         $cate_product = DB::table('category')->orderBy('cate_id', 'asc')->get();
         // $type_by_cateid = DB::table('type')->join('category','type.cate_id','=','category.cate_id')->get();
         $status_product = DB::table('product_status')->orderBy('status_id', 'asc')->get();
-        $allproduct = DB::table('product')->orderBy('prod_id', 'asc')->paginate(9);
         $type_product = DB::table('type')->orderBy('type_id', 'asc')->get();
 
-        return view('pages.home')->with('category', $cate_product)->with('status_prod', $status_product)->with('prod_type', $type_product)->with('all_product', $allproduct);
+        if (isset($_GET['sort'])) {
+            $sort = $_GET['sort'];
+            if ($sort == "sale") {
+                $allproduct = DB::table('product')->where('status_id', '=', '3')
+                    ->orderBy('prod_id', 'asc')
+                    ->paginate(9)->appends(request()->query());
+            } else if ($sort == "new") {
+                $allproduct = DB::table('product')->where('status_id', '=', '4')
+                    ->orderBy('prod_id', 'asc')
+                    ->paginate(9)->appends(request()->query());
+            } else if ($sort == "desc") {
+                $allproduct = DB::table('product')->orderBy('prod_price', 'desc')
+                    ->paginate(9)->appends(request()->query());
+            } else if ($sort == "asc") {
+                $allproduct = DB::table('product')->orderBy('prod_price', 'asc')
+                    ->paginate(9)->appends(request()->query());
+            }
+        } else {
+            $allproduct = DB::table('product')->orderBy('prod_id', 'asc')->paginate(9);
+        }
+
+        return view('pages.home')->with('category', $cate_product)->with('status_prod', $status_product)
+            ->with('prod_type', $type_product)
+            ->with('all_product', $allproduct);
     }
 
     public function search(Request $request)
@@ -198,7 +212,7 @@ class HomeController extends Controller
             $reset->save();
             return redirect('adminLogin')->with('sucess', 'Cập nhật mật khẩu thành công');
         } else {
-           return redirect('forgot')->with('error', 'Nhập lại email để đặt lại mật khẩu');
+            return redirect('forgot')->with('error', 'Nhập lại email để đặt lại mật khẩu');
         }
     }
 }

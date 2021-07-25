@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 use App\Models\Social; //sử dụng model Social
 use Socialite; //sử dụng Socialite
 use App\Models\account; //sử dụng model Login
+use App\Models\invoice;
 use Carbon\Carbon;
 
 session_start();
@@ -126,6 +127,10 @@ class AdminController extends Controller
             ->join('shipper', 'invoice.invoice_id', '=', 'shipper.invoice_id')
             ->where('invoice.current_status', '=', 'Giao hàng thành công')
             ->whereMonth('ship_date', Carbon::now()->month)->sum('sell_quantity');
+
+        // echo '<pre>';
+        // print_r(invoice::all());
+        // echo '</pre>';
 
         return view('pages/admin/dashboard')->with('total_price_invoice', $total_price_invoice)
             ->with('total_prod_invoice', $total_prod_invoice)
@@ -375,6 +380,13 @@ class AdminController extends Controller
         Cart::destroy();
 
         return Redirect::TO('/adminLogin');
+    }
+
+    // info_admin
+    public function info_admin($acc_id)
+    {
+        $per = DB::table('account')->join('set_permission', 'account.perm_id', '=', 'set_permission.perm_id')->where('account.acc_id', $acc_id)->first();
+        return view('pages.admin.info_admin')->with('per', $per);
     }
 
     // login fb

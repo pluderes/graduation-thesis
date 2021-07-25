@@ -12,6 +12,7 @@ use Cart;
 use App\Exports\Export;
 use Excel;
 use App\Models\invoice;
+use App\Models\account;
 use Illuminate\Contracts\Session\Session as SessionSession;
 use Illuminate\Support\Facades\App;
 use PDF;
@@ -541,7 +542,7 @@ class adminManager extends Controller
     {
         $this->checkLogin();
         $data = array();
-        $data['username'] = $request->user_name;
+        $data['username'] = account::find($acc_id)->username;
         $data['password'] = md5($request->password);
         $data['acc_name'] = $request->acc_name;
         $data['acc_email'] = $request->acc_email;

@@ -46,6 +46,7 @@ Route::get('/adminLogin', 'AdminController@adminLogin');
 Route::get('/adminLogout', 'AdminController@adminLogout');
 Route::get('/indexAdmin', 'AdminController@adminLayout');
 Route::post('/login', 'Admincontroller@login');
+Route::get('/info-admin/{acc_id}', 'AdminController@info_admin');
 
 // permission
 Route::get('/dashboard', 'Admincontroller@dashboard');

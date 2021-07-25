@@ -20,14 +20,6 @@
                 <form role="form" action="{{URL::TO('/admin-update-account/'.$edit_value->acc_id)}}" method="POST" enctype="multipart/form-data">
                     {{csrf_field()}}
                     <div class="form-group">
-                        <label for="userName">Tên đăng nhập</label>
-                        <input type="text" class="form-control" id="userName" name="user_name" value="{{$edit_value->username}}" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="passWord">Mật khẩu</label>
-                        <input type="text" class="form-control" id="passWord" name="password" value="{{$edit_value->password}}" required>
-                    </div>
-                    <div class="form-group">
                         <label for="accName">Tên tài khoản</label>
                         <input type="text" class="form-control" id="accName" name="acc_name" value="{{$edit_value->acc_name}}" required>
                     </div>
@@ -44,6 +36,10 @@
                         <label for="accountThumbnail">Hình ảnh</label>
                         <br>
                         <input type="file" name="inpthumbnail" class="form-control" id="accountThumbnail">
+                    </div>
+                    <div class="form-group">
+                        <label for="passWord">Mật khẩu</label>
+                        <input type="password" class="form-control" id="passWord" name="password" value="" required>
                     </div>
                     <div>
                         <label for="permID">Mã phân quyền</label>

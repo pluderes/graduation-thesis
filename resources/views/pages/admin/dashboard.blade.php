@@ -262,19 +262,47 @@
                     <h4>{{$total_order_month}}</h4>
                     <p class="text-muted">Tổng đơn đặt hàng</p>
                     <h5>{{$total_success_month}}</h5>
-                    <p class="text-muted">Số đơn giao hàng thành công<span class="f-right">{{$total_success_month / $total_order_month * 100}} %</span></p>
-                    <div class="progress">
-                        <div class="progress-bar bg-c-blue" style="width: <?php
-                                                                            echo $total_success_month / $total_order_month * 100;
-                                                                            ?>%"></div>
-                    </div>
-                    <h5 class="m-t-15">{{$total_fail_month}}</h5>
-                    <p class="text-muted">Số đơn giao hàng thất bại<span class="f-right">{{$total_fail_month / $total_order_month * 100}} %</span></p>
-                    <div class="progress">
-                        <div class="progress-bar bg-c-green" style="width: <?php
-                                                                            echo $total_fail_month / $total_order_month * 100;
-                                                                            ?>%"></div>
-                    </div>
+                    <?php
+                    if ($total_order_month > 0) {
+                    ?>
+                        <p class="text-muted">Số đơn giao hàng thành công<span class="f-right">{{$total_success_month / $total_order_month * 100}} %</span></p>
+                        <div class="progress">
+                            <div class="progress-bar bg-c-blue" style="width: 
+                                <?php
+                                echo $total_success_month / $total_order_month * 100;
+                                ?>%">
+                            </div>
+                        </div>
+                        <h5 class="m-t-15">{{$total_fail_month}}</h5>
+                        <p class="text-muted">Số đơn giao hàng thất bại<span class="f-right">{{$total_fail_month / $total_order_month * 100}} %</span></p>
+                        <div class="progress">
+                            <div class="progress-bar bg-c-green" style="width: <?php
+                                                                                echo $total_fail_month / $total_order_month * 100;
+                                                                                ?>%"></div>
+                        </div>
+                    <?php
+                    } else {
+                    ?>
+                        <p class="text-muted">Số đơn giao hàng thành công<span class="f-right">0 %</span></p>
+                        <div class="progress">
+                            <div class="progress-bar bg-c-blue" style="width: 
+                                <?php
+                                echo 0;
+                                ?>%">
+                            </div>
+                        </div>
+                        <h5 class="m-t-15">{{$total_fail_month}}</h5>
+                        <p class="text-muted">Số đơn giao hàng thất bại<span class="f-right">0 %</span></p>
+                        <div class="progress">
+                            <div class="progress-bar bg-c-green" style="width: 
+                                <?php
+                                echo 0;
+                                ?>%">
+                            </div>
+                        </div>
+                    <?php
+                    }
+                    ?>
                 </div>
             </div>
         </div>
@@ -526,7 +554,6 @@
                 </div>
             </div>
         </div>
-
     </div>
     <hr>
     <h3 style="text-align: center;">Thống kê sách bán ra theo ngày</h3>
