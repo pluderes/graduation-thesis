@@ -22,9 +22,9 @@
         <section class="signup">
             <div class="container">
                 <div class="signup-content">
-                    <form action="{{URL::TO('/update-info/'.$edit_account->acc_id)}}" method="POST" id="signup-form" class="signup-form" enctype="multipart/form-data">
+                    <form action="{{URL::TO('/save-info-admin/'.$edit_account->acc_id)}}" method="POST" id="signup-form" class="signup-form" enctype="multipart/form-data">
                         {{csrf_field()}}
-                        <h2 class="form-title">Thông tin tài khoản</h2>
+                        <h2 class="form-title">Cập nhật thông tin tài khoản</h2>
                         <?php
                         $message = Session::get('message');
                         if ($message) {
@@ -57,8 +57,28 @@
                             <input type="submit" name="submit" id="submit" class="form-submit" value="Cập nhật" style="  cursor: pointer;" />
                         </div>
                     </form>
-                    <p style="text-align: center;">
-                        Hoặc <a href="{{URL::TO('/trang-chu')}}" class="loginhere-link">Trở về trang chủ</a>
+                    <p style="text-align: center;">Hoặc
+                        <?php
+                        if ($edit_account->perm_id === 1) {
+                        ?>
+                            <a href="{{URL::TO('/dashboard')}}" class="loginhere-link">
+                            <?php
+                        } else if ($edit_account->perm_id === 2) {
+                            ?>
+                                <a href="{{URL::TO('/order')}}" class="loginhere-link">
+                                <?php
+                            } else if ($edit_account->perm_id === 3) {
+                                ?>
+                                    <a href="{{URL::TO('/inventory')}}" class="loginhere-link">
+                                    <?php
+
+                                } else if ($edit_account->perm_id === 4) {
+                                    ?>
+                                        <a href="{{URL::TO('/delivery')}}" class="loginhere-link">
+                                        <?php
+                                    }
+                                        ?>
+                                        Trở về trang quản lý</a>
                     </p>
                 </div>
             </div>
@@ -66,26 +86,6 @@
     </div>
 
     <!-- JS -->
-    <script>
-        //  img
-        // let inpThumbnail = document.getElementById("accThumbnail");
-        // let thumbnail = document.getElementById("thumbnail");
-        // inpThumbnail.addEventListener("change", function() {
-        //     if (inpThumbnail.value != null) {
-        //         thumbnail.innerHTML = inpThumbnail.value.substring(12, inpThumbnail.length);
-        //     }
-        //     console.dir(inpThumbnail);
-        //     console.dir(thumbnail);
-        // });
-
-        // check password
-        // $('#password, #re_password').on('keyup', function() {
-        //     if ($('#password').val() == $('#re_password').val()) {
-        //         $('#message').html('Matching').css('color', 'green');
-        //     } else
-        //         $('#message').html('Not Matching').css('color', 'red');
-        // });
-    </script>
     <script src="{{asset('public/Frontend/js/jquery.js')}}"></script>
     <script src="{{asset('public/Frontend/js/bootstrap.min.js')}}"></script>
     <script src="{{asset('public/Frontend/loginCheckout/vendor/jquery/jquery.min.js')}}"></script>

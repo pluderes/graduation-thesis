@@ -9,6 +9,7 @@ use App\Http\Requests;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Redirect;
 use Cart;
+use Illuminate\View\Middleware\ShareErrorsFromSession;
 
 session_start();
 
@@ -33,6 +34,12 @@ class CheckoutController extends Controller
     public function add_customer(Request $request)
     {
         $count_user = DB::table('account')->where('account.username', '=', $request->username)->count();
+
+        $request->validate([
+            'acc_contact' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10',
+            'email' => 'required|email',
+            'password' => 'required|min:6',
+        ]);
 
         if ($count_user < 1) {
             $data = array();
@@ -122,6 +129,12 @@ class CheckoutController extends Controller
     public function save_checkout_customer(Request $request)
     {
         $acc_customer_id = Session::get('acc_id');
+
+        $request->validate([
+            'deli_phone' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10',
+            'deli_email' => 'required|email',
+        ]);
+
         $data = array();
         $data['acc_id'] = $acc_customer_id;
         $data['deli_date'] = Carbon::now();

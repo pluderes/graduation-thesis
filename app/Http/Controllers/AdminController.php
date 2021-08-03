@@ -39,8 +39,8 @@ class AdminController extends Controller
         // invoice month
         $total_quantity_prod = DB::table('product')->sum('prod_quantity');
         $total_month = DB::table('invoice')->whereMonth('invoice_date_time', Carbon::now()->month)->sum('invoice_total');
-        $online_revenue = DB::table('invoice')->join('payment', 'payment.payment_id', '=', 'invoice.payment_id')->where('payment_method', '=', 1)->count('invoice_id');
-        $offline_revenue = DB::table('invoice')->join('payment', 'payment.payment_id', '=', 'invoice.payment_id')->where('payment_method', '=', 2)->count('invoice_id');
+        $online_revenue = DB::table('invoice')->join('payment', 'payment.payment_id', '=', 'invoice.payment_id')->whereMonth('invoice_date_time', Carbon::now()->month)->where('payment_method', '=', 1)->count('invoice_id');
+        $offline_revenue = DB::table('invoice')->join('payment', 'payment.payment_id', '=', 'invoice.payment_id')->whereMonth('invoice_date_time', Carbon::now()->month)->where('payment_method', '=', 2)->count('invoice_id');
         // ------------------------------------------
 
         // delivery
@@ -279,8 +279,8 @@ class AdminController extends Controller
 
         $total_quantity_prod = DB::table('product')->sum('prod_quantity');
         $total_month = DB::table('invoice')->whereMonth('invoice_date_time', Carbon::now()->month)->sum('invoice_total');
-        $online_revenue = DB::table('invoice')->join('payment', 'payment.payment_id', '=', 'invoice.payment_id')->where('payment_method', '=', 1)->count('invoice_id');
-        $offline_revenue = DB::table('invoice')->join('payment', 'payment.payment_id', '=', 'invoice.payment_id')->where('payment_method', '=', 2)->count('invoice_id');
+        $online_revenue = DB::table('invoice')->join('payment', 'payment.payment_id', '=', 'invoice.payment_id')->whereMonth('invoice_date_time', Carbon::now()->month)->where('payment_method', '=', 1)->count('invoice_id');
+        $offline_revenue = DB::table('invoice')->join('payment', 'payment.payment_id', '=', 'invoice.payment_id')->whereMonth('invoice_date_time', Carbon::now()->month)->where('payment_method', '=', 2)->count('invoice_id');
 
         return view('pages.admin.order')->with('total_price_invoice', $total_price_invoice)
             ->with('total_prod_invoice', $total_prod_invoice)
@@ -386,6 +386,14 @@ class AdminController extends Controller
     public function info_admin($acc_id)
     {
         $per = DB::table('account')->join('set_permission', 'account.perm_id', '=', 'set_permission.perm_id')->where('account.acc_id', $acc_id)->first();
+
+        Session::put('adminname', $per->acc_name);
+        Session::put('permId', $per->perm_id);
+        Session::put('accImg', $per->acc_img);
+        Session::put('accEmail', $per->acc_email);
+        Session::put('accContact', $per->acc_contact);
+        Session::put('acc_id', $per->acc_id);
+
         return view('pages.admin.info_admin')->with('per', $per);
     }
 

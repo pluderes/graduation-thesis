@@ -44,6 +44,17 @@ class infoController extends Controller
         $all_invoice = DB::table('invoice')->join('account', 'invoice.acc_id', '=', 'account.acc_id')->where('invoice.acc_id', $acc_id)->orderBy('invoice.invoice_id', 'desc')->get();
         $manager_invoice = view('pages.info_account.all_invoice')->with('all_invoice', $all_invoice)->with('info', $info_account);
 
+            // echo '<pre>';
+            // print_r($info_account);
+            // echo '</pre>';
+
+        Session::put('accImg', $info_account[0]->acc_img);
+        Session::put('adminname', $info_account[0]->acc_name);
+        Session::put('permId', $info_account[0]->perm_id);
+        Session::put('accEmail', $info_account[0]->acc_email);
+        Session::put('accContact', $info_account[0]->acc_contact);
+        Session::put('acc_id', $info_account[0]->acc_id);
+
         return view('information')->with('pages.info_account.all_invoice', $manager_invoice);
     }
 
@@ -209,16 +220,15 @@ class infoController extends Controller
         $this->checkLogin();
         $img = account::find($acc_id);
 
+        $request->validate([
+            'acc_contact' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10',
+        ]);
+
         $data = array();
         $data['username'] = $img->username;
-        if ($request->password === $request->re_password) {
-            $data['password'] = md5($request->password);
-        } else {
-            Session::put('message', 'Nhập lại mật khẩu không chính xác!');
-            return Redirect::to('/login-checkout');
-        }
+        $data['password'] = $img->password;
         $data['acc_name'] = $request->acc_name;
-        $data['acc_email'] = $request->email;
+        $data['acc_email'] = $img->acc_email;
         $data['acc_contact'] = $request->acc_contact;
         $data['perm_id'] = '5';
         $get_image = $request->file('inpthumbnail');
@@ -228,40 +238,14 @@ class infoController extends Controller
             $new_image = $name_image . '.' . $get_image->getClientOriginalExtension();
             $get_image->move('public/Backend/images', $new_image);
             $data['acc_img'] = $new_image;
-
-            // echo '<pre>';
-            // print_r($data);
-            // echo '</pre>';
-
-            DB::table('account')->where('acc_id', $acc_id)->update($data);
-
-            Session::put('message', 'Cập nhật tài khoản thành công!');
-
-            Session::put('accImg', $img->acc_img);
-            Session::put('adminname', $img->acc_name);
-            Session::put('permId', $img->perm_id);
-            Session::put('accEmail', $img->acc_email);
-            Session::put('accContact', $img->acc_contact);
-            Session::put('acc_id', $img->acc_id);
-
-            return Redirect::to('/info/' . $acc_id);
         } else {
             $data['acc_img'] = $request->account_thumbnail;
-
-            // echo '<pre>';
-            // print_r($data);
-            // echo '</pre>';
-            DB::table('account')->where('acc_id', $acc_id)->update($data);
-
-            Session::put('message', 'Cập nhật tài khoản thành công!');
-
-            Session::put('accImg', $img->acc_img);
-            Session::put('adminname', $img->acc_name);
-            Session::put('permId', $img->perm_id);
-            Session::put('accEmail', $img->acc_email);
-            Session::put('accContact', $img->acc_contact);
-            Session::put('acc_id', $img->acc_id);
-            return Redirect::to('/info/' . $acc_id);
         }
+
+        Session::put('message', 'Cập nhật tài khoản thành công!');
+
+        DB::table('account')->where('acc_id', $acc_id)->update($data);
+
+        return Redirect::to('/info/' . $acc_id);
     }
 }

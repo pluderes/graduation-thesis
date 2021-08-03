@@ -36,25 +36,40 @@
                             '</div>';
                             Session::put('message', null);
                         }
+                        if ($errors->has('acc_contact')) {
+                            echo '<div style="background-color: #f8d7da; font-family: Montserrat">
+						    <button type="button" style="background-color:#f8d7da; border: unset; height: 50px;" data-dismiss="alert" area-hidden="true">&times;</button>', "Số điện thoại không hợp lệ",
+                            '</div>';
+                        }
+                        if ($errors->has('email')) {
+                            echo '<div style="background-color: #f8d7da; font-family: Montserrat">
+						    <button type="button" style="background-color:#f8d7da; border: unset; height: 50px;" data-dismiss="alert" area-hidden="true">&times;</button>', "Email không hợp lệ",
+                            '</div>';
+                        }
+                        if ($errors->has('password')) {
+                            echo '<div style="background-color: #f8d7da; font-family: Montserrat">
+						    <button type="button" style="background-color:#f8d7da; border: unset; height: 50px;" data-dismiss="alert" area-hidden="true">&times;</button>', "Mật khẩu không hợp lệ",
+                            '</div>';
+                        }
                         ?>
                         <div class="form-group">
-                            <input type="text" class="form-input" name="acc_name" id="name" placeholder="Tên tài khoản" />
+                            <input type="text" class="form-input" name="acc_name" id="name" placeholder="Tên tài khoản" required />
                         </div>
                         <div class="form-group">
-                            <input type="text" class="form-input" name="username" id="username" placeholder="Tên đăng nhập" />
+                            <input type="text" class="form-input" name="username" id="username" placeholder="Tên đăng nhập" required />
                         </div>
                         <div class="form-group">
-                            <input type="email" class="form-input" name="email" id="email" placeholder="Email" />
+                            <input type="email" class="form-input" name="email" id="email" placeholder="Email"/>
                         </div>
                         <div class="form-group">
-                            <input type="text" class="form-input" name="acc_contact" id="contact" placeholder="Số điện thoại" />
+                            <input type="text" class="form-input" name="acc_contact" id="contact" placeholder="Số điện thoại" required />
                         </div>
                         <div class="form-group">
-                            <input type="password" class="form-input" name="password" id="password" placeholder="Mật khẩu" />
+                            <input type="password" class="form-input" name="password" id="password" placeholder="Mật khẩu" required />
                             <span toggle="#password" class="zmdi zmdi-eye field-icon toggle-password"></span>
                         </div>
                         <div class="form-group">
-                            <input type="password" class="form-input" name="re_password" id="re_password" placeholder="Nhập lại mật khẩu" />
+                            <input type="password" class="form-input" name="re_password" id="re_password" placeholder="Nhập lại mật khẩu" required />
                         </div>
                         <div class="form-group">
                             <!-- <textarea id="thumbnail" name="acc_thumbnail" cols="100" rows="5" style="display:none"></textarea> -->
@@ -62,10 +77,6 @@
                             <br>
                             <input type="file" name="inpthumbnail" class="form-control" id="accThumbnail" style="  cursor: pointer;">
                         </div>
-                        <!-- <div class="form-group">
-                            <input type="checkbox" name="agree-term" id="agree-term" class="agree-term"/>
-                            <label for="agree-term" class="label-agree-term"><span><span></span></span>Tôi đồng ý tất cả các tuyên bố trong <a href="#" class="term-service">Điều khoản dịch vụ</a></label>
-                        </div> -->
                         <div class="form-group">
                             <input type="submit" name="submit" id="submit" class="form-submit" value="Đăng kí" style="  cursor: pointer;" />
                         </div>

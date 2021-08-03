@@ -131,8 +131,9 @@
     <script src="{{asset('public/Frontend/js-info/jquery-2.1.4.min.js')}}"></script>
 
     <!-- Bootstrap -->
-    <script src="{{asset('public/Frontend/js-info//bootstrap.min.js')}}"></script>
-    <script src="{{asset('public/Frontend/js-info//scripts.js')}}"></script>
+    <script src="{{asset('public/Frontend/js-info/bootstrap.min.js')}}"></script>
+    <script src="{{asset('public/Frontend/js-info/scripts.js')}}"></script>
+    
 </body>
 
 </html>

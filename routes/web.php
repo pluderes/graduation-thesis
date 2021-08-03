@@ -139,6 +139,9 @@ Route::get('/admin-edit-account/{acc_id}', 'adminManager@edit_account');
 Route::post('/admin-save-account', 'adminManager@save_account');
 Route::post('/admin-update-account/{acc_id}', 'adminManager@update_account');
 Route::get('/admin-delete-account/{acc_id}', 'adminManager@delete_account');
+Route::get('/update-info-admin/{acc_id}', 'adminManager@update_info_admin');
+Route::post('/save-info-admin/{acc_id}', 'adminManager@save_info_admin');
+
 // end accountAdmin
 // -------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------

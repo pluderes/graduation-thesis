@@ -22,7 +22,6 @@
                             <p class="text-white m-b-0">Tổng doanh thu</p>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
@@ -121,18 +120,54 @@
                     <h4>{{number_format($total_month)}} VNĐ</h4>
                     <p class="text-muted">Tổng doanh thu</p>
                     <h5>{{$online_revenue}}</h5>
-                    <p class="text-muted">Doanh thu trực tuyến<span class="f-right">{{$online_revenue/($online_revenue + $offline_revenue) * 100}}%</span></p>
+                    <p class="text-muted">Doanh thu trực tuyến
+                        <span class="f-right">
+                            <?php
+                            if (($online_revenue + $offline_revenue) === 0) {
+                                echo '0%';
+                            } else {
+                            ?>
+                                {{$online_revenue/($online_revenue + $offline_revenue) * 100}}%
+                            <?php
+                            }
+                            ?>
+                        </span>
+                    </p>
                     <div class="progress">
-                        <div class="progress-bar bg-c-blue" style="width: <?php
-                                                                            echo $online_revenue / ($online_revenue + $offline_revenue) * 100;
-                                                                            ?>%"></div>
+                        <div class="progress-bar bg-c-blue" style="width: 
+                        <?php
+                        if (($online_revenue + $offline_revenue) === 0) {
+                            echo '0';
+                        } else {
+                            echo $online_revenue / ($online_revenue + $offline_revenue) * 100;
+                        }
+                        ?>%">
+                        </div>
                     </div>
                     <h5 class="m-t-15">{{$offline_revenue}}</h5>
-                    <p class="text-muted">Doanh thu ngoại tuyến<span class="f-right">{{$offline_revenue/($online_revenue + $offline_revenue) * 100}}%</span></p>
+                    <p class="text-muted">Doanh thu ngoại tuyến
+                        <span class="f-right">
+                            <?php
+                            if (($online_revenue + $offline_revenue) === 0) {
+                                echo '0%';
+                            } else {
+                            ?>
+                                {{$offline_revenue/($online_revenue + $offline_revenue) * 100}}%
+                            <?php
+                            }
+                            ?>
+                        </span>
+                    </p>
                     <div class="progress">
-                        <div class="progress-bar bg-c-green" style="width: <?php
-                                                                            echo $offline_revenue / ($online_revenue + $offline_revenue) * 100;
-                                                                            ?>%"></div>
+                        <div class="progress-bar bg-c-green" style="width: 
+                        <?php
+                        if (($online_revenue + $offline_revenue) === 0) {
+                            echo '0';
+                        } else {
+                            echo $offline_revenue / ($online_revenue + $offline_revenue) * 100;
+                        }
+                        ?>%">
+                        </div>
                     </div>
                 </div>
             </div>
@@ -207,7 +242,6 @@
                         <div class="col-12">
                             <p class="text-white m-b-0">Số đơn giao hàng thành công</p>
                         </div>
-
                     </div>
                 </div>
             </div>

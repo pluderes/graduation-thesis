@@ -494,6 +494,13 @@ class adminManager extends Controller
     public function save_account(Request $request)
     {
         $this->checkLogin();
+
+        $request->validate([
+            'acc_contact' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10',
+            'email' => 'required|email',
+            'password' => 'required|min:6',
+        ]);
+
         $data = array();
         $data['username'] = $request->user_name;
         $data['password'] = md5($request->password);
@@ -508,27 +515,13 @@ class adminManager extends Controller
             $new_image = $name_image . '.' . $get_image->getClientOriginalExtension();
             $get_image->move('public/Backend/images', $new_image);
             $data['acc_img'] = $new_image;
-
-            // echo '<pre>';
-            // print_r($data);
-            // echo '</pre>';
-
-            DB::table('account')->insert($data);
-            Session::put('message', 'Thêm tài khoản thành công!');
-
-            return Redirect::to('/admin-add-account');
         } else {
             $data['acc_img'] = 'avt-default.jpg';
-
-            // echo '<pre>';
-            // print_r($data);
-            // echo '</pre>';
-
-            DB::table('account')->insert($data);
-            Session::put('message', 'Thêm tài khoản thành công!');
-
-            return Redirect::to('/admin-add-account');
         }
+        DB::table('account')->insert($data);
+        Session::put('message', 'Thêm tài khoản thành công!');
+
+        return Redirect::to('/admin-all-account');
     }
     public function edit_account($acc_id)
     {
@@ -541,6 +534,13 @@ class adminManager extends Controller
     public function update_account(Request $request, $acc_id)
     {
         $this->checkLogin();
+
+        $request->validate([
+            'acc_contact' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10',
+            'email' => 'required|email',
+            'password' => 'required|min:6',
+        ]);
+
         $data = array();
         $data['username'] = account::find($acc_id)->username;
         $data['password'] = md5($request->password);
@@ -555,26 +555,13 @@ class adminManager extends Controller
             $new_image = $name_image . '.' . $get_image->getClientOriginalExtension();
             $get_image->move('public/Backend/images', $new_image);
             $data['acc_img'] = $new_image;
-
-            // echo '<pre>';
-            // print_r($data);
-            // echo '</pre>';
-
-            DB::table('account')->where('acc_id', $acc_id)->update($data);
-
-            Session::put('message', 'Cập nhật tài khoản thành công!');
-            return Redirect::to('/admin-all-account');
         } else {
             $data['acc_img'] = $request->account_thumbnail;
-
-            // echo '<pre>';
-            // print_r($data);
-            // echo '</pre>';
-            DB::table('account')->where('acc_id', $acc_id)->update($data);
-
-            Session::put('message', 'Cập nhật tài khoản thành công!');
-            return Redirect::to('/admin-all-account');
         }
+        DB::table('account')->where('acc_id', $acc_id)->update($data);
+
+        Session::put('message', 'Cập nhật tài khoản thành công!');
+        return Redirect::to('/admin-all-account');
     }
     public function delete_account($acc_id)
     {
@@ -584,7 +571,46 @@ class adminManager extends Controller
         Session::put('message', 'Xóa tài khoản thành công!');
         return Redirect::to('/admin-all-account');
     }
+    // --------------------
+    public function update_info_admin($acc_id)
+    {
+        $this->checkLogin();
 
+        $edit_account = account::find($acc_id);
+        return view('adminManager.accountManager.edit.update_info_account')->with('edit_account', $edit_account);
+    }
+    public function save_info_admin(Request $request, $acc_id)
+    {
+        $this->checkLogin();
+        $acc = account::find($acc_id);
+
+        $request->validate([
+            'acc_contact' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10',
+        ]);
+
+        $data = array();
+        $data['username'] = $acc->username;
+        $data['password'] = $acc->password;
+        $data['acc_name'] = $request->acc_name;
+        $data['acc_email'] = $acc->acc_email;
+        $data['acc_contact'] = $request->acc_contact;
+        $data['perm_id'] = $acc->perm_id;
+        $get_image = $request->file('inpthumbnail');
+        if ($get_image) {
+            $get_name_image = $get_image->getClientOriginalName();
+            $name_image = current(explode('.', $get_name_image));
+            $new_image = $name_image . '.' . $get_image->getClientOriginalExtension();
+            $get_image->move('public/Backend/images', $new_image);
+            $data['acc_img'] = $new_image;
+        } else {
+            $data['acc_img'] = $request->account_thumbnail;
+        }
+
+        Session::put('message', 'Cập nhật tài khoản thành công!');
+
+        DB::table('account')->where('acc_id', $acc_id)->update($data);
+        return Redirect::to('/info-admin/' . $acc_id);
+    }
     // end account
     // ----------------------------------------------------------------------------------------
     // invoice

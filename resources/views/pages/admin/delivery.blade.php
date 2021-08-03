@@ -9,8 +9,7 @@
                 <div class="card-block">
                     <div class="row align-items-center">
                         <div class="col-10">
-                            <h4 class="text-c-purple">{{$total_order}}</h4>
-                            <h6 class="text-muted m-b-0">Tổng số đơn hàng</h6>
+                            <h4 class="text-c-purple" style="margin: 0;">{{$total_order}}</h4>
                         </div>
                         <div class="col-2" style="margin: 0; padding: 0;">
                             <i class="fas fa-file-invoice f-28"></i>
@@ -19,12 +18,10 @@
                 </div>
                 <div class="card-footer bg-c-purple">
                     <div class="row align-items-center">
-                        <div class="col-9">
-                            <p class="text-white m-b-0">% tăng trưởng</p>
+                        <div class="col-12">
+                            <p class="text-white m-b-0">Tổng số đơn hàng</p>
                         </div>
-                        <div class="col-3 text-right">
-                            <i class="fa fa-line-chart text-white f-16"></i>
-                        </div>
+
                     </div>
 
                 </div>
@@ -35,8 +32,7 @@
                 <div class="card-block">
                     <div class="row align-items-center">
                         <div class="col-10">
-                            <h4 class="text-c-green">{{$invoice_delivered}}</h4>
-                            <h6 class="text-muted m-b-0">Số đơn đã nhận giao</h6>
+                            <h4 class="text-c-green" style="margin: 0;">{{$invoice_delivered}}</h4>
                         </div>
                         <div class="col-2">
                             <i class="fas fa-file-invoice-dollar f-28"></i>
@@ -45,14 +41,10 @@
                 </div>
                 <div class="card-footer bg-c-green">
                     <div class="row align-items-center">
-                        <div class="col-9">
-                            <p class="text-white m-b-0">% tăng trưởng</p>
-                        </div>
-                        <div class="col-3 text-right">
-                            <i class="fa fa-line-chart text-white f-16"></i>
+                        <div class="col-12">
+                            <p class="text-white m-b-0">Số đơn đã nhận giao</p>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
@@ -61,21 +53,17 @@
                 <div class="card-block">
                     <div class="row align-items-center">
                         <div class="col-10">
-                            <h4 class="text-c-red">{{$invoice_success}}</h4>
-                            <h6 class="text-muted m-b-0">Số đơn giao hàng thành công</h6>
+                            <h4 class="text-c" style="color: lightsalmon; margin: 0;">{{$invoice_success}}</h4>
                         </div>
                         <div class="col-2">
                             <i class="fas fa-file-alt f-28"></i>
                         </div>
                     </div>
                 </div>
-                <div class="card-footer bg-c-red">
+                <div class="card-footer bg-c" style="background-color: lightsalmon;">
                     <div class="row align-items-center">
-                        <div class="col-9">
-                            <p class="text-white m-b-0">% tăng trưởng</p>
-                        </div>
-                        <div class="col-3 text-right">
-                            <i class="fa fa-line-chart text-white f-16"></i>
+                        <div class="col-12">
+                            <p class="text-white m-b-0">Số đơn giao hàng thành công</p>
                         </div>
                     </div>
                 </div>
@@ -108,22 +96,19 @@
                 <div class="card">
                     <div class="card-block">
                         <div class="row align-items-center">
-                            <div class="col-8">
+                            <div class="col-10">
                                 <h4 class="text-c-blue">{{$invoice_fail}}</h4>
-                                <h6 class="text-muted m-b-0">Số đơn giao hàng thất bại</h6>
+                                <h6 class="text-muted m-b-0"></h6>
                             </div>
-                            <div class="col-4 text-right">
+                            <div class="col-2 text-right">
                                 <i class="far fa-file-alt f-28"></i>
                             </div>
                         </div>
                     </div>
                     <div class="card-footer bg-c-blue">
                         <div class="row align-items-center">
-                            <div class="col-9">
-                                <p class="text-white m-b-0">% tăng trưởng</p>
-                            </div>
-                            <div class="col-3 text-right">
-                                <i class="fa fa-line-chart text-white f-16"></i>
+                            <div class="col-12">
+                                <p class="text-white m-b-0">Số đơn giao hàng thất bại</p>
                             </div>
                         </div>
                     </div>
@@ -135,19 +120,47 @@
                     <h4>{{$total_order_month}}</h4>
                     <p class="text-muted">Tổng đơn đặt hàng</p>
                     <h5>{{$total_success_month}}</h5>
-                    <p class="text-muted">Số đơn giao hàng thành công<span class="f-right">{{$total_success_month / $total_order_month * 100}} %</span></p>
-                    <div class="progress">
-                        <div class="progress-bar bg-c-blue" style="width: <?php
-                                                                            echo $total_success_month / $total_order_month * 100;
-                                                                            ?>%"></div>
-                    </div>
-                    <h5 class="m-t-15">{{$total_fail_month}}</h5>
-                    <p class="text-muted">Số đơn giao hàng thất bại<span class="f-right">{{$total_fail_month / $total_order_month * 100}} %</span></p>
-                    <div class="progress">
-                        <div class="progress-bar bg-c-green" style="width: <?php
-                                                                            echo $total_fail_month / $total_order_month * 100;
-                                                                            ?>%"></div>
-                    </div>
+                    <?php
+                    if ($total_order_month > 0) {
+                    ?>
+                        <p class="text-muted">Số đơn giao hàng thành công<span class="f-right">{{$total_success_month / $total_order_month * 100}} %</span></p>
+                        <div class="progress">
+                            <div class="progress-bar bg-c-blue" style="width: 
+                                <?php
+                                echo $total_success_month / $total_order_month * 100;
+                                ?>%">
+                            </div>
+                        </div>
+                        <h5 class="m-t-15">{{$total_fail_month}}</h5>
+                        <p class="text-muted">Số đơn giao hàng thất bại<span class="f-right">{{$total_fail_month / $total_order_month * 100}} %</span></p>
+                        <div class="progress">
+                            <div class="progress-bar bg-c-green" style="width: <?php
+                                                                                echo $total_fail_month / $total_order_month * 100;
+                                                                                ?>%"></div>
+                        </div>
+                    <?php
+                    } else {
+                    ?>
+                        <p class="text-muted">Số đơn giao hàng thành công<span class="f-right">0 %</span></p>
+                        <div class="progress">
+                            <div class="progress-bar bg-c-blue" style="width: 
+                                <?php
+                                echo 0;
+                                ?>%">
+                            </div>
+                        </div>
+                        <h5 class="m-t-15">{{$total_fail_month}}</h5>
+                        <p class="text-muted">Số đơn giao hàng thất bại<span class="f-right">0 %</span></p>
+                        <div class="progress">
+                            <div class="progress-bar bg-c-green" style="width: 
+                                <?php
+                                echo 0;
+                                ?>%">
+                            </div>
+                        </div>
+                    <?php
+                    }
+                    ?>
                 </div>
             </div>
         </div>

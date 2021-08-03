@@ -303,7 +303,7 @@ ul.sub-menu {
 }
 
 .dropdown ul.sub-menu li .active {
-    color: #fdb45e;
+    color: seagreen;
     padding-left: 0;
 }
 
@@ -320,7 +320,7 @@ ul.sub-menu {
 }
 
 .navbar-nav li ul.sub-menu li a:hover {
-    color: #fdb45e;
+    color: seagreen;
 }
 
 .fa-angle-down {
@@ -2148,7 +2148,7 @@ textarea {
 
 .media-list .btn-primary,
 .commnets .btn-primary {
-    background: #fc9a11;
+    background: seagreen;
     border: 0 none;
     border-radius: 0;
     color: #ffffff;

@@ -65,7 +65,7 @@
 									<li class="dropdown"><a href="#">Danh mục sản phẩm<i class="fa fa-angle-down"></i></a>
 										<ul role="menu" class="sub-menu">
 											@foreach($category as $key => $cate)
-											<li class="dropdown"><a href="{{URL::TO('/danhmucsanpham/'.$cate->cate_id)}}">{{$cate->cate_name}}</a>
+											<li class="dropdown"><a href="{{URL::TO('/category-product/'.$cate->cate_id)}}">{{$cate->cate_name}}</a>
 											</li>
 											@endforeach
 										</ul>
@@ -90,8 +90,8 @@
 									<?php
 									} else {
 									?>
-										<li><a href="{{URL::TO('/login-checkout')}}"><i class="fa fa-user"></i> Tài khoản</a></li>
-										<li><a href="{{URL::TO('/login-checkout')}}"><i class="fa fa-star"></i> Yêu thích</a></li>
+										<li><a href="{{URL::TO('/adminLogin')}}"><i class="fa fa-user"></i> Tài khoản</a></li>
+										<li><a href="{{URL::TO('/adminLogin')}}"><i class="fa fa-star"></i> Yêu thích</a></li>
 										<li><a href="{{URL::TO('/adminLogin')}}"><i class="fas fa-sign-in-alt"></i> Đăng nhập</a></li>
 									<?php
 									}

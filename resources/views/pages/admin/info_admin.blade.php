@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="{{asset('public/Frontend/aboutme/CSS/aboutdemo.css')}}">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" />
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{{asset('public/Backend/css/login/main.css')}}">
 </head>
 
 <body>
@@ -18,6 +20,7 @@
     $acc_email = Session::get('accEmail');
     $acc_contact = Session::get('accContact');
     $perm_id = Session::get('permId');
+    $acc_id = Session::get('acc_id');
     ?>
     <div class="about-section">
         <?php
@@ -44,8 +47,17 @@
                         </a>
     </div>
     <div class="team" id="divteam">
-        <h5 class="team" style="font-family: Segoe UI; font-weight: 700;">Thông tin tài khoản của bạn</h5>
+        <h5 class="team" style="font-family: Segoe UI; font-weight: 700;">Thông tin tài khoản</h5>
     </div>
+    <?php
+    $message = Session::get('message');
+    if ($message) {
+        echo '<div class="alert alert-success alert-dismissable text-center">
+                            <button type="button" class="close" data-dismiss="alert" area-hidden="true">&times;</button>', $message,
+        '</div>';
+        Session::put('message', null);
+    }
+    ?>
     <div class="row" style="margin: 0; background-color: #888888;">
         <div class="column">
             <div class="card">
@@ -57,9 +69,23 @@
                     <p class="title"><i class="fas fa-envelope"></i> {{$acc_email}}</p>
                     <p class="title"><i class="fas fa-universal-access"></i> {{$per->perm_name}}</p>
                 </div>
+                <br>
+                <div>
+                    <form action="{{URL::TO('/update-info-admin/'.$acc_id)}}" method="get">
+                        <div class="container-login100-form-btn">
+                            <button class="login100-form-btn" type="submit">
+                                Cập nhật thông tin
+                            </button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
 </body>
+
+<script src="{{asset('public/Frontend/js/jquery.js')}}"></script>
+<script src="{{asset('public/Frontend/js/bootstrap.min.js')}}"></script>
+<script src="{{asset('public/Frontend/loginCheckout/vendor/jquery/jquery.min.js')}}"></script>
 
 </html>
