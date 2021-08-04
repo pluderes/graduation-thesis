@@ -115,7 +115,7 @@
                         <div class="container-fluid">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <div class="copytext">&copy; 2015 Online CV. All rights reserved | Design By: <a href="https://www.facebook.com/pluderes/">Trung Đức</a></div>
+                                    <div class="copytext" style="text-align: center;">Design By: <a href="https://www.facebook.com/pluderes/">Trung Đức</a></div>
                                 </div>
                             </div>
                             <!--.row-->
