@@ -10,6 +10,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Redirect;
 use Cart;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use App\Models\account;
 
 session_start();
 
@@ -149,7 +150,38 @@ class CheckoutController extends Controller
 
         return Redirect::to('/payment');
     }
+    // ---------------- update pass client -----------------------------
+    public function update_password_client($acc_id)
+    {
+        $edit_password_client = account::find($acc_id);
+        return view('pages.info_account.update_password_client')->with('edit_account', $edit_password_client);
+    }
+    public function save_password_client(Request $request, $acc_id)
+    {
+        $acc = account::find($acc_id);
 
+        $request->validate([
+            'password' => 'bail|required|min:6',
+            're_password' => 'bail|required|same:password',
+        ]);
+
+        $data = array();
+        $data['username'] = $acc->username;
+        $data['password'] = md5($request->password);
+        $data['acc_name'] = $acc->acc_name;
+        $data['acc_email'] = $acc->acc_email;
+        $data['acc_contact'] = $acc->acc_contact;
+        $data['perm_id'] = $acc->perm_id;
+        $data['acc_img'] = $acc->acc_img;
+
+        Session::put('message', 'Cập nhật mật khẩu thành công!');
+
+        DB::table('account')->where('acc_id', $acc_id)->update($data);
+        return Redirect::to('/info/' . $acc_id);
+    }
+
+
+    // ------------------------------------------------------------
     public function payment()
     {
         $cate_product = DB::table('category')->orderBy('cate_id', 'asc')->get();

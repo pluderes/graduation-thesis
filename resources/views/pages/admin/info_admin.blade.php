@@ -60,7 +60,7 @@
     ?>
     <div class="row" style="margin: 0; background-color: #888888;">
         <div class="column">
-            <div class="card">
+            <div class="card" style="height: 500px;">
                 <img class="avt" src="{{asset('public/Backend/images/'.$acc_img)}}" alt="avt">
                 <div class="container">
                     <h2>{{$acc_name}}</h2>
@@ -75,6 +75,15 @@
                         <div class="container-login100-form-btn">
                             <button class="login100-form-btn" type="submit">
                                 Cập nhật thông tin
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                <div class="m-1">
+                    <form action="{{URL::TO('/update-password-admin/'.$acc_id)}}" method="get">
+                        <div class="container-login100-form-btn">
+                            <button class="login100-form-btn" type="submit">
+                                Thay đổi mật khẩu
                             </button>
                         </div>
                     </form>

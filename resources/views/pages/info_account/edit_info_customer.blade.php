@@ -22,41 +22,43 @@
         <section class="signup">
             <div class="container">
                 <div class="signup-content">
-                    <form action="{{URL::TO('/update-info/'.$edit_account->acc_id)}}" method="POST" id="signup-form" class="signup-form" enctype="multipart/form-data">
-                        {{csrf_field()}}
-                        <h2 class="form-title">Thông tin tài khoản</h2>
-                        <?php
-                        $message = Session::get('message');
-                        if ($message) {
-                            echo '<div class="alert alert-danger alert-dismissable text-center">
+                    <div>
+                        <form action="{{URL::TO('/update-info/'.$edit_account->acc_id)}}" method="POST" id="signup-form" class="signup-form" enctype="multipart/form-data">
+                            {{csrf_field()}}
+                            <h2 class="form-title">Thông tin tài khoản</h2>
+                            <?php
+                            $message = Session::get('message');
+                            if ($message) {
+                                echo '<div class="alert alert-danger alert-dismissable text-center">
                             <button type="button" class="close" data-dismiss="alert" area-hidden="true">&times;</button>', $message,
-                            '</div>';
-                            Session::put('message', null);
-                        }
-                        if ($errors->has('acc_contact')) {
-                            $message = "Số điện thoại không hợp lệ";
-                            echo '<div class="alert alert-danger alert-dismissable text-center">
+                                '</div>';
+                                Session::put('message', null);
+                            }
+                            if ($errors->has('acc_contact')) {
+                                $message = "Số điện thoại không hợp lệ";
+                                echo '<div class="alert alert-danger alert-dismissable text-center">
                             <button type="button" class="close" data-dismiss="alert" area-hidden="true">&times;</button>', $message,
-                            '</div>';
-                            Session::put('message', null);
-                        }
-                        ?>
-                        <div class="form-group">
-                            <input type="text" class="form-input" name="acc_name" id="name" placeholder="Tên tài khoản" value="{{$edit_account->acc_name}}" required />
-                        </div>
-                        <div class="form-group">
-                            <input type="text" class="form-input" name="acc_contact" id="contact" placeholder="Số điện thoại" value="{{$edit_account->acc_contact}}" required />
-                        </div>
-                        <div class="form-group">
-                            <textarea id="thumbnail" name="account_thumbnail" cols="100" rows="5" style="display:none">{{$edit_account->acc_img}}</textarea>
-                            <label for="accThumbnail">Hình ảnh</label>
-                            <br>
-                            <input type="file" name="inpthumbnail" class="form-control" id="accThumbnail" style="cursor: pointer;">
-                        </div>
-                        <div class="form-group">
-                            <input type="submit" name="submit" id="submit" class="form-submit" value="Cập nhật" style="  cursor: pointer;" />
-                        </div>
-                    </form>
+                                '</div>';
+                                Session::put('message', null);
+                            }
+                            ?>
+                            <div class="form-group">
+                                <input type="text" class="form-input" name="acc_name" id="name" placeholder="Tên tài khoản" value="{{$edit_account->acc_name}}" required />
+                            </div>
+                            <div class="form-group">
+                                <input type="text" class="form-input" name="acc_contact" id="contact" placeholder="Số điện thoại" value="{{$edit_account->acc_contact}}" required />
+                            </div>
+                            <div class="form-group">
+                                <textarea id="thumbnail" name="account_thumbnail" cols="100" rows="5" style="display:none">{{$edit_account->acc_img}}</textarea>
+                                <label for="accThumbnail">Hình ảnh</label>
+                                <br>
+                                <input type="file" name="inpthumbnail" class="form-control" id="accThumbnail" style="cursor: pointer;">
+                            </div>
+                            <div class="form-group">
+                                <input type="submit" name="submit" id="submit" class="form-submit" value="Cập nhật" style="  cursor: pointer;" />
+                            </div>
+                        </form>
+                    </div>
                     <p style="text-align: center;">
                         Hoặc <a href="{{URL::TO('/trang-chu')}}" class="loginhere-link">Trở về trang chủ</a>
                     </p>

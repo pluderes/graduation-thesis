@@ -37,6 +37,9 @@ Route::get('/checkout/{acc_id}', 'CheckoutController@checkout');
 Route::post('/save-checkout-customer', 'CheckoutController@save_checkout_customer');
 Route::get('/payment', 'CheckoutController@payment');
 Route::post('/order-place', 'CheckoutController@order_place');
+// --------------------------
+Route::get('/update-password-client/{acc_id}', 'CheckoutController@update_password_client');
+Route::post('/save-password-client/{acc_id}', 'CheckoutController@save_password_client');
 
 // tim kiem
 Route::get('/tim-kiem', 'HomeController@search');
@@ -139,8 +142,12 @@ Route::get('/admin-edit-account/{acc_id}', 'adminManager@edit_account');
 Route::post('/admin-save-account', 'adminManager@save_account');
 Route::post('/admin-update-account/{acc_id}', 'adminManager@update_account');
 Route::get('/admin-delete-account/{acc_id}', 'adminManager@delete_account');
+// -------------- info admin -------------------
 Route::get('/update-info-admin/{acc_id}', 'adminManager@update_info_admin');
 Route::post('/save-info-admin/{acc_id}', 'adminManager@save_info_admin');
+// --------------- password admin ------------------
+Route::get('/update-password-admin/{acc_id}', 'adminManager@update_password_admin');
+Route::post('/save-password-admin/{acc_id}', 'adminManager@save_password_admin');
 
 // end accountAdmin
 // -------------------------------------------------------------------------------------------

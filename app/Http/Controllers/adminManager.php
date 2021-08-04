@@ -571,7 +571,7 @@ class adminManager extends Controller
         Session::put('message', 'Xóa tài khoản thành công!');
         return Redirect::to('/admin-all-account');
     }
-    // --------------------
+    // ---------- info admin ----------
     public function update_info_admin($acc_id)
     {
         $this->checkLogin();
@@ -611,6 +611,41 @@ class adminManager extends Controller
         DB::table('account')->where('acc_id', $acc_id)->update($data);
         return Redirect::to('/info-admin/' . $acc_id);
     }
+
+    // ------------ password admin  ------------------ 
+    public function update_password_admin($acc_id)
+    {
+        $this->checkLogin();
+
+        $edit_password_admin = account::find($acc_id);
+        return view('adminManager.accountManager.edit.update_password_account')->with('edit_account', $edit_password_admin);
+    }
+    public function save_password_admin(Request $request, $acc_id)
+    {
+        $this->checkLogin();
+        $acc = account::find($acc_id);
+
+        $request->validate([
+            'password' => 'bail|required|min:6',
+            're_password' => 'bail|required|same:password',
+        ]);
+
+        $data = array();
+        $data['username'] = $acc->username;
+        $data['password'] = md5($request->password);
+        $data['acc_name'] = $acc->acc_name;
+        $data['acc_email'] = $acc->acc_email;
+        $data['acc_contact'] = $acc->acc_contact;
+        $data['perm_id'] = $acc->perm_id;
+        $data['acc_img'] = $acc->acc_img;
+
+        Session::put('message', 'Cập nhật mật khẩu thành công!');
+
+        DB::table('account')->where('acc_id', $acc_id)->update($data);
+        return Redirect::to('/info-admin/' . $acc_id);
+    }
+
+
     // end account
     // ----------------------------------------------------------------------------------------
     // invoice

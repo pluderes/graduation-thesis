@@ -94,6 +94,11 @@
                                                 <a href="{{URL::TO('/edit-info/'.$acc_id)}}"><i class="fa fa-edit"></i>Chỉnh sửa thông tin tài khoản</a>
                                             </div>
                                         </li>
+                                        <li>
+                                            <div class="front row">
+                                                <a href="{{URL::TO('/update-password-client/'.$acc_id)}}"><i class="fa fa-edit"></i>Đổi mật khẩu</a>
+                                            </div>
+                                        </li>
                                     </ul>
                                 </div>
                             </div>
@@ -133,7 +138,7 @@
     <!-- Bootstrap -->
     <script src="{{asset('public/Frontend/js-info/bootstrap.min.js')}}"></script>
     <script src="{{asset('public/Frontend/js-info/scripts.js')}}"></script>
-    
+
 </body>
 
 </html>
