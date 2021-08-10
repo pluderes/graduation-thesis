@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Đăng kí tài khoản</title>
 
-
+    <link href="{{asset('public/Frontend/css/bootstrap.min.css')}}" rel="stylesheet">
     <!-- Font Icon -->
     <link rel="stylesheet" href="{{asset('public/Frontend/loginCheckout/fonts/material-icon/css/material-design-iconic-font.min.css')}}">
 
@@ -37,19 +37,25 @@
                             Session::put('message', null);
                         }
                         if ($errors->has('acc_contact')) {
-                            echo '<div style="background-color: #f8d7da; font-family: Montserrat">
-						    <button type="button" style="background-color:#f8d7da; border: unset; height: 50px;" data-dismiss="alert" area-hidden="true">&times;</button>', "Số điện thoại không hợp lệ",
+                            $message = "Số điện thoại không hợp lệ";
+                            echo '<div class="alert alert-danger alert-dismissable text-center">
+                            <button type="button" class="close" data-dismiss="alert" area-hidden="true">&times;</button>', $message,
                             '</div>';
+                            Session::put('message', null);
                         }
                         if ($errors->has('email')) {
-                            echo '<div style="background-color: #f8d7da; font-family: Montserrat">
-						    <button type="button" style="background-color:#f8d7da; border: unset; height: 50px;" data-dismiss="alert" area-hidden="true">&times;</button>', "Email không hợp lệ",
+                            $message = "Email không hợp lệ!";
+                            echo '<div class="alert alert-danger alert-dismissable text-center">
+                            <button type="button" class="close" data-dismiss="alert" area-hidden="true">&times;</button>', $message,
                             '</div>';
+                            Session::put('message', null);
                         }
                         if ($errors->has('password')) {
-                            echo '<div style="background-color: #f8d7da; font-family: Montserrat">
-						    <button type="button" style="background-color:#f8d7da; border: unset; height: 50px;" data-dismiss="alert" area-hidden="true">&times;</button>', "Mật khẩu không hợp lệ",
+                            $message = "Mật khẩu không hợp lệ. Mật khẩu cần ít nhất 6 kí tự";
+                            echo '<div class="alert alert-danger alert-dismissable text-center">
+                            <button type="button" class="close" data-dismiss="alert" area-hidden="true">&times;</button>', $message,
                             '</div>';
+                            Session::put('message', null);
                         }
                         ?>
                         <div class="form-group">
@@ -59,7 +65,7 @@
                             <input type="text" class="form-input" name="username" id="username" placeholder="Tên đăng nhập" required />
                         </div>
                         <div class="form-group">
-                            <input type="email" class="form-input" name="email" id="email" placeholder="Email"/>
+                            <input type="email" class="form-input" name="email" id="email" placeholder="Email" />
                         </div>
                         <div class="form-group">
                             <input type="text" class="form-input" name="acc_contact" id="contact" placeholder="Số điện thoại" required />

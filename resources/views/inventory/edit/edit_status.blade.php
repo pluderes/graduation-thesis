@@ -3,7 +3,7 @@
 <div class="col-lg-12">
     <section class="panel">
         <header class="panel-heading" style="text-align: center; background-color: lightgray;">
-            <h2 style="margin: 0;">Cập nhật tình trạng sách</h2> 
+            <h2 style="margin: 0;">Cập nhật trạng thái sách</h2> 
         </header>
         <div class="panel-body">
             <?php
@@ -20,7 +20,7 @@
                 <form role="form" action="{{URL::TO('/update-status/'.$edit_value->status_id)}}" method="POST">
                     {{csrf_field()}}
                     <div class="form-group">
-                        <label for="statusName">Tên danh mục</label>
+                        <label for="statusName">Tên trạng thái</label>
                         <input type="text" class="form-control" id="statusName" name="status_name" value="{{$edit_value->status_name}}" required>
                     </div>
                     <div class="form-group">

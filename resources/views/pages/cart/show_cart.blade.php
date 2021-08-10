@@ -64,7 +64,7 @@
 									<button style="background-color: seagreen; color: seashell;" type="submit" name="update_qty" class="btn btn-default btn-sm">Cập nhật</button>
 								</div>
 							</form>
-							
+
 						</td>
 						<td class="cart_total">
 							<p class="cart_total_price">
@@ -85,9 +85,9 @@
 	</div>
 </section>
 <section id="do_action">
-	<div class="container" style="padding-left: 0;">
-		<div class="heading">
-			<h4>Thanh toán</h4>
+	<div class="container">
+		<div class="row">
+			<a class="btn btn-default check_out" href="javascript:history.back()" style="margin: 5px 0;">Tiếp tục mua hàng</a> hoặc <h4 style="width: max-content;">Thanh toán</h4>
 		</div>
 		<div class="row">
 			<div class="col-sm-6">

@@ -308,9 +308,6 @@ class AdminController extends Controller
             } else {
                 return Redirect::to('/trang-chu');
             }
-            // echo '<pre>';
-            // print_r($accPermID);
-            // echo '</pre>';
         } else {
             Session::put('message', 'Bạn cần đăng nhập trước!');
             return Redirect::to('/adminLogin')->send();

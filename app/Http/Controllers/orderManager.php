@@ -56,8 +56,19 @@ class orderManager extends Controller
         $status = DB::table('invoice')
             ->join('invoice_status', 'invoice.invoice_id', '=', 'invoice_status.invoice_id')
             ->join('invoice_status_detail', 'invoice_status.status_detail_id', '=', 'invoice_status_detail.status_detail_id')
+            ->join('shipper', 'shipper.invoice_id', '=', 'invoice.invoice_id')
+            ->join('account', 'account.acc_id', '=', 'shipper.acc_id')
+            ->select('invoice_status.*', 'invoice_status_detail.*', 'account.*')
+            ->where('invoice.invoice_id', $invoice_id)
+            ->orderBy('invoice_status.invoice_status_id', 'asc')
+            ->get();
+
+        $status1 = DB::table('invoice')
+            ->join('invoice_status', 'invoice.invoice_id', '=', 'invoice_status.invoice_id')
+            ->join('invoice_status_detail', 'invoice_status.status_detail_id', '=', 'invoice_status_detail.status_detail_id')
             ->select('invoice_status.*', 'invoice_status_detail.*')
             ->where('invoice.invoice_id', $invoice_id)->get();
+
 
         $invoice_by_ID = DB::table('invoice')
             ->join('delivery', 'invoice.deli_id', '=', 'delivery.deli_id')
@@ -69,16 +80,20 @@ class orderManager extends Controller
         $status_detail = DB::table('invoice_status_detail')
             ->orderBy('invoice_status_detail.status_detail_id', 'asc')->get();
 
-        $manager_invoice = view('invoice.edit.order_edit_invoice')
-        ->with('invoice_by_id', $invoice_by_ID)
-        ->with('info_account', $info_account)
-        ->with('invoice_status', $status)
-        ->with('status_detail', $status_detail)
-        ->with('inv', $invoice_id);
+        $current_status = DB::table('invoice')->where('invoice.invoice_id', '=', $invoice_id)->get();
 
-        // echo '<pre>';
-        // print_r($invoice_by_ID);
-        // echo '</pre>';
+        $count = $status->count();
+        Session::put('countstatus', $count);
+
+        $manager_invoice = view('invoice.edit.order_edit_invoice')
+            ->with('invoice_by_id', $invoice_by_ID)
+            ->with('info_account', $info_account)
+            ->with('invoice_status', $status)
+            ->with('invoice_status1', $status1)
+            ->with('status_detail', $status_detail)
+            ->with('inv', $invoice_id)
+            ->with('current_status', $current_status);
+
         return view('orderLayout')->with('invoice.edit.edit_invoice', $manager_invoice);
     }
 

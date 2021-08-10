@@ -3,7 +3,7 @@
 <div class="col-lg-12">
     <section class="panel">
         <header class="panel-heading" style="text-align: center; background-color: lightgray;">
-            <h2 style="margin: 0;">Thêm tình trạng sách</h2>
+            <h2 style="margin: 0;">Thêm trạng thái sách</h2>
         </header>
         <div class="panel-body">
             <?php
@@ -19,7 +19,7 @@
                 <form role="form" action="{{URL::TO('/save-status')}}" method="POST">
                     {{csrf_field()}}
                     <div class="form-group">
-                        <label for="statusName">Tên trình trạng</label>
+                        <label for="statusName">Trạng thái sách</label>
                         <input type="text" class="form-control" id="statusName" name="status_name" required>
                     </div>
                     <div class="form-group">

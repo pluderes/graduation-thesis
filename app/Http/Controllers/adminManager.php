@@ -21,6 +21,12 @@ session_start();
 
 class adminManager extends Controller
 {
+
+    public function getProvince($value)
+    {
+        return strtoupper($value);
+    }
+
     public function checkLogin()
     {
         $accPermID = Session::get('permId');
@@ -104,7 +110,7 @@ class adminManager extends Controller
     public function all_type()
     {
         $this->checkLogin();
-        $all_type = DB::table('type')->get();
+        $all_type = DB::table('type')->join('category', 'category.cate_id', '=', 'type.cate_id')->get();
         $manager_type = view('adminManager.inventoryManager.show.all_type')->with('all_type', $all_type);
 
         return view('adminLayout')->with('adminManager.inventoryManager.show.all_category', $manager_type);
@@ -340,7 +346,14 @@ class adminManager extends Controller
     public function all_product()
     {
         $this->checkLogin();
-        $all_product = DB::table('product')->get();
+        $all_product = DB::table('product')
+            ->join('type', 'type.type_id', '=', 'product.type_id')
+            ->join('category', 'category.cate_id', '=', 'type.cate_id')
+            ->join('author', 'author.author_id', '=', 'product.author_id')
+            ->join('product_status', 'product_status.status_id', '=', 'product.status_id')
+            ->join('supplier', 'supplier.supplier_id', '=', 'product.supplier_id')
+            ->orderBy('prod_name', 'asc')
+            ->get();
         $manager_product = view('adminManager.inventoryManager.show.all_product')->with('all_product', $all_product);
 
         return view('adminLayout')->with('adminManager.inventoryManager.show.all_product', $manager_product);
@@ -358,9 +371,15 @@ class adminManager extends Controller
     }
     public function save_product(Request $request)
     {
+        $request->validate([
+            'product_numofpages' => 'regex:/^([0-9]+)$/',
+            'product_price' => 'regex:/^([0-9]+)$/',
+            'product_quantity' => 'regex:/^([0-9]+)$/',
+        ]);
+
         $this->checkLogin();
         $data = array();
-        $data['prod_name'] = $request->product_name;
+        $data['prod_name'] = strtoupper($request->product_name);
         $data['prod_desc'] = $request->product_desc;
         $data['prod_numofpages'] = $request->product_numofpages;
         $data['prod_size'] = $request->product_size;
@@ -379,20 +398,12 @@ class adminManager extends Controller
             $get_image->move('public/Upload/product', $new_image);
             $data['thumbnail'] = $new_image;
 
-            // echo '<pre>';
-            // print_r($data);
-            // echo '</pre>';
-
             DB::table('product')->insert($data);
             Session::put('message', 'Thêm sách thành công!');
 
             return Redirect::to('/admin-add-product');
         } else {
             $data['thumbnail'] = 'null';
-
-            // echo '<pre>';
-            // print_r($data);
-            // echo '</pre>';
 
             DB::table('product')->insert($data);
             Session::put('message', 'Thêm sách thành công!');
@@ -414,9 +425,16 @@ class adminManager extends Controller
     }
     public function update_product(Request $request, $product_id)
     {
+
+        $request->validate([
+            'product_numofpages' => 'regex:/^([0-9]+)$/',
+            'product_price' => 'regex:/^([0-9]+)$/',
+            'product_quantity' => 'regex:/^([0-9]+)$/',
+        ]);
+
         $this->checkLogin();
         $data = array();
-        $data['prod_name'] = $request->product_name;
+        $data['prod_name'] = strtoupper($request->product_name);
         $data['prod_desc'] = $request->product_desc;
         $data['prod_numofpages'] = $request->product_numofpages;
         $data['prod_size'] = $request->product_size;
@@ -478,8 +496,9 @@ class adminManager extends Controller
     public function all_account()
     {
         $this->checkLogin();
-        $all_account = DB::table('account')->get();
-        $manager_account = view('adminManager.accountManager.show.all_account')->with('all_account', $all_account);
+        $all_account = DB::table('account')->join('set_permission', 'set_permission.perm_id', '=', 'account.perm_id')->orderBy('account.perm_id', 'asc')->get();
+        $perm = DB::table('set_permission')->get();
+        $manager_account = view('adminManager.accountManager.show.all_account')->with('all_account', $all_account)->with('permission', $perm);
 
         return view('adminLayout')->with('adminManager.accountManager.show.all_account', $manager_account);
     }
@@ -671,7 +690,13 @@ class adminManager extends Controller
             ->join('invoice_status_detail', 'invoice_status.status_detail_id', '=', 'invoice_status_detail.status_detail_id')
             ->join('shipper', 'shipper.invoice_id', '=', 'invoice.invoice_id')
             ->join('account', 'shipper.acc_id', '=', 'account.acc_id')
-            ->select('invoice_status.*', 'invoice_status_detail.*', 'shipper.acc_id', 'account.acc_name')
+            ->select('invoice_status.*', 'invoice_status_detail.*', 'shipper.acc_id', 'account.*')
+            ->where('invoice.invoice_id', $invoice_id)->get();
+
+        $status1 = DB::table('invoice')
+            ->join('invoice_status', 'invoice.invoice_id', '=', 'invoice_status.invoice_id')
+            ->join('invoice_status_detail', 'invoice_status.status_detail_id', '=', 'invoice_status_detail.status_detail_id')
+            ->select('invoice_status.*', 'invoice_status_detail.*')
             ->where('invoice.invoice_id', $invoice_id)->get();
 
         $invoice_by_ID = DB::table('invoice')
@@ -684,15 +709,22 @@ class adminManager extends Controller
         $status_detail = DB::table('invoice_status_detail')
             ->orderBy('invoice_status_detail.status_detail_id', 'asc')->get();
 
+        $current_status = DB::table('invoice')->where('invoice.invoice_id', '=', $invoice_id)->get();
+
         $manager_invoice = view('adminManager.invoiceManager.edit.edit_invoice')
             ->with('invoice_by_id', $invoice_by_ID)
             ->with('info_account', $info_account)
             ->with('invoice_status', $status)
+            ->with('invoice_status1', $status1)
             ->with('status_detail', $status_detail)
-            ->with('inv', $invoice_id);
-        // echo '<pre>';
-        // print_r($invoice_by_ID);
-        // echo '</pre>';
+            ->with('inv', $invoice_id)
+            ->with('current_status', $current_status);
+
+
+        $count = $status->count();
+        Session::put('countstatus', $count);
+
+
         return view('adminLayout')->with('adminManager.invoiceManager.edit.edit_invoice', $manager_invoice);
     }
 

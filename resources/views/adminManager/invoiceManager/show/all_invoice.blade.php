@@ -31,8 +31,7 @@
             @foreach($all_invoice as $key => $invoice)
             <tr>
               <td>
-                <a href="{{URL::TO('/admin-edit-invoice/'.$invoice->invoice_id)}}" class="active" ui-toggle-class=""><i class="fa fa-check text-success text-active"></i></a>
-                <a onclick="return confirm(`Bạn có chắc muốn xóa đơn hàng này?`)" href="{{URL::TO('/admin-delete-invoice/'.$invoice->invoice_id)}}" class="active" ui-toggle-class=""><i class="fa fa-times text-danger text"></i></a>
+                <a href="{{URL::TO('/admin-edit-invoice/'.$invoice->invoice_id)}}" class="active" ui-toggle-class=""><i class="fas fa-edit"></i></a>
               </td>
               <td><span class="text-ellipsis">{{$invoice->invoice_id}}</span></td>
               <td>{{$invoice->acc_name}}</td>

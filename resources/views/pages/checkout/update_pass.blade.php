@@ -13,31 +13,42 @@
                     <div class="bill-to row">
                         <div class="form-one">
                             <?php
-                            $error = Session::get('error');
                             $success = Session::get('success');
-                            if ($error) {
-                                echo '<div class="alert alert-danger alert-dismissable text-center">
-	                    <button type="button" class="close" data-dismiss="alert" area-hidden="true">&times;</button>', $error,
-                                '</div>';
-                                Session::put('error', null);
-                            } else if ($success) {
+                            if ($success) {
                                 echo '<div class="alert alert-success alert-dismissable text-center">
-                        <button type="button" class="close" data-dismiss="alert" area-hidden="true">&times;</button>', $success,
+                                <button type="button" class="close" data-dismiss="alert" area-hidden="true">&times;</button>', $success,
                                 '</div>';
                                 Session::put('success', null);
                             }
+                            if ($errors->has('password')) {
+                                $message = "Mật khẩu không hợp lệ. Mật khẩu cần ít nhất 6 kí tự";
+                                echo '<div class="alert alert-danger alert-dismissable text-center">
+                                <button type="button" class="close" data-dismiss="alert" area-hidden="true">&times;</button>', $message,
+                                '</div>';
+                                Session::put('message', null);
+                            }
+                            if ($errors->has('re_password')) {
+                                $message = "Nhập lại mật khẩu không chính xác";
+                                echo '<div class="alert alert-danger alert-dismissable text-center">
+                                <button type="button" class="close" data-dismiss="alert" area-hidden="true">&times;</button>', $message,
+                                '</div>';
+                                Session::put('message', null);
+                            }
                             ?>
-                            <h5 style="color: seagreen;">Nhập mật khẩu mới</h5>
+
                             <form action="{{URL::to('/reset-password')}}" method="POST">
-                            <?php
+                                <?php
                                 $token = $_GET['token'];
                                 $email = $_GET['email'];
-                            ?>
+                                ?>
                                 {{csrf_field()}}
                                 <input type="hidden" name="token" value="{{$token}}">
                                 <input type="hidden" name="email" value="{{$email}}">
-                                
-                                <input type="password" name="new_password" placeholder="Mật khẩu mới(*)" required>
+
+                                <label for="new_password" style="color: seagreen;">Nhập mật khẩu mới</label>
+                                <input type="password" id="new_password" name="new_password" placeholder="Mật khẩu mới(*)" required>
+                                <label for="re_password" style="color: seagreen;">Nhập lại mật khẩu mới</label>
+                                <input type="password" id="re_password" name="re_password" placeholder="Nhập lại mật khẩu mới(*)" required>
                                 <hr>
                                 <input type="submit" value="Gửi" name="conf_deli" class="btn btn-sm" style="background-color: seagreen; color: seashell; font-size: 14px;">
                             </form>

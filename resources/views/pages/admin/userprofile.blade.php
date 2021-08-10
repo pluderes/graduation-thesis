@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="{{asset('public/Frontend/aboutme/CSS/aboutdemo.css')}}">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" />
-</head>
+ </head>
 
 <body>
     <div class="about-section">
@@ -27,8 +27,8 @@
                 <div class="container">
                     <h2>Trần Đức Trung</h2>
                     <hr>
-                    <p class="title"><i class="fas fa-phone-square-alt"></i> 0359280808</p>
-                    <p class="title"><i class="fas fa-envelope"></i> manba211198@gmail.com</p>
+                    <p class="title"><i class="fa fa-phone-square-alt"></i> 0359280808</p>
+                    <p class="title"><i class="fa fa-envelope"></i> manba211198@gmail.com</p>
                     <a href="https://www.facebook.com/pluderes"><i class="fab fa-facebook-square"></i><span> Trung Đức</span></a>
                 </div>
             </div>

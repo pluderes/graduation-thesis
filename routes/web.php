@@ -37,6 +37,7 @@ Route::get('/checkout/{acc_id}', 'CheckoutController@checkout');
 Route::post('/save-checkout-customer', 'CheckoutController@save_checkout_customer');
 Route::get('/payment', 'CheckoutController@payment');
 Route::post('/order-place', 'CheckoutController@order_place');
+Route::post('/select-address', 'CheckoutController@select_address');
 // --------------------------
 Route::get('/update-password-client/{acc_id}', 'CheckoutController@update_password_client');
 Route::post('/save-password-client/{acc_id}', 'CheckoutController@save_password_client');
@@ -259,3 +260,4 @@ Route::get('/forgot', 'HomeController@forgot_password');
 Route::get('/update-pass', 'HomeController@update_pass');
 Route::post('/password-retrieval', 'HomeController@password_retrieval');
 Route::post('/reset-password', 'HomeController@reset_password');
+

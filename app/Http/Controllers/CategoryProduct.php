@@ -14,6 +14,11 @@ session_start();
 
 class CategoryProduct extends Controller
 {
+    public function getProvince($value)
+    {
+        return strtoupper($value);
+    }
+
     // FE: show category product
     public function show_category($cate_id)
     {
@@ -231,7 +236,7 @@ class CategoryProduct extends Controller
     public function all_type()
     {
         $this->checkLogin();
-        $all_type = DB::table('type')->get();
+        $all_type = DB::table('type')->join('category', 'category.cate_id', '=', 'type.cate_id')->get();
         $manager_type = view('inventory.show.all_type')->with('all_type', $all_type);
 
         return view('inventoryLayout')->with('inventory.show.all_category', $manager_type);
@@ -467,7 +472,14 @@ class CategoryProduct extends Controller
     public function all_product()
     {
         $this->checkLogin();
-        $all_product = DB::table('product')->get();
+        $all_product = DB::table('product')
+            ->join('type', 'type.type_id', '=', 'product.type_id')
+            ->join('category', 'category.cate_id', '=', 'type.cate_id')
+            ->join('author', 'author.author_id', '=', 'product.author_id')
+            ->join('product_status', 'product_status.status_id', '=', 'product.status_id')
+            ->join('supplier', 'supplier.supplier_id', '=', 'product.supplier_id')
+            ->orderBy('prod_name', 'asc')
+            ->get();
         $manager_product = view('inventory.show.all_product')->with('all_product', $all_product);
 
         return view('inventoryLayout')->with('inventory.show.all_product', $manager_product);
@@ -485,9 +497,16 @@ class CategoryProduct extends Controller
     }
     public function save_product(Request $request)
     {
+
+        $request->validate([
+            'product_numofpages' => 'regex:/^([0-9]+)$/',
+            'product_price' => 'regex:/^([0-9]+)$/',
+            'product_quantity' => 'regex:/^([0-9]+)$/',
+        ]);
+
         $this->checkLogin();
         $data = array();
-        $data['prod_name'] = $request->product_name;
+        $data['prod_name'] = strtoupper($request->product_name);
         $data['prod_desc'] = $request->product_desc;
         $data['prod_numofpages'] = $request->product_numofpages;
         $data['prod_size'] = $request->product_size;
@@ -497,9 +516,17 @@ class CategoryProduct extends Controller
         $data['status_id'] = $request->status_id;
         $data['author_id'] = $request->author_id;
         $data['supplier_id'] = $request->supplier_id;
-        $data['thumbnail'] = $request->prod_thumbnail;
         $data['type_id'] = $request->type_id;
-
+        $get_image = $request->file('inpthumbnail');
+        if ($get_image) {
+            $get_name_image = $get_image->getClientOriginalName();
+            $name_image = current(explode('.', $get_name_image));
+            $new_image = $name_image . '.' . $get_image->getClientOriginalExtension();
+            $get_image->move('public/Backend/images', $new_image);
+            $data['acc_img'] = $new_image;
+        } else {
+            $data['thumbnail'] = "default.jpg";
+        }
         DB::table('product')->insert($data);
 
         Session::put('message', 'Thêm sách thành công!');
@@ -518,11 +545,19 @@ class CategoryProduct extends Controller
 
         return view('inventoryLayout')->with('inventory.edit.edit_product', $manager_product);
     }
+
     public function update_product(Request $request, $product_id)
     {
+
+        $request->validate([
+            'product_numofpages' => 'regex:/^([0-9]+)$/',
+            'product_price' => 'regex:/^([0-9]+)$/',
+            'product_quantity' => 'regex:/^([0-9]+)$/',
+        ]);
+
         $this->checkLogin();
         $data = array();
-        $data['prod_name'] = $request->product_name;
+        $data['prod_name'] = strtoupper($request->product_name);
         $data['prod_desc'] = $request->product_desc;
         $data['prod_numofpages'] = $request->product_numofpages;
         $data['prod_size'] = $request->product_size;

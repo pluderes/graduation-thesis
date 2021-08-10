@@ -19,8 +19,8 @@
                 <form role="form" action="{{URL::TO('/save-type')}}" method="POST">
                     {{csrf_field()}}
                     <div class="form-group">
-                        <label for="categoryName">Tên danh mục</label>
-                        <input type="text" class="form-control" id="categoryName" name="type_name" required>
+                        <label for="typeName">Tên Loại</label>
+                        <input type="text" class="form-control" id="typeName" name="type_name" required>
                     </div>
                     <div class="form-group">
                         <label for="categoryDesc">Mô tả</label>

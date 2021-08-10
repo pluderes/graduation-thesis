@@ -29,8 +29,8 @@
           @foreach($all_supplier as $key => $supplier)
           <tr>
             <td>
-              <a href="{{URL::TO('/admin-edit-supplier/'.$supplier->supplier_id)}}" class="active" ui-toggle-class=""><i class="fa fa-check text-success text-active"></i></a>
-              <a onclick="return confirm(`Bạn có chắc muốn xóa danh mục này?`)" href="{{URL::TO('/admin-delete-supplier/'.$supplier->supplier_id)}}" class="active" ui-toggle-class=""><i class="fa fa-times text-danger text"></i></a>
+              <a href="{{URL::TO('/admin-edit-supplier/'.$supplier->supplier_id)}}" class="active" ui-toggle-class=""><i class="fas fa-edit"></i></a>
+              <a onclick="return confirm(`Bạn có chắc muốn xóa NXB này?`)" href="{{URL::TO('/admin-delete-supplier/'.$supplier->supplier_id)}}" class="active" ui-toggle-class=""><i class="fa fa-times text-danger text"></i></a>
             </td>
             <td>{{$supplier->supplier_id}}</td>
             <td><span class="text-ellipsis">{{$supplier->supplier_name}}</span></td>

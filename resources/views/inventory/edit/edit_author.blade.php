@@ -20,7 +20,7 @@
                 <form role="form" action="{{URL::TO('/update-author/'.$edit_value->author_id)}}" method="POST">
                     {{csrf_field()}}
                     <div class="form-group">
-                        <label for="authorName">Tên danh mục</label>
+                        <label for="authorName">Tên tác giả</label>
                         <input type="text" class="form-control" id="authorName" name="author_name" value="{{$edit_value->author_name}}" required>
                     </div>
                     <div class="form-group">

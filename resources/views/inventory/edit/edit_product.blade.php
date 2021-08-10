@@ -3,13 +3,34 @@
 <div class="col-lg-12">
     <section class="panel">
         <header class="panel-heading" style="text-align: center; background-color: lightgray;">
-        <h2 style="margin: 0;">Cập nhật loại sách</h2>
+            <h2 style="margin: 0;">Cập nhật thông tin sách</h2>
         </header>
         <div class="panel-body">
             <?php
             $message = Session::get('message');
             if ($message) {
                 echo '<div class="alert alert-success alert-dismissable text-center">
+						<button type="button" class="close" data-dismiss="alert" area-hidden="true">&times;</button>', $message,
+                '</div>';
+                Session::put('message', null);
+            }
+            if ($errors->has('product_numofpages')) {
+                $message = "Số trang không hợp lệ";
+                echo '<div class="alert alert-danger alert-dismissable text-center">
+						<button type="button" class="close" data-dismiss="alert" area-hidden="true">&times;</button>', $message,
+                '</div>';
+                Session::put('message', null);
+            }
+            if ($errors->has('product_price')) {
+                $message = "Giá bìa không hợp lệ";
+                echo '<div class="alert alert-danger alert-dismissable text-center">
+						<button type="button" class="close" data-dismiss="alert" area-hidden="true">&times;</button>', $message,
+                '</div>';
+                Session::put('message', null);
+            }
+            if ($errors->has('product_quantity')) {
+                $message = "Số lượng không hợp lệ";
+                echo '<div class="alert alert-danger alert-dismissable text-center">
 						<button type="button" class="close" data-dismiss="alert" area-hidden="true">&times;</button>', $message,
                 '</div>';
                 Session::put('message', null);

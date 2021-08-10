@@ -25,6 +25,14 @@
 	<link rel="apple-touch-icon-precomposed" sizes="114x114" href="{{asset('public/Frontend/images/apple-touch-icon-114-precomposed.png')}}">
 	<link rel="apple-touch-icon-precomposed" sizes="72x72" href="{{asset('public/Frontend/images/apple-touch-icon-72-precomposed.png')}}">
 	<link rel="apple-touch-icon-precomposed" href="{{asset('public/Frontend/images/apple-touch-icon-57-precomposed.png')}}">
+
+	<!-- script -->
+	<script src="{{asset('public/Frontend/js/jquery.js')}}"></script>
+	<script src="{{asset('public/Frontend/js/bootstrap.min.js')}}"></script>
+	<script src="{{asset('public/Frontend/js/jquery.scrollUp.min.js')}}"></script>
+	<script src="{{asset('public/Frontend/js/price-range.js')}}"></script>
+	<script src="{{asset('public/Frontend/js/jquery.prettyPhoto.js')}}"></script>
+	<script src="{{asset('public/Frontend/js/main.js')}}"></script>
 </head>
 <!--/head-->
 
@@ -261,6 +269,7 @@
 
 	</footer>
 	<!--/Footer-->
+
 	<script>
 		const sort = document.getElementById("sort");
 		sort.onchange = () => {
@@ -272,12 +281,6 @@
 			return false;
 		}
 	</script>
-	<script src="{{asset('public/Frontend/js/jquery.js')}}"></script>
-	<script src="{{asset('public/Frontend/js/bootstrap.min.js')}}"></script>
-	<script src="{{asset('public/Frontend/js/jquery.scrollUp.min.js')}}"></script>
-	<script src="{{asset('public/Frontend/js/price-range.js')}}"></script>
-	<script src="{{asset('public/Frontend/js/jquery.prettyPhoto.js')}}"></script>
-	<script src="{{asset('public/Frontend/js/main.js')}}"></script>
 </body>
 
 </html>

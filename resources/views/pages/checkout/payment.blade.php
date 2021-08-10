@@ -10,7 +10,7 @@
             </ol>
         </div>
         <div class="review-payment">
-            <h2 style="margin-top: 20px;">Xem lại giỏ hàng</h2>
+            <a class="btn btn-default check_out" href="{{URL::TO('/show-cart')}}" style="margin: 5px 0;">Xem lại giỏ hàng</a>
         </div>
         <div class="table-responsive cart_info">
 
@@ -83,10 +83,10 @@
                         {{csrf_field()}}
                         <div class="payment-options">
                             <span>
-                                <label><input name="payment_option" value="1" type="radio" required/> Thanh toán qua thẻ ngân hàng</label>
+                                <label><input name="payment_option" value="1" type="radio" required /> Thanh toán qua thẻ ngân hàng</label>
                             </span>
                             <span>
-                                <label><input name="payment_option" value="2" type="radio" required/> Thanh toán khi nhận hàng</label>
+                                <label><input name="payment_option" value="2" type="radio" required /> Thanh toán khi nhận hàng</label>
                             </span>
                         </div>
                         <input name="send_order_place" class="btn btn-default check_out" type="submit" value="Đặt hàng"></input>

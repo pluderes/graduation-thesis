@@ -391,7 +391,7 @@ button:focus,
     border: unset;
 }
 .cancel-invoice:hover{
-    background: #56c2dd;
+    background: #2a54f5;
     transition-duration: 0.4s;
     color: white;
 }

@@ -32,7 +32,7 @@
                     <tr>
                         <td>
                             <div class="row" style="margin-left: 10px;">
-                                <a href="{{URL::TO('/delivery-detail-invoice-received/'.$invoice->invoice_id)}}" class="active" ui-toggle-class=""><i class="fa fa-check text-success text-active" style="padding-top: 5px;"></i></a>
+                                <a href="{{URL::TO('/delivery-detail-invoice-received/'.$invoice->invoice_id)}}" class="active" ui-toggle-class=""><i class="fas fa-edit p-1"></i></i></a>
                                 <form action="{{URL::TO('/delivery-delete-ship/'.$invoice->invoice_id)}}" method="post">
                                     {{(csrf_field())}}
                                     <button onclick="return confirm(`Hủy giao đơn hàng này?`)" type="submit" class="add-invoice"><i class="fa fa-times"></i></button>

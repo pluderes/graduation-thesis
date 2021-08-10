@@ -11,6 +11,9 @@ use Illuminate\Support\Facades\Redirect;
 use Cart;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use App\Models\account;
+use App\Models\City;
+use App\Models\District;
+use App\Models\Wards;
 
 session_start();
 
@@ -35,6 +38,7 @@ class CheckoutController extends Controller
     public function add_customer(Request $request)
     {
         $count_user = DB::table('account')->where('account.username', '=', $request->username)->count();
+        $count_email = DB::table('account')->where('account.acc_email', '=', $request->email)->count();
 
         $request->validate([
             'acc_contact' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10',
@@ -42,7 +46,7 @@ class CheckoutController extends Controller
             'password' => 'required|min:6',
         ]);
 
-        if ($count_user < 1) {
+        if ($count_user < 1 && $count_email < 1) {
             $data = array();
             $data['username'] = $request->username;
             if ($request->password === $request->re_password) {
@@ -62,38 +66,49 @@ class CheckoutController extends Controller
                 $new_image = $name_image . '.' . $get_image->getClientOriginalExtension();
                 $get_image->move('public/Backend/images', $new_image);
                 $data['acc_img'] = $new_image;
-
-                // echo '<pre>';
-                // print_r($data);
-                // echo '</pre>';
-
-                $acc_customer_id =  DB::table('account')->insertGetId($data);
-                Session::put('message', 'Thêm tài khoản thành công!');
-                Session::put('acc_customer_id', $acc_customer_id);
-
-                return Redirect::to('/admin-add-account');
             } else {
                 $data['acc_img'] = 'avt-default.jpg';
-
-                // echo '<pre>';
-                // print_r($data);
-                // echo '</pre>';
-
-                $acc_customer_id =  DB::table('account')->insertGetId($data);
-                Session::put('message', 'Thêm tài khoản thành công!');
-                Session::put('acc_customer_id', $acc_customer_id);
-
-                return Redirect::to('/admin-add-account');
             }
+
+            $acc_customer_id =  DB::table('account')->insertGetId($data);
+            Session::put('message', 'Tạo tài khoản thành công!');
+            Session::put('acc_customer_id', $acc_customer_id);
+
+            return Redirect::to('/adminLogin');
         } else {
-            Session::put('message', 'Tên đăng nhập đã tồn tại!');
+            Session::put('message', 'Tên đăng nhập hoặc email đã tồn tại!');
             return Redirect::to('/login-checkout');
         }
     }
 
+    public function select_address(Request $request)
+    {
+        $data = $request->all();
+        if ($data['action']) {
+            $output = '';
+            if ($data['action'] == "city") {
+                $select_district = District::where('matp', $data['ma_id'])->orderby('maqh', 'ASC')->get();
+                $output .= '<option>--- Chọn quận - huyện ---</option>';
+                foreach ($select_district as $key => $district) {
+                    $output .= '<option value="' . $district->maqh . '">' . $district->district_name . '</option>';
+                }
+            } else {
+
+                $select_wards = Wards::where('maqh', $data['ma_id'])->orderby('xaid', 'ASC')->get();
+                $output .= '<option>--- Chọn xã - phường ---</option>';
+                foreach ($select_wards as $key => $ward) {
+                    $output .= '<option value="' . $ward->xaid . '">' . $ward->wards_name . '</option>';
+                }
+            }
+            echo $output;
+        }
+    }
 
     public function checkout(Request $request, $acc_id)
     {
+
+        $city = City::orderby('matp', 'asc')->get();
+
         $cate_product = DB::table('category')->orderBy('cate_id', 'asc')->get();
         $status_product = DB::table('product_status')->orderBy('status_id', 'asc')->get();
         $type_product = DB::table('type')->orderBy('type_id', 'asc')->get();
@@ -117,9 +132,18 @@ class CheckoutController extends Controller
             Cart::update($rowId, $quantity);
 
             if ($count_info !== 0) {
-                return view('pages.checkout.checkout')->with('category', $cate_product)->with('status_prod', $status_product)->with('prod_type', $type_product)->with('deli_info', $deli_info);
+                return view('pages.checkout.checkout')
+                    ->with('category', $cate_product)
+                    ->with('status_prod', $status_product)
+                    ->with('prod_type', $type_product)
+                    ->with('deli_info', $deli_info)
+                    ->with(compact('city'));
             } else if ($count_info === 0) {
-                return view('pages.checkout.new_checkout')->with('category', $cate_product)->with('status_prod', $status_product)->with('prod_type', $type_product);
+                return view('pages.checkout.new_checkout')
+                    ->with('category', $cate_product)
+                    ->with('status_prod', $status_product)
+                    ->with('prod_type', $type_product)
+                    ->with(compact('city'));
             }
         } else {
             Session::put('warning', 'Bạn chưa có sách nào trong giỏ hàng');
@@ -140,11 +164,32 @@ class CheckoutController extends Controller
         $data['acc_id'] = $acc_customer_id;
         $data['deli_date'] = Carbon::now();
         $data['deli_name'] = $request->deli_name;
-        $data['deli_address'] = $request->deli_address;
+
+        // -------------- address --------------------
+        $cityID = $request->city;
+        $districtID = $request->district;
+        $wardID = $request->wards;
+
+        $city = DB::table('province_city')->where('matp', $cityID)->get();
+        $district = DB::table('district')->where('maqh', $districtID)->get();
+        $ward = DB::table('wards')->where('xaid', $wardID)->get();
+
+        $address = $ward[0]->wards_name . ', ' . $district[0]->district_name . ', ' . $city[0]->province_name;
+        $data['deli_address'] = $request->deli_address . ", " . $address;
+        // ------------- end address --------------
+
         $data['deli_email'] = $request->deli_email;
         $data['deli_phone'] = $request->deli_phone;
-        $data['deli_note'] = $request->deli_note;
+        if ($request->deli_note == null) {
+            $data['deli_note'] = null;
+        } else {
+            $data['deli_note'] = $request->deli_note;
+        }
         $delivery_id = DB::table('delivery')->insertGetId($data);
+
+        // echo '<pre>';
+        // print_r($request->deli_address . ", " . $address);
+        // echo '</pre>';
 
         Session::put('deli_id', $delivery_id);
 
@@ -199,7 +244,6 @@ class CheckoutController extends Controller
 
     public function order_place(Request $request)
     {
-
         $content = Cart::content();
         $quantity = 0;
         $data = array();
@@ -285,7 +329,8 @@ class CheckoutController extends Controller
                 $status_product = DB::table('product_status')->orderBy('status_id', 'asc')->get();
                 $type_product = DB::table('type')->orderBy('type_id', 'asc')->get();
 
-                return view('pages.checkout.handcash')->with('category', $cate_product)->with('status_prod', $status_product)->with('prod_type', $type_product);;
+                $acc_id = Session::get('acc_id');
+                return view('pages.checkout.handcash')->with('category', $cate_product)->with('status_prod', $status_product)->with('prod_type', $type_product)->with('acc_id', $acc_id);
             }
         } else {
             Session::put('error', 'Số lượng đặt hàng vượt quá số lượng trong kho');

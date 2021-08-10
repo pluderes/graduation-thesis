@@ -3,13 +3,34 @@
 <div class="col-lg-12">
     <section class="panel">
         <header class="panel-heading" style="text-align: center; background-color: lightgray;">
-            <h2 style="margin: 0;">Thêm sách</h2>
+            <h2 style="margin: 0;">Thêm sách mới</h2>
         </header>
         <div class="panel-body">
             <?php
             $message = Session::get('message');
             if ($message) {
                 echo '<div class="alert alert-success alert-dismissable text-center">
+						<button type="button" class="close" data-dismiss="alert" area-hidden="true">&times;</button>', $message,
+                '</div>';
+                Session::put('message', null);
+            }
+            if ($errors->has('product_numofpages')) {
+                $message = "Số trang không hợp lệ";
+                echo '<div class="alert alert-danger alert-dismissable text-center">
+						<button type="button" class="close" data-dismiss="alert" area-hidden="true">&times;</button>', $message,
+                '</div>';
+                Session::put('message', null);
+            }
+            if ($errors->has('product_price')) {
+                $message = "Giá bìa không hợp lệ";
+                echo '<div class="alert alert-danger alert-dismissable text-center">
+						<button type="button" class="close" data-dismiss="alert" area-hidden="true">&times;</button>', $message,
+                '</div>';
+                Session::put('message', null);
+            }
+            if ($errors->has('product_quantity')) {
+                $message = "Số lượng không hợp lệ";
+                echo '<div class="alert alert-danger alert-dismissable text-center">
 						<button type="button" class="close" data-dismiss="alert" area-hidden="true">&times;</button>', $message,
                 '</div>';
                 Session::put('message', null);
@@ -48,7 +69,7 @@
                         <input type="text" class="form-control" id="productQuantity" name="product_quantity" required>
                     </div>
                     <div class="form-group">
-                        <label for="statusID">ID trạng thái</label>
+                        <label for="statusID">Mã tình trạng sách</label>
                         <br>
                         <select name="status_id" id="statusID">
                             @foreach($status as $key => $status_prod)
@@ -57,7 +78,7 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="authorID">ID tác giả</label>
+                        <label for="authorID">Mã tác giả</label>
                         <br>
                         <select name="author_id" id="authorID">
                             @foreach($author as $key => $author_prod)
@@ -66,7 +87,7 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="supplierID">ID nhà cung cấp</label>
+                        <label for="supplierID">Mã NXB</label>
                         <br>
                         <select name="supplier_id" id="supplierID">
                             @foreach($supplier as $key => $supplier_prod)
@@ -74,19 +95,19 @@
                             @endforeach
                         </select>
                     </div>
-                    <div class="form-group">
-                        <label for="productThumbnail">Hình ảnh</label>
-                        <br>
-                        <textarea name="product_thumbnail" id="productThumbnail" cols="100" rows="5"></textarea>
-                    </div>
                     <div>
-                        <label for="typeID">Loại sách</label>
+                        <label for="typeID">Mã loại sách</label>
                         <br>
                         <select name="type_id" id="typeID">
                             @foreach($type as $key => $type_prod)
                             <option value="{{$type_prod->type_id}}">{{$type_prod->type_id}} - {{$type_prod->type_name}}</option>
                             @endforeach
                         </select>
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <label for="bookThumbnail">Hình ảnh</label>
+                        <input type="file" name="inpthumbnail" class="form-control" id="bookThumbnail" style="  cursor: pointer;">
                     </div>
                     <br>
                     <button id="btnsubmit" type="submit" class="btn btn-info">Xác nhận</button>

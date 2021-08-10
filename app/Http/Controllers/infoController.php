@@ -44,9 +44,9 @@ class infoController extends Controller
         $all_invoice = DB::table('invoice')->join('account', 'invoice.acc_id', '=', 'account.acc_id')->where('invoice.acc_id', $acc_id)->orderBy('invoice.invoice_id', 'desc')->get();
         $manager_invoice = view('pages.info_account.all_invoice')->with('all_invoice', $all_invoice)->with('info', $info_account);
 
-            // echo '<pre>';
-            // print_r($info_account);
-            // echo '</pre>';
+        // echo '<pre>';
+        // print_r($info_account);
+        // echo '</pre>';
 
         Session::put('accImg', $info_account[0]->acc_img);
         Session::put('adminname', $info_account[0]->acc_name);
@@ -65,7 +65,8 @@ class infoController extends Controller
         $info_account =  DB::table('invoice')
             ->join('delivery', 'invoice.deli_id', '=', 'delivery.deli_id')
             ->join('account', 'delivery.acc_id', '=', 'account.acc_id')
-            ->where('invoice.invoice_id', $invoice_id)->get();
+            ->where('invoice.invoice_id', $invoice_id)
+            ->get();
 
         $status = DB::table('invoice')
             ->join('invoice_status', 'invoice.invoice_id', '=', 'invoice_status.invoice_id')
@@ -73,16 +74,23 @@ class infoController extends Controller
             ->join('shipper', 'shipper.invoice_id', '=', 'invoice.invoice_id')
             ->join('account', 'account.acc_id', '=', 'shipper.acc_id')
             ->select('invoice_status.*', 'invoice_status_detail.*', 'account.*')
-            ->where('invoice.invoice_id', $invoice_id)->orderBy('invoice_status.invoice_status_id', 'asc')->get();
+            ->where('invoice.invoice_id', $invoice_id)
+            ->orderBy('invoice_status.invoice_status_id', 'asc')
+            ->get();
 
         $invoice_by_ID = DB::table('invoice')
             ->join('delivery', 'invoice.deli_id', '=', 'delivery.deli_id')
             ->join('account', 'delivery.acc_id', '=', 'account.acc_id')
             ->join('invoice_detail', 'invoice.invoice_id', '=', 'invoice_detail.invoice_id')
             ->select('delivery.*', 'invoice.*', 'invoice_detail.*', 'account.*')
-            ->orderBy('invoice.invoice_id', 'desc')->where('invoice.invoice_id', $invoice_id)->get();
+            ->orderBy('invoice.invoice_id', 'desc')->where('invoice.invoice_id', $invoice_id)
+            ->get();
 
-        $invoice_detail = DB::table('invoice_status')->join('invoice_status_detail', 'invoice_status.status_detail_id', '=', 'invoice_status_detail.status_detail_id')->where('invoice_status.invoice_id', $invoice_id)->get();
+        $invoice_detail = DB::table('invoice_status')
+            ->join('invoice_status_detail', 'invoice_status.status_detail_id', '=', 'invoice_status_detail.status_detail_id')
+            ->where('invoice_status.invoice_id', $invoice_id)
+            ->get();
+
         $count = $status->count();
 
         $manager_invoice = view('pages.info_account.customer_detail_invoice')->with('invoice_by_id', $invoice_by_ID)->with('info_account', $info_account)->with('invoice_status', $status)->with('invoice_detail', $invoice_detail);

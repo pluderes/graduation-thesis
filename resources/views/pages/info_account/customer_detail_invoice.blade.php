@@ -120,15 +120,23 @@
 </div>
 <hr>
 <div class="action">
-  <div class="">
     @foreach($info_account as $key => $account)
     <form action="{{URL::TO('/customer-cancel-invoice/'.$account->invoice_id)}}" method="post">
       {{csrf_field()}}
-      <button id="cancel-invoice" onclick="return confirm(`Bạn muốn hủy đơn hàng này?`)" type="submit">Hủy đơn hàng</button>
+      <?php
+      if ($account->current_status === "Đang giao hàng" || $account->current_status === "Giao hàng thành công" || $account->current_status === "Giao hàng thất bại") {
+      ?>
+        <button id="cancel-invoice" onclick="return confirm(`Bạn muốn hủy đơn hàng này?`)" type="submit" disabled>Hủy đơn hàng</button>
+      <?php
+      } else {
+      ?>
+        <button id="cancel-invoice" onclick="return confirm(`Bạn muốn hủy đơn hàng này?`)" type="submit">Hủy đơn hàng</button>
+      <?php
+      }
+      ?>
     </form>
     @endforeach
     <br>
     <a href="{{ URL::previous() }}" class="button">Quay lại</a>
-  </div>
 </div>
 @endsection

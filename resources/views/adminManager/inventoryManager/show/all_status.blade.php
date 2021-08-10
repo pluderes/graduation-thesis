@@ -29,8 +29,8 @@
           @foreach($all_status as $key => $status)
           <tr>
             <td>
-              <a href="{{URL::TO('/admin-edit-status/'.$status->status_id)}}" class="active" ui-toggle-class=""><i class="fa fa-check text-success text-active"></i></a>
-              <a onclick="return confirm(`Bạn có chắc muốn xóa tình trạng sách này?`)" href="{{URL::TO('/admin-delete-status/'.$status->status_id)}}" class="active" ui-toggle-class=""><i class="fa fa-times text-danger text"></i></a>
+              <a href="{{URL::TO('/admin-edit-status/'.$status->status_id)}}" class="active" ui-toggle-class=""><i class="fas fa-edit"></i></a>
+              <a onclick="return confirm(`Bạn có chắc muốn xóa trạng thái này?`)" href="{{URL::TO('/admin-delete-status/'.$status->status_id)}}" class="active" ui-toggle-class=""><i class="fa fa-times text-danger text"></i></a>
             </td>
             <td>{{$status->status_id}}</td>
             <td><span class="text-ellipsis">{{$status->status_name}}</span></td>

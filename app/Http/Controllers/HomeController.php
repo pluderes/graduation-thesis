@@ -156,9 +156,6 @@ class HomeController extends Controller
         foreach ($customer as $key => $value) {
             $customer_id = $value->acc_id;
         }
-        // echo '<pre>';
-        // print_r($customer);
-        // echo '</pre>';
         if ($customer) {
             $count = $customer->count();
             if ($count == 0) {
@@ -173,10 +170,10 @@ class HomeController extends Controller
                 $to_email = $data['email_account'];
                 $link_reset = URL('/update-pass?email=' . $to_email . '&token=' . $token_random);
 
-                $data = array("name" => "", "body" => $link_reset, 'email' => $data['email_account']); //body of mail.blade.php
+                $data = array("name" => "", "body" => $link_reset, 'email' => $data['email_account']);
                 Mail::send('pages.checkout.forget_pass_notify', ['data' => $data], function ($message) use ($title, $data) {
-                    $message->to($data['email'])->subject($title); //send this mail with subject
-                    $message->from($data['email'], $title); //send from this mail
+                    $message->to($data['email'])->subject($title);
+                    $message->from($data['email'], $title);
                 });
 
                 return redirect()->back()->with('success', 'Đã gửi email đặt lại mật khẩu. Kiểm tra email của bạn');
@@ -198,6 +195,12 @@ class HomeController extends Controller
     public function reset_password(Request $request)
     {
         $data = $request->all();
+
+        $request->validate([
+            'new_password' => 'required|min:6',
+            're_password' => 'required|same:new_password',
+        ]);
+
         $token_random = Str::random(10);
         $customer = account::where('acc_email', '=', $data['email'])->where('customer_token', '=', $data['token'])->get();
 
@@ -210,7 +213,7 @@ class HomeController extends Controller
             $reset->password = md5($data['new_password']);
             $reset->customer_token = $token_random;
             $reset->save();
-            return redirect('adminLogin')->with('sucess', 'Cập nhật mật khẩu thành công');
+            return redirect('adminLogin')->with('message', 'Cập nhật mật khẩu thành công');
         } else {
             return redirect('forgot')->with('error', 'Nhập lại email để đặt lại mật khẩu');
         }

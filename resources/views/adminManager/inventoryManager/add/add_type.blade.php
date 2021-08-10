@@ -19,7 +19,7 @@
                 <form role="form" action="{{URL::TO('/admin-save-type')}}" method="POST">
                     {{csrf_field()}}
                     <div class="form-group">
-                        <label for="categoryName">Tên danh mục</label>
+                        <label for="categoryName">Tên loại sách</label>
                         <input type="text" data-validation="length" data-validation-length="min2" data-validation-error-msg="Ít nhất 2 kí tự" class="form-control" id="categoryName" name="type_name" required>
                     </div>
                     <div class="form-group">

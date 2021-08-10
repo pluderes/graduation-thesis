@@ -19,23 +19,23 @@
         <thead>
           <tr>
             <th style="width:30px;"></th>
-            <th>ID loại</th>
+            <th>Mã loại sách</th>
             <th>Tên loại</th>
             <th>Mô tả</th>
-            <th>ID danh mục</th>
+            <th>Danh mục</th>
           </tr>
         </thead>
         <tbody>
           @foreach($all_type as $key => $type)
           <tr>
             <td>
-              <a href="{{URL::TO('/admin-edit-type/'.$type->type_id)}}" class="active" ui-toggle-class=""><i class="fa fa-check text-success text-active"></i></a>
+              <a href="{{URL::TO('/admin-edit-type/'.$type->type_id)}}" class="active" ui-toggle-class=""><i class="fas fa-edit"></i></a>
               <a onclick="return confirm(`Bạn có chắc muốn xóa loại sách này?`)" href="{{URL::TO('/admin-delete-type/'.$type->type_id)}}" class="active" ui-toggle-class=""><i class="fa fa-times text-danger text"></i></a>
             </td>
             <td>{{$type->type_id}}</td>
             <td><span class="text-ellipsis">{{$type->type_name}}</span></td>
             <td><span class="text-ellipsis">{{$type->type_desc}}</span></td>
-            <td>{{$type->cate_id}}</td>
+            <td>{{$type->cate_name}}</td>
 
           </tr>
           @endforeach

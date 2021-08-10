@@ -4,7 +4,7 @@
   <h2 style="margin: 0;">Tất cả sách</h2>
 </div>
 <div class="table-agile-info" style="overflow: auto; height: 500px; display: flex;">
-  <div class="panel panel-default">
+  <div class="panel panel-default" style="height: fit-content;">
     <?php
     $message = Session::get('message');
     if ($message) {
@@ -21,17 +21,18 @@
             <th style="width:30px;"></th>
             <th>Mã sách</th>
             <th>Tên sách</th>
-            <th>Mô tả</th>
             <th>Số trang</th>
             <th>Kích thước</th>
             <th>Ngày xuất bản</th>
             <th>Giá</th>
             <th>Số lượng</th>
-            <th>Mã trạng thái</th>
-            <th>Mã tác giả</th>
-            <th>Mã NXB</th>
+            <th>Tác giả</th>
+            <th>NXB</th>
+            <th>Danh mục</th>
+            <th>Loại sách</th>
+            <th>Trạng thái</th>
             <th>Hình ảnh</th>
-            <th>Mã loại sách</th>
+            <th>Mô tả</th>
 
           </tr>
         </thead>
@@ -39,22 +40,23 @@
           @foreach($all_product as $key => $product)
           <tr>
             <td>
-              <a href="{{URL::TO('/admin-edit-product/'.$product->prod_id)}}" class="active" ui-toggle-class=""><i class="fa fa-check text-success text-active"></i></a>
-              <a onclick="return confirm(`Bạn có chắc muốn xóa danh mục này?`)" href="{{URL::TO('/admin-delete-product/'.$product->prod_id)}}" class="active" ui-toggle-class=""><i class="fa fa-times text-danger text"></i></a>
+              <a href="{{URL::TO('/admin-edit-product/'.$product->prod_id)}}" class="active" ui-toggle-class=""><i class="fas fa-edit"></i></a>
+              <a onclick="return confirm(`Bạn có chắc muốn xóa sách này?`)" href="{{URL::TO('/admin-delete-product/'.$product->prod_id)}}" class="active" ui-toggle-class=""><i class="fa fa-times text-danger text"></i></a>
             </td>
             <td>{{$product->prod_id}}</td>
             <td><span class="text-ellipsis">{{$product->prod_name}}</span></td>
-            <td><span class="text-ellipsis">{{$product->prod_desc}}</span></td>
             <td><span class="text-ellipsis">{{$product->prod_numofpages}}</span></td>
             <td><span class="text-ellipsis">{{$product->prod_size}}</span></td>
             <td><span class="text-ellipsis">{{$product->prod_datepublished}}</span></td>
             <td><span class="text-ellipsis">{{$product->prod_price}}</span></td>
             <td><span class="text-ellipsis">{{$product->prod_quantity}}</span></td>
-            <td><span class="text-ellipsis">{{$product->status_id}}</span></td>
-            <td><span class="text-ellipsis">{{$product->author_id}}</span></td>
-            <td><span class="text-ellipsis">{{$product->supplier_id}}</span></td>
+            <td><span class="text-ellipsis">{{$product->author_name}}</span></td>
+            <td><span class="text-ellipsis">{{$product->supplier_name}}</span></td>
+            <td><span class="text-ellipsis">{{$product->cate_name}}</span></td>
+            <td><span class="text-ellipsis">{{$product->type_name}}</span></td>
+            <td><span class="text-ellipsis">{{$product->status_name}}</span></td>
             <td><span class="text-ellipsis">{{$product->thumbnail}}</span></td>
-            <td><span class="text-ellipsis">{{$product->type_id}}</span></td>
+            <td><span class="text-ellipsis" style="width:100%; white-space: pre-wrap;overflow: hidden; text-overflow: ellipsis;-webkit-line-clamp: 3; -webkit-box-orient: vertical; display: -webkit-box;">{{$product->prod_desc}}</span></td>
           </tr>
           @endforeach
         </tbody>

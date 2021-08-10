@@ -4,7 +4,7 @@
 <div class="table-agile-info">
   <div class="panel panel-default">
     <div class="panel-heading" style="text-align: center; background-color: lightgray;">
-      <h2 style="margin: 0;">Tình trạng sách</h2>
+      <h2 style="margin: 0;">Trạng thái sách</h2>
     </div>
     <?php
     $message = Session::get('message');
@@ -20,7 +20,7 @@
         <thead>
           <tr>
             <th style="width:30px;"></th>
-            <th>Mã tình trạng</th>
+            <th>Mã trạng thái</th>
             <th>Tình trạng sách</th>
             <th>Mô tả</th>
           </tr>
@@ -29,8 +29,8 @@
           @foreach($all_status as $key => $status)
           <tr>
             <td>
-              <a href="{{URL::TO('/edit-status/'.$status->status_id)}}" class="active" ui-toggle-class=""><i class="fa fa-check text-success text-active"></i></a>
-              <a onclick="return confirm(`Bạn có chắc muốn xóa tình trạng sách này?`)" href="{{URL::TO('/delete-status/'.$status->status_id)}}" class="active" ui-toggle-class=""><i class="fa fa-times text-danger text"></i></a>
+              <a href="{{URL::TO('/edit-status/'.$status->status_id)}}" class="active" ui-toggle-class=""><i class="fas fa-edit"></i></a>
+              <a onclick="return confirm(`Bạn có chắc muốn xóa trạng thái này?`)" href="{{URL::TO('/delete-status/'.$status->status_id)}}" class="active" ui-toggle-class=""><i class="fa fa-times text-danger text"></i></a>
             </td>
             <td>{{$status->status_id}}</td>
             <td><span class="text-ellipsis">{{$status->status_name}}</span></td>

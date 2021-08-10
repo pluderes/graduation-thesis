@@ -104,17 +104,6 @@
                         <a class="mobile-menu waves-effect waves-light" id="mobile-collapse" href="#!">
                             <i class="ti-menu"></i>
                         </a>
-                        <div class="mobile-search waves-effect waves-light">
-                            <div class="header-search">
-                                <div class="main-search morphsearch-search">
-                                    <div class="input-group">
-                                        <span class="input-group-addon search-close"><i class="ti-close"></i></span>
-                                        <input type="text" class="form-control" placeholder="Enter Keyword">
-                                        <span class="input-group-addon search-btn"><i class="ti-search"></i></span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                         <a href="{{URL::TO('/order')}}">
                             <img style="width: 150px; margin-left: 25px;" src="{{asset('public\Upload\banner\zorbashop.png')}}" alt="Theme-Logo" />
                         </a>
@@ -127,15 +116,6 @@
                         <ul class="nav-left">
                             <li>
                                 <div class="sidebar_toggle"><a href="javascript:void(0)"><i class="ti-menu"></i></a></div>
-                            </li>
-                            <li class="header-search">
-                                <div class="main-search morphsearch-search">
-                                    <div class="input-group">
-                                        <span class="input-group-addon search-close"><i class="ti-close"></i></span>
-                                        <input type="text" class="form-control">
-                                        <span class="input-group-addon search-btn"><i class="ti-search"></i></span>
-                                    </div>
-                                </div>
                             </li>
                             <li>
                                 <a href="#!" onclick="javascript:toggleFullScreen()" class="waves-effect waves-light">
@@ -162,7 +142,7 @@
                                 </a>
                                 <ul class="show-notification profile-notification">
                                     <li class="waves-effect waves-light">
-                                        <a href="{{URL::TO('/info/'.$acc_id)}}">
+                                        <a href="{{URL::TO('/info-admin/'.$acc_id)}}">
                                             <i class="ti-user"></i> Hồ sơ
                                         </a>
                                     </li>
@@ -201,7 +181,7 @@
                                 <div class="main-menu-content">
                                     <ul>
                                         <li class="more-details">
-                                            <a href="{{URL::TO('/info/'.$acc_id)}}"><i class="ti-user"></i>Xem hồ sơ</a>
+                                            <a href="{{URL::TO('/info-admin/'.$acc_id)}}"><i class="ti-user"></i>Xem hồ sơ</a>
                                             <a href="auth-normal-sign-in.html"><i class="ti-layout-sidebar-left"></i>Đăng xuất</a>
                                         </li>
                                     </ul>
@@ -210,7 +190,7 @@
                             <div class="pcoded-navigation-label" data-i18n="nav.category.navigation"></div>
                             <ul class="pcoded-item pcoded-left-item">
                                 <li class="active">
-                                    <a href="" class="waves-effect waves-dark">
+                                    <a href="{{URL::TO('/order')}}" class="waves-effect waves-dark">
                                         <span class="pcoded-micon"><i class="ti-home"></i><b>D</b></span>
                                         <span class="pcoded-mtext" data-i18n="nav.dash.main">Quản lý đơn hàng</span>
                                         <span class="pcoded-mcaret"></span>

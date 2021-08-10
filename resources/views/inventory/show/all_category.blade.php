@@ -19,7 +19,7 @@
         <thead>
           <tr>
             <th style="width:30px;"></th>
-            <th>ID danh mục</th>
+            <th>Mã danh mục</th>
             <th>Tên danh mục</th>
             <th>Mô tả</th>
           </tr>
@@ -28,7 +28,7 @@
           @foreach($all_cate as $key => $cate)
           <tr>
             <td>
-              <a href="{{URL::TO('/edit-category/'.$cate->cate_id)}}" class="active" ui-toggle-class=""><i class="fa fa-check text-success text-active"></i></a>
+              <a href="{{URL::TO('/edit-category/'.$cate->cate_id)}}" class="active" ui-toggle-class=""><i class="fas fa-edit"></i></a>
               <a onclick="return confirm(`Bạn có chắc muốn xóa danh mục này?`)" href="{{URL::TO('/delete-category/'.$cate->cate_id)}}" class="active" ui-toggle-class=""><i class="fa fa-times text-danger text"></i></a>
             </td>
             <td>{{$cate->cate_id}}</td>

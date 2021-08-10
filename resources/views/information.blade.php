@@ -62,7 +62,7 @@
                                 <div>
                                     <div class="front row">
                                         <a href="{{URL::TO('/trang-chu')}}"><i class="fa fa-home"></i> Trang chủ</a>
-                                        <a href="{{URL::TO('/adminLogout')}}" id="logout"><i class="fa fa-sign-out"></i>Đăng xuất</a>
+                                        <a href="{{URL::TO('/adminLogout')}}" id="logout"><i class="fa fa-sign-out"></i> Đăng xuất</a>
                                     </div>
                                 </div>
                                 <div class="content text-center">

@@ -14,6 +14,27 @@
                 '</div>';
                 Session::put('message', null);
             }
+            if ($errors->has('product_numofpages')) {
+                $message = "Số trang không hợp lệ";
+                echo '<div class="alert alert-danger alert-dismissable text-center">
+						<button type="button" class="close" data-dismiss="alert" area-hidden="true">&times;</button>', $message,
+                '</div>';
+                Session::put('message', null);
+            }
+            if ($errors->has('product_price')) {
+                $message = "Giá bìa không hợp lệ";
+                echo '<div class="alert alert-danger alert-dismissable text-center">
+						<button type="button" class="close" data-dismiss="alert" area-hidden="true">&times;</button>', $message,
+                '</div>';
+                Session::put('message', null);
+            }
+            if ($errors->has('product_quantity')) {
+                $message = "Số lượng không hợp lệ";
+                echo '<div class="alert alert-danger alert-dismissable text-center">
+						<button type="button" class="close" data-dismiss="alert" area-hidden="true">&times;</button>', $message,
+                '</div>';
+                Session::put('message', null);
+            }
             ?>
             <div class="position-center">
                 <form role="form" action="{{URL::TO('/admin-save-product')}}" method="POST" enctype="multipart/form-data">
@@ -83,9 +104,9 @@
                             @endforeach
                         </select>
                     </div>
+                    <br>
                     <div class="form-group">
                         <label for="productThumbnail">Hình ảnh</label>
-                        <br>
                         <input type="file" name="product_thumbnail" class="form-control" id="productThumbnail">
                     </div>
                     <br>

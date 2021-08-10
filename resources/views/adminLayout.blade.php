@@ -216,7 +216,7 @@
                             <ul class="pcoded-item pcoded-left-item">
                                 <li class="active">
                                     <a href="{{URL::TO('/dashboard')}}" class="waves-effect waves-dark">
-                                        <span class="pcoded-micon"><i class="ti-home"></i><b>D</b></span>
+                                        <span class="pcoded-micon"><i class="ti-home"></i></span>
                                         <span class="pcoded-mtext" data-i18n="nav.dash.main">Điều khiển quản trị </span>
                                         <span class="pcoded-mcaret"></span>
                                     </a>
@@ -224,7 +224,7 @@
                                 <li class="pcoded-hasmenu">
                                     <a href="javascript:void(0)" class="waves-effect waves-dark">
                                         <span class="pcoded-micon"><i class="ti-layout-grid2-alt"></i></span>
-                                        <span class="pcoded-mtext" data-i18n="nav.basic-components.main">Quản lý quản trị</span>
+                                        <span class="pcoded-mtext" data-i18n="nav.basic-components.main">Quản lý</span>
                                         <span class="pcoded-mcaret"></span>
                                     </a>
                                     <ul class="pcoded-submenu">

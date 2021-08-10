@@ -19,6 +19,8 @@
 			<p><b>NXB:</b> {{$supplier_prod->supplier_name}}</p>
 			<p><b>Số trang:</b> {{$values->prod_numofpages}}</p>
 			<p><b>Kích thước:</b> {{$values->prod_size}}</p>
+			<p><b>Thể loại:</b> {{$values->type_name}}</p>
+			<p><b>Danh mục:</b> {{$values->cate_name}}</p>
 			<p><b>Ngày phát hành:</b> {{ \Carbon\Carbon::parse($values->prod_datepublished)->format('d/m/Y')}}</p>
 			<form action="{{URL::TO('/save-cart')}}" method="POST">
 				{{csrf_field()}}
@@ -28,8 +30,8 @@
 						<label>Số lượng:</label>
 						<input name="prod_quantity" type="number" min="1" max="{{($values->prod_quantity)}}" value="1" />
 						<input name="prod_id_hidden" type="hidden" value="{{($values->prod_id)}}" />
-						<button type="submit" class="btn btn-fefault cart" <?php if ($values->prod_quantity == '0') {
-																			?> disabled><i class="fa fa-shopping-cart"></i>
+						<button type="submit" class="btn btn-fefault cart" style="margin-bottom: 5px;" <?php if ($values->prod_quantity == '0') {
+																										?> disabled><i class="fa fa-shopping-cart"></i>
 							Sản phẩm tạm hết hàng
 						<?php } else {
 						?>

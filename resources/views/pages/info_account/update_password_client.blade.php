@@ -34,7 +34,7 @@
                             Session::put('message', null);
                         }
                         if ($errors->has('password')) {
-                            $message = "Mật khẩu không hợp lệ";
+                            $message = "Mật khẩu không hợp lệ. Mật khẩu cần ít nhất 6 kí tự";
                             echo '<div class="alert alert-danger alert-dismissable text-center">
                             <button type="button" class="close" data-dismiss="alert" area-hidden="true">&times;</button>', $message,
                             '</div>';
