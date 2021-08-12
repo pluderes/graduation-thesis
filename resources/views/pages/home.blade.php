@@ -10,8 +10,8 @@
 			<label for="sort">Sắp xếp:</label>
 			<select id="sort" name="sort" style="max-width: max-content;">
 				<option value="{{Request::URL()}}?sort=unset">---</option>
-				<option value="{{Request::URL()}}?sort=sale">Đang giảm giá</option>
-				<option value="{{Request::URL()}}?sort=new">Sản phẩm mới</option>
+				<option value="{{Request::URL()}}?sort=AZ">Tên A-Z</option>
+				<option value="{{Request::URL()}}?sort=ZA">Tên Z-A</option>
 				<option value="{{Request::URL()}}?sort=desc">Giá giảm dần</option>
 				<option value="{{Request::URL()}}?sort=asc">Giá tăng dần</option>
 			</select>
@@ -62,10 +62,26 @@ if ($message) {
 					<p style="height: 50px;">{{$prod->prod_name}}</p>
 					<form action="{{URL::TO('/save-cart')}}" method="POST">
 						{{csrf_field()}}
-						<button type="submit" class="btn btn-fefault cart">
-							<i class="fa fa-shopping-cart"></i>
-							Thêm vào giỏ hàng
-						</button>
+
+						<?php
+						if ($prod->prod_quantity == "0") {
+						?>
+							<button type="submit" class="btn btn-fefault cart" disabled>
+								<i class="fa fa-shopping-cart"></i>
+								Sản phẩm tạm hết hàng
+							</button>
+						<?php
+
+						} else {
+						?>
+							<button type="submit" class="btn btn-fefault cart">
+								<i class="fa fa-shopping-cart"></i>
+								Thêm vào giỏ hàng
+							</button>
+						<?php
+						}
+						?>
+
 						<input name="prod_quantity" type="hidden" value="1" />
 						<input name="prod_id_hidden" type="hidden" value="{{($prod->prod_id)}}" />
 					</form>

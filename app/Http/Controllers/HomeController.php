@@ -50,13 +50,11 @@ class HomeController extends Controller
 
         if (isset($_GET['sort'])) {
             $sort = $_GET['sort'];
-            if ($sort == "sale") {
-                $allproduct = DB::table('product')->where('status_id', '=', '3')
-                    ->orderBy('prod_id', 'asc')
+            if ($sort == "AZ") {
+                $allproduct = DB::table('product')->orderBy('prod_name', 'asc')
                     ->paginate(9)->appends(request()->query());
-            } else if ($sort == "new") {
-                $allproduct = DB::table('product')->where('status_id', '=', '4')
-                    ->orderBy('prod_id', 'asc')
+            } else if ($sort == "ZA") {
+                $allproduct = DB::table('product')->orderBy('prod_name', 'desc')
                     ->paginate(9)->appends(request()->query());
             } else if ($sort == "desc") {
                 $allproduct = DB::table('product')->orderBy('prod_price', 'desc')

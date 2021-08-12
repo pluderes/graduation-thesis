@@ -60,7 +60,7 @@
                                     </select>
                                 </div>
                                 <label for="deli_address">Số nhà hoặc địa điểm nhận biết</label>
-                                <input type="text" name="deli_address" placeholder="Số nhà(*)" value="{{$value->deli_address}}" required>
+                                <input type="text" name="deli_address" placeholder="Số nhà(*)" value="" required>
                                 <label for="deli_note">Ghi chú</label>
                                 <textarea name="deli_note" placeholder="Ghi chú đơn hàng." rows="3"></textarea>
                                 <hr>

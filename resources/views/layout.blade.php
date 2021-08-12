@@ -70,7 +70,7 @@
 							<div class="mainmenu pull-left">
 								<ul class="nav navbar-nav collapse navbar-collapse">
 									<li><a href="{{URL::TO('/trang-chu')}}" class="active"><i class="fas fa-home"></i> Trang chủ</a></li>
-									<li class="dropdown"><a href="#">Danh mục sản phẩm<i class="fa fa-angle-down"></i></a>
+									<li class="dropdown"><a href="#">Danh mục sách<i class="fa fa-angle-down"></i></a>
 										<ul role="menu" class="sub-menu">
 											@foreach($category as $key => $cate)
 											<li class="dropdown"><a href="{{URL::TO('/category-product/'.$cate->cate_id)}}">{{$cate->cate_name}}</a>

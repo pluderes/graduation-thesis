@@ -63,7 +63,7 @@
                             {{csrf_field()}}
                             <button type="submit" class="btn btn-fefault cart" <?php if ($prod->prod_quantity == '0') {
                                                                                 ?> disabled><i class="fa fa-shopping-cart"></i>
-                                Tạm hết hàng
+                                Sản phẩm tạm hết hàng
                             <?php } else {
                             ?>
                                 ><i class="fa fa-shopping-cart"></i>
